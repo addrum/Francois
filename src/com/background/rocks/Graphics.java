@@ -106,11 +106,13 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public void render(Canvas canvas) {
-		canvas.drawColor(Color.WHITE);
-		player.draw(canvas);
-		Rock[] rockArray = rocks.toArray(new Rock[0]);
-		for (Rock rock : rockArray) {
-			rock.draw(canvas);
+		if (canvas != null) {
+			canvas.drawColor(Color.WHITE);
+			player.draw(canvas);
+			Rock[] rockArray = rocks.toArray(new Rock[0]);
+			for (Rock rock : rockArray) {
+				rock.draw(canvas);
+			}
 		}
 	}
 
