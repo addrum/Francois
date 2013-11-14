@@ -1,0 +1,13 @@
+.settings
+assets
+libs
+.classpath
+.project
+proguard-project.txt
+project.properties
+gen
+res/drawable-hdpi
+res/drawable-ldpi
+res/drawable-mdpi
+res/drawable-xhdpi
+bin
