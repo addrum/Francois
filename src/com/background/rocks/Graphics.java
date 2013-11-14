@@ -108,7 +108,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	public void render(Canvas canvas) {
 		canvas.drawColor(Color.WHITE);
 		player.draw(canvas);
-		Rock[] rockArray = rocks.toArray(new Rock[0]);
+		rocks.toArray(new Rock[0]);
 		for (Rock rock : rocks) {
 			rock.draw(canvas);
 		}
@@ -120,7 +120,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	 * update method.
 	 */
 	public void update() {
-		Rock[] rockArray = rocks.toArray(new Rock[0]);
+		rocks.toArray(new Rock[0]);
 		for (Rock rock : rocks) {
 			rock.update();
 		}
