@@ -26,6 +26,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	private Player player;
 	private ArrayList<Rock> rocks = new ArrayList<Rock>();
 	private CountDownTimer countdown;
+	private int screenWidth;
 
 	public Graphics(Context context) {
 		super(context);
@@ -46,8 +47,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		width = this.getHeight();
-		height = this.getHeight();
+		screenWidth = this.getHeight();
 	}
 
 	@Override
@@ -56,6 +56,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		// we can safely start the game loop
 		thread.setRunning(true);
 		thread.start();
+		screenWidth = this.getHeight();
 	}
 
 	@Override
@@ -139,7 +140,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		countdown = new CountDownTimer(30000, 800) {
 
 			public void onTick(long millisUntilFinished) {
-				rocks.add(new Rock(BitmapFactory.decodeResource(getResources(), R.drawable.rock), new Random().nextInt(1080 - 1) + 1, 0));
+				rocks.add(new Rock(BitmapFactory.decodeResource(getResources(), R.drawable.rock), new Random().nextInt(screenWidth), 0));
 			}
 
 			public void onFinish() {
