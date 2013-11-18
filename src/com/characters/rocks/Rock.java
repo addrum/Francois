@@ -2,7 +2,6 @@ package com.characters.rocks;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 
 public class Rock {
 
@@ -12,14 +11,15 @@ public class Rock {
 	private boolean touched; // if droid is touched/picked up
 	private Speed speed; // the speed with its directions
 
-	//private final int WIDTH = bitmap.getWidth();
-	//private final int HEIGHT = bitmap.getHeight();
+	private int width, height;
 
 	public Rock(Bitmap bitmap, int x, int y) {
 		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
 		this.speed = new Speed();
+		setWidth(bitmap.getWidth());
+		setHeight(bitmap.getHeight());
 	}
 
 	// get the bound of the rock sprite
@@ -70,6 +70,22 @@ public class Rock {
 
 	public void setSpeed(Speed speed) {
 		this.speed = speed;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
 	}
 
 }

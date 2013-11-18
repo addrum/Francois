@@ -2,7 +2,6 @@ package com.characters.rocks;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.view.MotionEvent;
 
 public class Player {
@@ -13,14 +12,13 @@ public class Player {
 	private boolean touched; // if droid is touched/picked up
 	private Speed speed; // the speed with its directions
 
-	//private final int WIDTH = bitmap.getWidth();
-	//private final int HEIGHT = bitmap.getHeight();
+	//private final int width = bitmap.getWidth();
+	//private final int height = bitmap.getHeight();
 
 	public Player(Bitmap bitmap, int x, int y) {
 		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
-		this.speed = new Speed();
 	}
 
 	public void draw(Canvas canvas) {

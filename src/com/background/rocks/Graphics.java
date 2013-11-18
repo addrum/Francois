@@ -25,7 +25,6 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	private MainThread thread;
 	private Player player;
 	private ArrayList<Rock> rocks = new ArrayList<Rock>();
-	private Random random = new Random();
 	private CountDownTimer countdown;
 
 	public Graphics(Context context) {
@@ -44,9 +43,11 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 
 		timer();
 	}
-
+	
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		width = this.getHeight();
+		height = this.getHeight();
 	}
 
 	@Override
@@ -111,6 +112,9 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 			player.draw(canvas);
 			Rock[] rockArray = rocks.toArray(new Rock[0]);
 			for (Rock rock : rockArray) {
+				// if (rock exists on y axis and between rock width)
+				// try and different place
+				// else rock.draw(canvas);
 				rock.draw(canvas);
 			}
 		}
@@ -135,7 +139,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		countdown = new CountDownTimer(30000, 800) {
 
 			public void onTick(long millisUntilFinished) {
-				rocks.add(new Rock(BitmapFactory.decodeResource(getResources(), R.drawable.rock), random.nextInt(1080 - 1) + 1, 0));
+				rocks.add(new Rock(BitmapFactory.decodeResource(getResources(), R.drawable.rock), new Random().nextInt(1080 - 1) + 1, 0));
 			}
 
 			public void onFinish() {
