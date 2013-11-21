@@ -21,21 +21,22 @@ public class Rock {
 		setHeight(bitmap.getHeight());
 	}
 
-	// get the bound of the rock sprite
-	public Rect getBounds() {
-		return new Rect(x, y, width, height);
-	}
-
+	// draws the each rock to the screen
 	public void draw(Canvas canvas) {
 		canvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
 	}
 
-	/*
-	 * Method which updates the rock's internal state every tick
-	 */
+	// updates the rock's internal state every tick
 	public void update() {
-			y += (speed.getYv() * speed.getyDirection());
-			getBounds();
+		y += (speed.getYv() * speed.getyDirection());
+	}
+
+	//---------------------------------------------------------------//
+	// getters and setters
+
+	// get the bound of the rock sprite
+	public Rect getBounds() {
+		return new Rect(getX(), getY(), width, height);
 	}
 
 	public Bitmap getBitmap() {

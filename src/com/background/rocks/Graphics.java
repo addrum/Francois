@@ -28,7 +28,6 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	private Player player;
 	private ArrayList<Rock> rocks = new ArrayList<Rock>();
 	private CountDownTimer countdown;
-	private int screenWidth;
 
 	public Graphics(Context context) {
 		super(context);
@@ -48,24 +47,20 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		screenWidth = this.getWidth();
-	}
-
-	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		// at this point the surface is created and
-		// we can safely start the game loop
+		// at this point the surface is created and we can safely start the game loop
 		thread.setRunning(true);
 		thread.start();
-		screenWidth = this.getWidth();
+	}
+	
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		Log.d(TAG, "Surface is being destroyed");
-		// tell the thread to shut down and wait for it to finish
-		// this is a clean shutdown
+		// tell the thread to shut down and wait for it to finish this is a clean shutdown
 		boolean retry = true;
 		while (retry) {
 			try {
@@ -116,20 +111,16 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 			Rock[] rockArray = rocks.toArray(new Rock[0]);
 			for (Rock rock : rockArray) {
 				// if (rock exists on y axis and between rock width)
-				// try and different place
+				// set speed to less than the one currently in the "column"
+				// so that they do not overlap
 				// else rock.draw(canvas);
 				rock.draw(canvas);
 			}
 		}
 	}
 
-	/**
-	 * This is the game update method. It iterates through all the objects and
-	 * calls their update method if they have one or calls specific engine's
-	 * update method.
-	 */
+	// updates the rocks' position on the screen and checks collision with the player
 	public void update() {
-		player.update();
 		Rock[] rockArray = rocks.toArray(new Rock[0]);
 		for (Rock rock : rockArray) {
 			rock.update();
@@ -155,5 +146,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		}.start();
 	}
+
+	
 
 }

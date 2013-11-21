@@ -3,14 +3,13 @@ package com.characters.rocks;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.view.MotionEvent;
 
 public class Player {
 
 	private Bitmap bitmap; // the actual bitmap
 	private int x; // the X coordinate
 	private int y; // the Y coordinate
-	private boolean touched; // if droid is touched/picked up
+	private boolean touched; // if player is touched/picked up
 	private Speed speed; // the speed with its directions
 	private int width, height;
 
@@ -22,29 +21,12 @@ public class Player {
 		setHeight(bitmap.getHeight());
 	}
 
-	public void update() {
-		getBounds();
-	}
-
+	// draws the player to the screen
 	public void draw(Canvas canvas) {
 		canvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
 	}
 
-	// get the bounds of the player sprite
-	public Rect getBounds() {
-		return new Rect(x, y, width, height);
-	}
-
-	/**
-	 * Handles the {@link MotionEvent.ACTION_DOWN} event. If the event happens
-	 * on the bitmap surface then the touched state is set to <code>true</code>
-	 * otherwise to <code>false</code>
-	 * 
-	 * @param eventX
-	 *            - the event's X coordinate
-	 * @param eventY
-	 *            - the event's Y coordinate
-	 */
+	// handles the player being touched (hehe)
 	public void handleActionDown(int eventX, int eventY) {
 		if (eventX >= (x - bitmap.getWidth() / 2) && (eventX <= (x + bitmap.getWidth() / 2))) {
 			if (eventY >= (y - bitmap.getHeight() / 2) && (y <= (y + bitmap.getHeight() / 2))) {
@@ -57,6 +39,14 @@ public class Player {
 			setTouched(false);
 		}
 
+	}
+
+	//---------------------------------------------------------------//
+	// getters and setters
+
+	// get the bounds of the player sprite
+	public Rect getBounds() {
+		return new Rect(getX(), getY(), width, height);
 	}
 
 	public Bitmap getBitmap() {

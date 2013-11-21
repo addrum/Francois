@@ -58,6 +58,7 @@ public class MainScreenActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
+		getIntent();
 	}
 
 }
