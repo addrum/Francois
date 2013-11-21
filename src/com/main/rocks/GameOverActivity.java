@@ -1,18 +1,17 @@
 package com.main.rocks;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class MainScreenActivity extends Activity {
+public class GameOverActivity extends Activity {
 
-	Button playButton;
+	Button playButton, backButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,42 +21,33 @@ public class MainScreenActivity extends Activity {
 		// making it full screen
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		// set layout file for this activity
-		setContentView(R.layout.mainscreen);
+		setContentView(R.layout.gameover);
 
 		// get id's
 		playButton = (Button) findViewById(R.id.playButton);
+		backButton = (Button) findViewById(R.id.backButton);
 
 		// button listeners
 		playButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
-				Intent gameActivityIntent = new Intent(MainScreenActivity.this, GameActivity.class);
-				MainScreenActivity.this.startActivity(gameActivityIntent);
+				Intent gameActivityIntent = new Intent(GameOverActivity.this, GameActivity.class);
+				GameOverActivity.this.startActivity(gameActivityIntent);
+				finish();
 			}
 
 		});
-	}
+		backButton.setOnClickListener(new OnClickListener() {
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
+			@Override
+			public void onClick(View arg0) {
+				Intent mainScreenActivityIntent = new Intent(GameOverActivity.this, MainScreenActivity.class);
+				startActivity(mainScreenActivityIntent);
+				finish();
+			}
 
-	@Override
-	protected void onStop() {
-		super.onStop();
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		finish();
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
+		});
 	}
 
 }

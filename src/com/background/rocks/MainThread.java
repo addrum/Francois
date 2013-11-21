@@ -19,7 +19,7 @@ public class MainThread extends Thread {
 	private SurfaceHolder surfaceHolder;
 	// The actual view that handles inputs
 	// and draws to the surface
-	private Graphics gamePanel;
+	private Graphics graphics;
 
 	// flag to hold game state 
 	private boolean running;
@@ -28,10 +28,10 @@ public class MainThread extends Thread {
 		this.running = running;
 	}
 
-	public MainThread(SurfaceHolder surfaceHolder, Graphics gamePanel) {
+	public MainThread(SurfaceHolder surfaceHolder, Graphics graphics) {
 		super();
 		this.surfaceHolder = surfaceHolder;
-		this.gamePanel = gamePanel;
+		this.graphics = graphics;
 	}
 
 	@Override
@@ -56,10 +56,10 @@ public class MainThread extends Thread {
 					beginTime = System.currentTimeMillis();
 					framesSkipped = 0; // resetting the frames skipped
 					// update game state 
-					this.gamePanel.update();
+					this.graphics.update();
 					// render state to the screen
 					// draws the canvas on the panel
-					this.gamePanel.render(canvas);
+					this.graphics.render(canvas);
 					// calculate how long did the cycle take
 					timeDiff = System.currentTimeMillis() - beginTime;
 					// calculate sleep time
@@ -77,7 +77,7 @@ public class MainThread extends Thread {
 
 					while (sleepTime < 0 && framesSkipped < MAX_FRAME_SKIPS) {
 						// we need to catch up
-						this.gamePanel.update(); // update without rendering
+						this.graphics.update(); // update without rendering
 						sleepTime += FRAME_PERIOD; // add frame period to check if in next frame
 						framesSkipped++;
 					}

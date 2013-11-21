@@ -5,6 +5,7 @@ import java.util.Random;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -16,6 +17,7 @@ import android.view.SurfaceView;
 
 import com.characters.rocks.Player;
 import com.characters.rocks.Rock;
+import com.main.rocks.GameOverActivity;
 import com.main.rocks.R;
 
 public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
@@ -44,10 +46,10 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 
 		timer();
 	}
-	
+
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		screenWidth = this.getHeight();
+		screenWidth = this.getWidth();
 	}
 
 	@Override
@@ -56,7 +58,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		// we can safely start the game loop
 		thread.setRunning(true);
 		thread.start();
-		screenWidth = this.getHeight();
+		screenWidth = this.getWidth();
 	}
 
 	@Override
@@ -127,9 +129,14 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	 * update method.
 	 */
 	public void update() {
+		player.update();
 		Rock[] rockArray = rocks.toArray(new Rock[0]);
 		for (Rock rock : rockArray) {
 			rock.update();
+			if (rock.getBounds().intersect(player.getBounds())) {
+				Intent gameOverIntent = new Intent(this.getContext(), GameOverActivity.class);
+				this.getContext().startActivity(gameOverIntent);
+			}
 		}
 	}
 
@@ -140,7 +147,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		countdown = new CountDownTimer(30000, 800) {
 
 			public void onTick(long millisUntilFinished) {
-				rocks.add(new Rock(BitmapFactory.decodeResource(getResources(), R.drawable.rock), new Random().nextInt(screenWidth), 0));
+				rocks.add(new Rock(BitmapFactory.decodeResource(getResources(), R.drawable.rock), new Random().nextInt(1080), 0));
 			}
 
 			public void onFinish() {

@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc"
+    android:orientation="vertical"
+    tools:context=".MainScreenActivity" >
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="153dp"
+        android:background="#ffffff"
+        android:text="@string/back"
+        android:textColor="#000000"
+        android:textSize="35sp" />
+
+    <Button
+        android:id="@+id/playButton"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_above="@+id/backButton"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="28dp"
+        android:background="#ffffff"
+        android:text="@string/play"
+        android:textColor="#000000"
+        android:textSize="35sp" />
+
+</RelativeLayout>

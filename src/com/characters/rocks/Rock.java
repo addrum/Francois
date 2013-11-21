@@ -2,15 +2,14 @@ package com.characters.rocks;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 
 public class Rock {
 
 	private Bitmap bitmap; // the actual bitmap
 	private int x; // the X coordinate
 	private int y; // the Y coordinate
-	private boolean touched; // if droid is touched/picked up
 	private Speed speed; // the speed with its directions
-
 	private int width, height;
 
 	public Rock(Bitmap bitmap, int x, int y) {
@@ -23,21 +22,20 @@ public class Rock {
 	}
 
 	// get the bound of the rock sprite
-	//public Rect getBounds() {
-	//return new Rect(x, y, WIDTH, HEIGHT);
-	//}
+	public Rect getBounds() {
+		return new Rect(x, y, width, height);
+	}
 
 	public void draw(Canvas canvas) {
 		canvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
 	}
 
-	/**
-	 * Method which updates the droid's internal state every tick
+	/*
+	 * Method which updates the rock's internal state every tick
 	 */
 	public void update() {
-		if (!touched) {
 			y += (speed.getYv() * speed.getyDirection());
-		}
+			getBounds();
 	}
 
 	public Bitmap getBitmap() {

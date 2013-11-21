@@ -3,5 +3,6 @@
 
     <string name="app_name">Rocks</string>
     <string name="play">PLAY</string>
+    <string name="back">BACK</string>
 
 </resources>
