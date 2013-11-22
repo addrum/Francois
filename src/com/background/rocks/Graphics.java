@@ -131,6 +131,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
+	// count down timer spawning rocks in every tick
 	public void timer() {
 		if (countdown != null) {
 			countdown.cancel();

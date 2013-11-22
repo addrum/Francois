@@ -36,7 +36,7 @@ public class Rock {
 
 	// get the bound of the rock sprite
 	public Rect getBounds() {
-		return new Rect(getX(), getY(), width, height);
+		return new Rect(x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), x + (bitmap.getWidth() / 2), y + (bitmap.getHeight() / 2));
 	}
 
 	public Bitmap getBitmap() {
