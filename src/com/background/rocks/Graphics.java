@@ -125,6 +125,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		for (Rock rock : rockArray) {
 			rock.update();
 			if (rock.getBounds().intersect(player.getBounds())) {
+				((Activity) getContext()).finish();
 				Intent gameOverIntent = new Intent(this.getContext(), GameOverActivity.class);
 				this.getContext().startActivity(gameOverIntent);
 			}

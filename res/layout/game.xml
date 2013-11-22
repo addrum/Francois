@@ -1,10 +1,11 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/canvas"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    tools:context=".GameActivity"
-    android:orientation="vertical"
-    android:id="@+id/canvas" >
-
+    android:configChanges="keyboardHidden|orientation|screenSize"
+    android:screenOrientation="portrait"
+    tools:context=".GameActivity" >
+    
 </FrameLayout>

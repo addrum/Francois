@@ -27,8 +27,8 @@ public class GameActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		Intent intent = new Intent(GameActivity.this, MainScreenActivity.class);
-		startActivity(intent);
+		Intent mainScreenActivityIntent = new Intent(GameActivity.this, MainScreenActivity.class);
+		startActivity(mainScreenActivityIntent);
 	}
 
 	@Override
