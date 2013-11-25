@@ -4,5 +4,12 @@
     <string name="app_name">Rocks</string>
     <string name="play">PLAY</string>
     <string name="back">BACK</string>
+    <string name="gameOver">GAME OVER</string>
+    <string name="settings">SETTINGS</string>
 
+    <string name="orange">ORANGE</string>
+    <string name="lilac">LILAC</string>
+    <string name="red">RED</string>
+    <string name="teal">TEAL</string>
+    
 </resources>

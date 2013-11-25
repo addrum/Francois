@@ -1,0 +1,79 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc"
+    android:orientation="vertical"
+    tools:context=".MainScreenActivity" >
+
+    <TextView
+        android:id="@+id/settings"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="#0099cc"
+        android:gravity="center"
+        android:text="@string/settings"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffff"
+        android:textSize="35sp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/settings"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <RadioGroup
+            android:id="@+id/colourPicker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.50" >
+
+            <RadioButton
+                android:id="@+id/radioOrange"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:drawableRight="@drawable/player_orange"
+                android:text="@string/orange"
+                android:textSize="28sp" >
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/radioLilac"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:drawableRight="@drawable/player_lilac"
+                android:text="@string/lilac"
+                android:textSize="28sp" >
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/radioRed"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:drawableRight="@drawable/player_red"
+                android:text="@string/red"
+                android:textSize="28sp" >
+            </RadioButton>
+
+            <RadioButton
+                android:id="@+id/radioTeal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:drawableRight="@drawable/player_teal"
+                android:text="@string/teal"
+                android:textSize="28sp" >
+            </RadioButton>
+        </RadioGroup>
+    </LinearLayout>
+
+</RelativeLayout>

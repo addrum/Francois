@@ -3,6 +3,7 @@ package com.main.rocks;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,7 +13,7 @@ import android.widget.Button;
 
 public class MainScreenActivity extends Activity {
 
-	Button playButton;
+	Button playButton, settingsButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +24,13 @@ public class MainScreenActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		// set layout file for this activity
 		setContentView(R.layout.mainscreen);
-
+		// set orientation to portrait
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		
 		// get id's
 		playButton = (Button) findViewById(R.id.playButton);
-
+		settingsButton = (Button) findViewById(R.id.settingsButton); 
+				
 		// button listeners
 		playButton.setOnClickListener(new OnClickListener() {
 
@@ -36,6 +40,15 @@ public class MainScreenActivity extends Activity {
 				MainScreenActivity.this.startActivity(gameActivityIntent);
 			}
 
+		});
+		settingsButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent settingsActivityIntent = new Intent(MainScreenActivity.this, SettingsActivity.class);
+				MainScreenActivity.this.startActivity(settingsActivityIntent);
+			}
+			
 		});
 	}
 

@@ -28,6 +28,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	private Player player;
 	private ArrayList<Rock> rocks = new ArrayList<Rock>();
 	private CountDownTimer countdown;
+	private boolean start = false;
 
 	public Graphics(Context context) {
 		super(context);
@@ -43,7 +44,9 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		// make the GamePanel focusable so it can handle events
 		setFocusable(true);
 
-		timer();
+		// initial countdown to stop rocks spawning
+		startTimer();
+
 	}
 
 	@Override
@@ -52,7 +55,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		thread.setRunning(true);
 		thread.start();
 	}
-	
+
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 	}
@@ -68,6 +71,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 				retry = false;
 			} catch (InterruptedException e) {
 				// try again shutting down the thread
+				Log.e("surfaceDestroyed", "thread couldn't shut down properly");
 			}
 		}
 		Log.d(TAG, "Thread was shut down cleanly");
@@ -125,7 +129,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		for (Rock rock : rockArray) {
 			rock.update();
 			if (rock.getBounds().intersect(player.getBounds())) {
-				((Activity) getContext()).finish();
+				player.setTouched(false);
 				Intent gameOverIntent = new Intent(this.getContext(), GameOverActivity.class);
 				this.getContext().startActivity(gameOverIntent);
 			}
@@ -134,21 +138,37 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 
 	// count down timer spawning rocks in every tick
 	public void timer() {
-		if (countdown != null) {
-			countdown.cancel();
+		if (start == true) {
+			if (countdown != null) {
+				countdown.cancel();
+			}
+			countdown = new CountDownTimer(30000, 800) {
+
+				public void onTick(long millisUntilFinished) {
+					rocks.add(new Rock(BitmapFactory.decodeResource(getResources(), R.drawable.rock), new Random().nextInt(1080), 0));
+				}
+
+				public void onFinish() {
+					countdown.start();
+				}
+			}.start();
 		}
-		countdown = new CountDownTimer(30000, 800) {
+	}
+
+	// initial countdown timer to stop rocks from spawning in before canvas is fully loaded
+	public void startTimer() {
+		new CountDownTimer(1000, 1000) {
 
 			public void onTick(long millisUntilFinished) {
-				rocks.add(new Rock(BitmapFactory.decodeResource(getResources(), R.drawable.rock), new Random().nextInt(1080), 0));
+				System.out.println("seconds remaining: " + millisUntilFinished / 1000);
 			}
 
 			public void onFinish() {
-				countdown.start();
+				start = true;
+				// timer for spawning rocks per tick
+				timer();
 			}
 		}.start();
 	}
-
-	
 
 }

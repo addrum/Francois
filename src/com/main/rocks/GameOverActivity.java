@@ -34,6 +34,7 @@ public class GameOverActivity extends Activity {
 			public void onClick(View arg0) {
 				Intent gameActivityIntent = new Intent(GameOverActivity.this, GameActivity.class);
 				GameOverActivity.this.startActivity(gameActivityIntent);
+				finish();
 			}
 
 		});
@@ -43,6 +44,7 @@ public class GameOverActivity extends Activity {
 			public void onClick(View arg0) {
 				Intent mainScreenActivityIntent = new Intent(GameOverActivity.this, MainScreenActivity.class);
 				startActivity(mainScreenActivityIntent);
+				finish();
 			}
 
 		});

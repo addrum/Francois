@@ -2,6 +2,7 @@ package com.main.rocks;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -23,6 +24,8 @@ public class GameActivity extends Activity {
 		// set our MainGamePanel as the View
 		setContentView(new Graphics(this));
 		Log.d(TAG, "View added");
+		// set orientation to portrait
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	}
 
 	@Override

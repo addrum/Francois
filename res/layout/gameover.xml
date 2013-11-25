@@ -6,19 +6,19 @@
     android:orientation="vertical"
     tools:context=".MainScreenActivity" >
 
-    <Button
-        android:id="@+id/backButton"
+    <TextView
+        android:id="@+id/gameOver"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="153dp"
-        android:background="#ffffff"
-        android:text="@string/back"
-        android:textColor="#000000"
+        android:layout_alignParentTop="true"
+        android:background="#0099cc"
+        android:gravity="center"
+        android:text="@string/gameOver"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffff"
         android:textSize="35sp" />
-
-    <Button
+    <Button
         android:id="@+id/playButton"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -27,6 +27,18 @@
         android:layout_marginBottom="28dp"
         android:background="#ffffff"
         android:text="@string/play"
+        android:textColor="#000000"
+        android:textSize="35sp" />
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="45dp"
+        android:background="#ffffff"
+        android:text="@string/back"
         android:textColor="#000000"
         android:textSize="35sp" />
 

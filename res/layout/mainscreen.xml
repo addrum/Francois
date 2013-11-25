@@ -10,11 +10,23 @@
         android:id="@+id/playButton"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/settingsButton"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="239dp"
+        android:layout_marginBottom="33dp"
         android:background="#ffffff"
         android:text="@string/play"
+        android:textColor="#000000"
+        android:textSize="35sp" />
+
+    <Button
+        android:id="@+id/settingsButton"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="45dp"
+        android:background="#ffffff"
+        android:text="@string/settings"
         android:textColor="#000000"
         android:textSize="35sp" />
 
