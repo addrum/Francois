@@ -6,6 +6,7 @@ import java.util.Random;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -35,8 +36,9 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		// adding the callback (this) to the surface holder to intercept events
 		getHolder().addCallback(this);
 
-		// create shape and load bitmap
-		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_orange), 540, 1500);
+		// get player colour based on preferences and create an instance of player
+
+		getPlayerColour();
 
 		// create the game loop thread
 		thread = new MainThread(getHolder(), this);
@@ -47,34 +49,6 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		// initial countdown to stop rocks spawning
 		startTimer();
 
-	}
-
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		// at this point the surface is created and we can safely start the game loop
-		thread.setRunning(true);
-		thread.start();
-	}
-
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-	}
-
-	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
-		Log.d(TAG, "Surface is being destroyed");
-		// tell the thread to shut down and wait for it to finish this is a clean shutdown
-		boolean retry = true;
-		while (retry) {
-			try {
-				thread.join();
-				retry = false;
-			} catch (InterruptedException e) {
-				// try again shutting down the thread
-				Log.e("surfaceDestroyed", "thread couldn't shut down properly");
-			}
-		}
-		Log.d(TAG, "Thread was shut down cleanly");
 	}
 
 	@Override
@@ -160,7 +134,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		new CountDownTimer(1000, 1000) {
 
 			public void onTick(long millisUntilFinished) {
-				System.out.println("seconds remaining: " + millisUntilFinished / 1000);
+				
 			}
 
 			public void onFinish() {
@@ -171,4 +145,47 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		}.start();
 	}
 
+	// check preferences as to which colour to use
+	public void getPlayerColour() {
+		SharedPreferences sharedPreferences = this.getContext().getSharedPreferences("colour", 0);
+		if (sharedPreferences.getString("colour", null).equals("orange")) {
+			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_orange), 540, 1500);
+		} else if (sharedPreferences.getString("colour", null).equals("lilac")) {
+			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_lilac), 540, 1500);
+		} else if (sharedPreferences.getString("colour", null).equals("red")) {
+			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_red), 540, 1500);
+		} else {
+			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_teal), 540, 1500);
+		}
+	}
+	
+	// thread and surface
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		// at this point the surface is created and we can safely start the game loop
+		thread.setRunning(true);
+		thread.start();
+	}
+
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		Log.d(TAG, "Surface is being destroyed");
+		// tell the thread to shut down and wait for it to finish this is a clean shutdown
+		boolean retry = true;
+		while (retry) {
+			try {
+				thread.join();
+				retry = false;
+			} catch (InterruptedException e) {
+				// try again shutting down the thread
+				Log.e("surfaceDestroyed", "thread couldn't shut down properly");
+			}
+		}
+		Log.d(TAG, "Thread was shut down cleanly");
+	}
+	
 }

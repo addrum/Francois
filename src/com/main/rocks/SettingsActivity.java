@@ -4,13 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 
 public class SettingsActivity extends Activity {
 
-	RadioButton playerOrangeRadio, playerLilacRadio, playerRedRadio, playerTealRadio;
+	RadioGroup colourPicker;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,17 +24,63 @@ public class SettingsActivity extends Activity {
 		// set layout file for this activity
 		setContentView(R.layout.settings);
 
-		// radio button id's
-		playerOrangeRadio = (RadioButton) findViewById(R.id.radioOrange);
-		playerLilacRadio = (RadioButton) findViewById(R.id.radioLilac);
-		playerRedRadio = (RadioButton) findViewById(R.id.radioRed);
-		playerTealRadio = (RadioButton) findViewById(R.id.radioTeal);
+		// radio group id
+		colourPicker = (RadioGroup) findViewById(R.id.colourPicker);
+		
+		// listeners
+		colourPicker.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				switch (checkedId) {
+				case R.id.radioOrange:
+					save("orange");
+					Log.d("colour", "saving orange");
+					break;
+				case R.id.radioLilac:
+					save("lilac");
+					Log.d("colour", "saving lilac");
+					break;
+				case R.id.radioRed:
+					save("red");
+					Log.d("colour", "saving red");
+					break;
+				case R.id.radioTeal:
+					save("teal");
+					Log.d("colour", "saving teal");
+					break;
+				}
+			}
+
+		});
 	}
 
-	// save preferences
+	@Override
+	public void onResume() {
+		super.onResume();
+		load();
+	}
+
+	// save colour choice
 	private void save(final String colour) {
-		if ()
-			
+		SharedPreferences sharedPreferences = getSharedPreferences("colour", 0);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putString("colour", colour);
+		editor.commit();
+	}
+
+	// load colour choice
+	private void load() {
+		SharedPreferences sharedPreferences = getSharedPreferences("colour", 0);
+		if (sharedPreferences.getString("colour", null).equals("orange")) {
+			colourPicker.check(R.id.radioOrange);
+		} else if (sharedPreferences.getString("colour", null).equals("lilac")) {
+			colourPicker.check(R.id.radioLilac);
+		} else if (sharedPreferences.getString("colour", null).equals("red")) {
+			colourPicker.check(R.id.radioRed);
+		} else {
+			colourPicker.check(R.id.radioTeal);
+		}
 	}
 
 	@Override
