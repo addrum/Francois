@@ -24,7 +24,7 @@ public class MainScreenActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		// set layout file for this activity
 		setContentView(R.layout.mainscreen);
-		// set orientation to portrait
+		// lock orientation to portrait
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		// get id's

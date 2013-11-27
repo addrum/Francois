@@ -10,11 +10,14 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 
 import com.characters.rocks.Player;
 import com.characters.rocks.Rock;
@@ -30,6 +33,11 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	private ArrayList<Rock> rocks = new ArrayList<Rock>();
 	private CountDownTimer countdown;
 	private boolean start = false;
+	private int maxRocks = 10;
+	private int rocksOnScreen = 0;
+	private WindowManager wm;
+	private Display display;
+	private int screenHeight;
 
 	public Graphics(Context context) {
 		super(context);
@@ -49,6 +57,11 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		// initial countdown to stop rocks spawning
 		startTimer();
 
+		wm = (WindowManager) this.getContext().getSystemService(Context.WINDOW_SERVICE);
+		display = wm.getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		screenHeight = size.y;
 	}
 
 	@Override
@@ -88,10 +101,6 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 			player.draw(canvas);
 			Rock[] rockArray = rocks.toArray(new Rock[0]);
 			for (Rock rock : rockArray) {
-				// if (rock exists on y axis and between rock width)
-				// set speed to less than the one currently in the "column"
-				// so that they do not overlap
-				// else rock.draw(canvas);
 				rock.draw(canvas);
 			}
 		}
@@ -107,6 +116,9 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 				Intent gameOverIntent = new Intent(this.getContext(), GameOverActivity.class);
 				this.getContext().startActivity(gameOverIntent);
 			}
+			if (rock.getY() > screenHeight) {
+				rocksOnScreen--;
+			}
 		}
 	}
 
@@ -119,7 +131,14 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 			countdown = new CountDownTimer(30000, 800) {
 
 				public void onTick(long millisUntilFinished) {
-					rocks.add(new Rock(BitmapFactory.decodeResource(getResources(), R.drawable.rock), new Random().nextInt(1080), 0));
+					// limits number of rocks on screen
+					if (rocksOnScreen < maxRocks) {
+						// if (rock exists on y axis and between rock width)
+						// set speed to less than the one currently in the "column"
+						// so that they do not overlap else create new one
+						rocks.add(new Rock(BitmapFactory.decodeResource(getResources(), R.drawable.rock), new Random().nextInt(1080), 0));
+						rocksOnScreen++;
+					}
 				}
 
 				public void onFinish() {
@@ -134,7 +153,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		new CountDownTimer(1000, 1000) {
 
 			public void onTick(long millisUntilFinished) {
-				
+
 			}
 
 			public void onFinish() {
@@ -158,7 +177,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_teal), 540, 1500);
 		}
 	}
-	
+
 	// thread and surface
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
@@ -187,5 +206,5 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		}
 		Log.d(TAG, "Thread was shut down cleanly");
 	}
-	
+
 }

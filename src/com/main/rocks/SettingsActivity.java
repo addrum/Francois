@@ -3,6 +3,7 @@ package com.main.rocks;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -23,10 +24,12 @@ public class SettingsActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		// set layout file for this activity
 		setContentView(R.layout.settings);
+		// lock orientation to portrait
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// radio group id
 		colourPicker = (RadioGroup) findViewById(R.id.colourPicker);
-		
+
 		// listeners
 		colourPicker.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
