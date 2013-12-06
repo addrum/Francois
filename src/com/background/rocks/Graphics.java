@@ -47,7 +47,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 
 		// get player colour based on preferences and create an instance of player
 
-		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_lilac), (screenWidth), 1500);
+		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player), (screenWidth), 1500);
 
 		// create the game loop thread
 		thread = new MainThread(getHolder(), this);
