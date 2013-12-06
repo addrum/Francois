@@ -30,7 +30,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 
 	private MainThread thread;
 	private Player player;
-	private ArrayList<Weight> rocks = new ArrayList<Weight>();
+	private ArrayList<Weight> weights = new ArrayList<Weight>();
 	private CountDownTimer weightSpawnTimer;
 	private boolean start = false;
 	private int maxWeights = 10;
@@ -39,7 +39,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	private Display display;
 	private Point size;
 	private int screenHeight, screenWidth;
-	private Random random;
+	private double decider;
 
 	public Graphics(Context context) {
 		super(context);
@@ -103,7 +103,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		if (canvas != null) {
 			canvas.drawColor(Color.WHITE);
 			player.draw(canvas);
-			Weight[] rockArray = rocks.toArray(new Weight[0]);
+			Weight[] rockArray = weights.toArray(new Weight[0]);
 			for (Weight rock : rockArray) {
 				rock.draw(canvas);
 			}
@@ -112,8 +112,8 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 
 	// updates the rocks' position on the screen and checks collision with the player
 	public void update() {
-		Weight[] rockArray = rocks.toArray(new Weight[0]);
-		for (Weight rock : rockArray) {
+		Weight[] weightArray = weights.toArray(new Weight[0]);
+		for (Weight rock : weightArray) {
 			rock.update();
 			if (rock.getBounds().intersect(player.getBounds())) {
 				player.setTouched(false);
@@ -143,7 +143,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 						// if (rock exists on y axis and between rock width)
 						// set speed to less than the one currently in the "column"
 						// so that they do not overlap else create new one
-						rocks.add(createWeight());
+						weights.add(createWeight());
 						weightsOnScreen++;
 						//Log.d("rocksOnScreen", Integer.toString(rocksOnScreen));
 					}
@@ -221,8 +221,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public Weight createWeight() {
-		random = new Random();
-		int decider = random.nextInt(1);
+		decider = Math.random() * 1;
 		if (decider <= 0.33) {
 			return new Weight(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), new Random().nextInt(screenWidth), 0);
 		} else if (decider <= 0.5 && decider > 0.33) {
