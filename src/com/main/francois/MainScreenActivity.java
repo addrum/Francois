@@ -42,6 +42,7 @@ public class MainScreenActivity extends Activity {
 			}
 
 		});
+		// borked for some retarded reason
 		settingsButton.setOnClickListener(new OnClickListener() {
 
 			@Override
