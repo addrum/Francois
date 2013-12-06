@@ -22,7 +22,7 @@ import android.view.WindowManager;
 import com.characters.rocks.Player;
 import com.characters.rocks.Rock;
 import com.main.rocks.GameOverActivity;
-import com.main.rocks.R;
+import com.main.francois.R;
 
 public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -37,7 +37,8 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	private int rocksOnScreen = 0;
 	private WindowManager wm;
 	private Display display;
-	private int screenHeight;
+	private Point size;
+	private int screenHeight, screenWidth;
 
 	public Graphics(Context context) {
 		super(context);
@@ -46,7 +47,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 
 		// get player colour based on preferences and create an instance of player
 
-		getPlayerColour();
+		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_lilac), (screenWidth), 1500);
 
 		// create the game loop thread
 		thread = new MainThread(getHolder(), this);
@@ -56,12 +57,14 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 
 		// initial countdown to stop rocks spawning
 		startTimer();
-
+		
+		// get screen size
 		wm = (WindowManager) this.getContext().getSystemService(Context.WINDOW_SERVICE);
 		display = wm.getDefaultDisplay();
-		Point size = new Point();
+		size = new Point();
 		display.getSize(size);
 		screenHeight = size.y;
+		screenWidth = size.x;
 	}
 
 	@Override
@@ -118,6 +121,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 			}
 			if (rock.getY() > screenHeight) {
 				rocksOnScreen--;
+				//Log.d("rocksOnScreen", Integer.toString(rocksOnScreen));
 			}
 		}
 	}
@@ -136,8 +140,9 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 						// if (rock exists on y axis and between rock width)
 						// set speed to less than the one currently in the "column"
 						// so that they do not overlap else create new one
-						rocks.add(new Rock(BitmapFactory.decodeResource(getResources(), R.drawable.rock), new Random().nextInt(1080), 0));
+						rocks.add(createRock());
 						rocksOnScreen++;
+						//Log.d("rocksOnScreen", Integer.toString(rocksOnScreen));
 					}
 				}
 
@@ -168,13 +173,14 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	public void getPlayerColour() {
 		SharedPreferences sharedPreferences = this.getContext().getSharedPreferences("colour", 0);
 		if (sharedPreferences.getString("colour", null).equals("orange")) {
-			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_orange), 540, 1500);
+			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_orange), (screenWidth), 1500);
+			Log.d("screenwidth", Integer.toString(screenWidth));
 		} else if (sharedPreferences.getString("colour", null).equals("lilac")) {
-			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_lilac), 540, 1500);
+			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_lilac), (screenWidth), 1500);
 		} else if (sharedPreferences.getString("colour", null).equals("red")) {
-			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_red), 540, 1500);
+			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_red), (screenWidth), 1500);
 		} else {
-			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_teal), 540, 1500);
+			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_teal), (screenWidth), 1500);
 		}
 	}
 
@@ -188,6 +194,8 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		screenWidth = size.x;
+		Log.d("screenwidth", Integer.toString(screenWidth));
 	}
 
 	@Override
@@ -197,7 +205,9 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		boolean retry = true;
 		while (retry) {
 			try {
+				thread.setRunning(false);
 				thread.join();
+				((Activity)getContext()).finish();
 				retry = false;
 			} catch (InterruptedException e) {
 				// try again shutting down the thread
@@ -207,4 +217,8 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		Log.d(TAG, "Thread was shut down cleanly");
 	}
 
+	public Rock createRock() {
+		return new Rock(BitmapFactory.decodeResource(getResources(), R.drawable.rock), new Random().nextInt(screenWidth), 0);
+	}
+	
 }

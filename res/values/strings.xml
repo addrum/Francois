@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Rocks</string>
+    <string name="app_name">François</string>
     <string name="play">PLAY</string>
     <string name="back">BACK</string>
     <string name="gameOver">GAME OVER</string>

@@ -8,6 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import com.main.francois.R;
 
 public class GameOverActivity extends Activity {
 

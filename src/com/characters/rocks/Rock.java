@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-public class Rock {
+public class Rock extends Character {
 
 	private Bitmap bitmap; // the actual bitmap
 	private int x; // the X coordinate
@@ -13,6 +13,7 @@ public class Rock {
 	private int width, height;
 
 	public Rock(Bitmap bitmap, int x, int y) {
+		super(bitmap, x, y);
 		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
@@ -21,20 +22,20 @@ public class Rock {
 		setHeight(bitmap.getHeight());
 	}
 
-	// draws the each rock to the screen
-	public void draw(Canvas canvas) {
-		canvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
-	}
-
 	// updates the rock's internal state every tick
 	public void update() {
-		y += (speed.getYv() * speed.getyDirection());
+		setY((int) (getY() + (getSpeed().getYv() * getSpeed().getyDirection())));
+	}
+
+	// draws the sprite to the screen
+	public void draw(Canvas canvas) {
+		canvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
 	}
 
 	//---------------------------------------------------------------//
 	// getters and setters
 
-	// get the bound of the rock sprite
+	// get the bounds of the sprite
 	public Rect getBounds() {
 		return new Rect(x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), x + (bitmap.getWidth() / 2), y + (bitmap.getHeight() / 2));
 	}
