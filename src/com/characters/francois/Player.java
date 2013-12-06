@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-public class Player extends Character {
+public class Player extends Entity {
 
 	private boolean touched; // if player is touched/picked up
 	private Bitmap bitmap; // the actual bitmap

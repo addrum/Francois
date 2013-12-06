@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-public class Weight extends Character {
+public class Weight extends Entity {
 
 	private Bitmap bitmap; // the actual bitmap
 	private int x; // the X coordinate
