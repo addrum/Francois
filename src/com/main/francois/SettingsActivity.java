@@ -62,7 +62,16 @@ public class SettingsActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		load();
+		SharedPreferences sharedPreferences = getSharedPreferences("initial", 0);
+		if (sharedPreferences.getBoolean("initial", false)) {
+			colourPicker.check(R.id.radioOrange);
+			sharedPreferences = getSharedPreferences("colour", 0);
+			SharedPreferences.Editor editor = sharedPreferences.edit();
+			editor.putBoolean("initial", true);
+			editor.commit();
+		} else {
+			load();
+		}
 	}
 
 	// save colour choice

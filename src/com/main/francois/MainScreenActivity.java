@@ -3,6 +3,7 @@ package com.main.francois;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
@@ -31,7 +32,7 @@ public class MainScreenActivity extends Activity {
 		// get id's
 		playButton = (Button) findViewById(R.id.playButton);
 		settingsButton = (Button) findViewById(R.id.settingsButton); 
-				
+		
 		// button listeners
 		playButton.setOnClickListener(new OnClickListener() {
 
@@ -42,7 +43,7 @@ public class MainScreenActivity extends Activity {
 			}
 
 		});
-		// borked for some retarded reason
+
 		settingsButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -53,6 +54,13 @@ public class MainScreenActivity extends Activity {
 			}
 			
 		});
+	}
+	
+	public void runBefore() {
+		SharedPreferences sharedPreferences = getSharedPreferences("initial", 0);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putBoolean("initial", false);
+		editor.commit();
 	}
 
 	@Override
