@@ -49,6 +49,7 @@ public class MainScreenActivity extends Activity {
 			public void onClick(View v) {
 				Intent settingsActivityIntent = new Intent(MainScreenActivity.this, SettingsActivity.class);
 				MainScreenActivity.this.startActivity(settingsActivityIntent);
+				finish();
 			}
 			
 		});

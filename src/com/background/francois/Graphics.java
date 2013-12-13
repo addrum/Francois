@@ -46,17 +46,13 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		// adding the callback (this) to the surface holder to intercept events
 		getHolder().addCallback(this);
 
-		// get player colour based on preferences and create an instance of player
-
-		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player), (screenWidth), 1500);
-
 		// create the game loop thread
 		thread = new MainThread(getHolder(), this);
 
 		// make the GamePanel focusable so it can handle events
 		setFocusable(true);
 
-		// initial countdown to stop rocks spawning
+		// initial countdown to stop rocks spawning in before canvas is fully loaded
 		startTimer();
 
 		// get screen size
@@ -66,6 +62,8 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		display.getSize(size);
 		screenHeight = size.y;
 		screenWidth = size.x;
+		
+		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player), ((screenWidth) / 2), (int) ((screenHeight / 1.2)));
 	}
 
 	@Override
@@ -222,12 +220,13 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 
 	public Weight createWeight() {
 		decider = Math.random() * 1;
+		// creates rocks randomly with the lowest chance for l, and the highest chance for m
 		if (decider <= 0.33) {
-			return new Weight(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), new Random().nextInt(screenWidth), 0);
+			return new Weight(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), new Random().nextInt(screenWidth), -10);
 		} else if (decider <= 0.5 && decider > 0.33) {
-			return new Weight(BitmapFactory.decodeResource(getResources(), R.drawable.weight_l), new Random().nextInt(screenWidth), 0);
+			return new Weight(BitmapFactory.decodeResource(getResources(), R.drawable.weight_l), new Random().nextInt(screenWidth), -10);
 		} else {
-			return new Weight(BitmapFactory.decodeResource(getResources(), R.drawable.weight_m), new Random().nextInt(screenWidth), 0);
+			return new Weight(BitmapFactory.decodeResource(getResources(), R.drawable.weight_m), new Random().nextInt(screenWidth), -10);
 		}
 	}
 

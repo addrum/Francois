@@ -2,6 +2,7 @@ package com.main.francois;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -23,6 +24,8 @@ public class GameOverActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		// set layout file for this activity
 		setContentView(R.layout.gameover);
+		// lock orientation to portrait
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// get id's
 		playButton = (Button) findViewById(R.id.playButton);
@@ -50,7 +53,7 @@ public class GameOverActivity extends Activity {
 
 		});
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		Intent mainScreenActivityIntent = new Intent(GameOverActivity.this, MainScreenActivity.class);

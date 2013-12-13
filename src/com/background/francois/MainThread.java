@@ -24,10 +24,6 @@ public class MainThread extends Thread {
 	// flag to hold game state 
 	private boolean running;
 
-	public void setRunning(boolean running) {
-		this.running = running;
-	}
-
 	public MainThread(SurfaceHolder surfaceHolder, Graphics graphics) {
 		super();
 		this.surfaceHolder = surfaceHolder;
@@ -90,6 +86,14 @@ public class MainThread extends Thread {
 				}
 			} // end finally
 		}
+	}
+	
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+	
+	public boolean getRunning() {
+		return running;
 	}
 
 }
