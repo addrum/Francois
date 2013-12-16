@@ -4,28 +4,18 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-public class Weight extends Entity {
+public abstract class Weight extends Entity {
 
 	private Bitmap bitmap; // the actual bitmap
 	private int x; // the X coordinate
 	private int y; // the Y coordinate
-	private Speed speed; // the speed with its directions
-	private int width, height;
 
 	public Weight(Bitmap bitmap, int x, int y) {
 		super(bitmap, x, y);
-		this.bitmap = bitmap;
-		this.x = x;
-		this.y = y;
-		this.speed = new Speed();
-		setWidth(bitmap.getWidth());
-		setHeight(bitmap.getHeight());
 	}
 	
 	// updates the weight's internal state every tick
-	public void update() {
-		setY((int) (getY() + (getSpeed().getYv() * getSpeed().getyDirection())));
-	}
+	public abstract void update();
 
 	// draws the sprite to the screen
 	public void draw(Canvas canvas) {
@@ -36,56 +26,26 @@ public class Weight extends Entity {
 	// getters and setters
 
 	// get the bounds of the sprite
-	public Rect getBounds() {
-		return new Rect(x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), x + (bitmap.getWidth() / 2), y + (bitmap.getHeight() / 2));
-	}
+	public abstract Rect getBounds();
 
-	public Bitmap getBitmap() {
-		return bitmap;
-	}
+	public abstract Bitmap getBitmap();
 
-	public void setBitmap(Bitmap bitmap) {
-		this.bitmap = bitmap;
-	}
+	public abstract void setBitmap(Bitmap bitmap);
+	
+	public abstract int getX();
 
-	public int getX() {
-		return x;
-	}
+	public abstract void setX(int x);
 
-	public void setX(int x) {
-		this.x = x;
-	}
+	public abstract int getY();
 
-	public int getY() {
-		return y;
-	}
+	public abstract void setY(int y);
 
-	public void setY(int y) {
-		this.y = y;
-	}
+	public abstract int getWidth();
 
-	public Speed getSpeed() {
-		return speed;
-	}
+	public abstract void setWidth(int width);
 
-	public void setSpeed(Speed speed) {
-		this.speed = speed;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setHeight(int height) {
-		this.height = height;
-	}
+	public abstract int getHeight();
+	
+	public abstract void setHeight(int height);
 
 }

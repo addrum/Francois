@@ -10,7 +10,6 @@ public class Player extends Entity {
 	private Bitmap bitmap; // the actual bitmap
 	private int x; // the X coordinate
 	private int y; // the Y coordinate
-	private Speed speed; // the speed with its directions
 	private int width, height;
 
 	public Player(Bitmap bitmap, int x, int y) {
@@ -18,7 +17,6 @@ public class Player extends Entity {
 		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
-		this.speed = new Speed();
 		setWidth(bitmap.getWidth());
 		setHeight(bitmap.getHeight());
 	}
@@ -73,14 +71,6 @@ public class Player extends Entity {
 
 	public void setY(int y) {
 		this.y = y;
-	}
-
-	public Speed getSpeed() {
-		return speed;
-	}
-
-	public void setSpeed(Speed speed) {
-		this.speed = speed;
 	}
 
 	public int getWidth() {

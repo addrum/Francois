@@ -6,7 +6,6 @@ import java.util.Random;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -21,6 +20,9 @@ import android.view.WindowManager;
 
 import com.characters.francois.Player;
 import com.characters.francois.Weight;
+import com.characters.francois.WeightLarge;
+import com.characters.francois.WeightMedium;
+import com.characters.francois.WeightSmall;
 import com.main.francois.GameOverActivity;
 import com.main.francois.R;
 
@@ -33,8 +35,6 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	private ArrayList<Weight> weights = new ArrayList<Weight>();
 	private CountDownTimer weightSpawnTimer;
 	private boolean start = false;
-	private int maxWeights = 10;
-	private int weightsOnScreen = 0;
 	private WindowManager wm;
 	private Display display;
 	private Point size;
@@ -62,7 +62,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		display.getSize(size);
 		screenHeight = size.y;
 		screenWidth = size.x;
-		
+
 		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player), ((screenWidth) / 2), (int) ((screenHeight / 1.2)));
 	}
 
@@ -101,9 +101,9 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		if (canvas != null) {
 			canvas.drawColor(Color.WHITE);
 			player.draw(canvas);
-			Weight[] rockArray = weights.toArray(new Weight[0]);
-			for (Weight rock : rockArray) {
-				rock.draw(canvas);
+			Weight[] weightArray = weights.toArray(new Weight[0]);
+			for (Weight weight : weightArray) {
+				weight.draw(canvas);
 			}
 		}
 	}
@@ -111,22 +111,18 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	// updates the rocks' position on the screen and checks collision with the player
 	public void update() {
 		Weight[] weightArray = weights.toArray(new Weight[0]);
-		for (Weight rock : weightArray) {
-			rock.update();
-			if (rock.getBounds().intersect(player.getBounds())) {
+		for (Weight weight : weightArray) {
+			weight.update();
+			if (weight.getBounds().intersect(player.getBounds())) {
 				player.setTouched(false);
 				Intent gameOverIntent = new Intent(this.getContext(), GameOverActivity.class);
 				this.getContext().startActivity(gameOverIntent);
 				((Activity) getContext()).finish();
 			}
-			if (rock.getY() > screenHeight) {
-				weightsOnScreen--;
-				//Log.d("rocksOnScreen", Integer.toString(rocksOnScreen));
-			}
 		}
 	}
 
-	// count down timer spawning rocks in every tick
+	// count down timer spawning weights in every tick
 	public void timer() {
 		if (start == true) {
 			if (weightSpawnTimer != null) {
@@ -136,15 +132,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 			weightSpawnTimer = new CountDownTimer(30000, 800) {
 
 				public void onTick(long millisUntilFinished) {
-					// limits number of rocks on screen
-					if (weightsOnScreen < maxWeights) {
-						// if (rock exists on y axis and between rock width)
-						// set speed to less than the one currently in the "column"
-						// so that they do not overlap else create new one
-						weights.add(createWeight());
-						weightsOnScreen++;
-						//Log.d("rocksOnScreen", Integer.toString(rocksOnScreen));
-					}
+					weights.add(createWeight());
 				}
 
 				public void onFinish() {
@@ -154,7 +142,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
-	// initial countdown timer to stop rocks from spawning in before canvas is fully loaded
+	// initial countdown timer to stop weights from spawning in too fast at the start
 	public void startTimer() {
 		new CountDownTimer(1000, 1000) {
 
@@ -164,14 +152,14 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 
 			public void onFinish() {
 				start = true;
-				// timer for spawning rocks per tick
+				// timer for spawning weights per tick
 				timer();
 			}
 		}.start();
 	}
 
 	// check preferences as to which colour to use
-	public void getPlayerColour() {
+	/*public void getPlayerColour() {
 		SharedPreferences sharedPreferences = this.getContext().getSharedPreferences("colour", 0);
 		if (sharedPreferences.getString("colour", null).equals("orange")) {
 			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_orange), (screenWidth), 1500);
@@ -183,7 +171,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		} else {
 			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_teal), (screenWidth), 1500);
 		}
-	}
+	}*/
 
 	// thread and surface
 	@Override
@@ -222,11 +210,14 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		decider = Math.random() * 1;
 		// creates rocks randomly with the lowest chance for l, and the highest chance for m
 		if (decider <= 0.33) {
-			return new Weight(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), new Random().nextInt(screenWidth), -10);
+			// small weight
+			return new WeightSmall(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), new Random().nextInt(screenWidth), -10);
 		} else if (decider <= 0.5 && decider > 0.33) {
-			return new Weight(BitmapFactory.decodeResource(getResources(), R.drawable.weight_l), new Random().nextInt(screenWidth), -10);
+			// large weight
+			return new WeightLarge(BitmapFactory.decodeResource(getResources(), R.drawable.weight_l), new Random().nextInt(screenWidth), -10);
 		} else {
-			return new Weight(BitmapFactory.decodeResource(getResources(), R.drawable.weight_m), new Random().nextInt(screenWidth), -10);
+			// medium weight
+			return new WeightMedium(BitmapFactory.decodeResource(getResources(), R.drawable.weight_m), new Random().nextInt(screenWidth), -10);
 		}
 	}
 

@@ -62,16 +62,7 @@ public class SettingsActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		SharedPreferences sharedPreferences = getSharedPreferences("initial", 0);
-		if (sharedPreferences.getBoolean("initial", false)) {
-			colourPicker.check(R.id.radioOrange);
-			sharedPreferences = getSharedPreferences("colour", 0);
-			SharedPreferences.Editor editor = sharedPreferences.edit();
-			editor.putBoolean("initial", true);
-			editor.commit();
-		} else {
-			load();
-		}
+		load();
 	}
 
 	// save colour choice
@@ -85,11 +76,15 @@ public class SettingsActivity extends Activity {
 	// load colour choice
 	private void load() {
 		SharedPreferences sharedPreferences = getSharedPreferences("colour", 0);
-		if (sharedPreferences.getString("colour", null).equals("orange")) {
+		String colour = sharedPreferences.getString("colour", null);
+
+		if (colour == null)
+			colourPicker.check(R.id.radioOrange); //Default if no preference exists
+		else if (colour.equals("orange")) {
 			colourPicker.check(R.id.radioOrange);
-		} else if (sharedPreferences.getString("colour", null).equals("lilac")) {
+		} else if (colour.equals("lilac")) {
 			colourPicker.check(R.id.radioLilac);
-		} else if (sharedPreferences.getString("colour", null).equals("red")) {
+		} else if (colour.equals("red")) {
 			colourPicker.check(R.id.radioRed);
 		} else {
 			colourPicker.check(R.id.radioTeal);
