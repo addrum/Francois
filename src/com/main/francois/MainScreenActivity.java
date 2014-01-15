@@ -1,21 +1,21 @@
 package com.main.francois;
 
-
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainScreenActivity extends Activity {
 
 	Button playButton, settingsButton;
+	private boolean doubleBackToExitPressedOnce = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +28,11 @@ public class MainScreenActivity extends Activity {
 		setContentView(R.layout.mainscreen);
 		// lock orientation to portrait
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		
+
 		// get id's
 		playButton = (Button) findViewById(R.id.playButton);
-		settingsButton = (Button) findViewById(R.id.settingsButton); 
-		
+		settingsButton = (Button) findViewById(R.id.settingsButton);
+
 		// button listeners
 		playButton.setOnClickListener(new OnClickListener() {
 
@@ -52,26 +52,25 @@ public class MainScreenActivity extends Activity {
 				MainScreenActivity.this.startActivity(settingsActivityIntent);
 				finish();
 			}
-			
+
 		});
 	}
-	
+
 	@Override
 	public void onBackPressed() {
-		new AlertDialog.Builder(this)
-	    .setTitle("Quit")
-	    .setMessage("Are you sure you want to quit?")
-	    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int which) { 
-	        	finish();
-	        }
-	     })
-	    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int which) { 
-	            dialog.dismiss();
-	        }
-	     })
-	     .show();
+
+		if (doubleBackToExitPressedOnce) {
+			super.onBackPressed();
+			return;
+		}
+		this.doubleBackToExitPressedOnce = true;
+		Toast.makeText(this, "Press again to quit", Toast.LENGTH_SHORT).show();
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				doubleBackToExitPressedOnce = false;
+			}
+		}, 2000);
 	}
 
 	@Override

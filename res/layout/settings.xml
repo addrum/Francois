@@ -39,7 +39,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:drawableRight="@drawable/player_orange"
+                android:drawableRight="@drawable/player"
                 android:text="@string/orange"
                 android:textSize="28sp" >
             </RadioButton>
@@ -49,7 +49,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:drawableRight="@drawable/player_lilac"
+                android:drawableRight="@drawable/player"
                 android:text="@string/lilac"
                 android:textSize="28sp" >
             </RadioButton>
@@ -59,7 +59,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:drawableRight="@drawable/player_red"
+                android:drawableRight="@drawable/player"
                 android:text="@string/red"
                 android:textSize="28sp" >
             </RadioButton>
@@ -69,7 +69,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:drawableRight="@drawable/player_teal"
+                android:drawableRight="@drawable/player"
                 android:text="@string/teal"
                 android:textSize="28sp" >
             </RadioButton>

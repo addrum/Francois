@@ -63,7 +63,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		screenHeight = size.y;
 		screenWidth = size.x;
 
-		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player), ((screenWidth) / 2), (int) ((screenHeight / 1.2)));
+		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player), (screenWidth / 2), (int) (screenHeight / 1.2));
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
-	// updates the rocks' position on the screen and checks collision with the player
+	// updates the weights position on the screen and checks collision with the player
 	public void update() {
 		Weight[] weightArray = weights.toArray(new Weight[0]);
 		for (Weight weight : weightArray) {
@@ -132,9 +132,10 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 			weightSpawnTimer = new CountDownTimer(30000, 800) {
 
 				public void onTick(long millisUntilFinished) {
-					weights.add(createWeight());
+							weights.add(createWeight());
 				}
 
+				@Override
 				public void onFinish() {
 					weightSpawnTimer.start();
 				}
@@ -157,21 +158,6 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		}.start();
 	}
-
-	// check preferences as to which colour to use
-	/*public void getPlayerColour() {
-		SharedPreferences sharedPreferences = this.getContext().getSharedPreferences("colour", 0);
-		if (sharedPreferences.getString("colour", null).equals("orange")) {
-			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_orange), (screenWidth), 1500);
-			Log.d("screenwidth", Integer.toString(screenWidth));
-		} else if (sharedPreferences.getString("colour", null).equals("lilac")) {
-			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_lilac), (screenWidth), 1500);
-		} else if (sharedPreferences.getString("colour", null).equals("red")) {
-			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_red), (screenWidth), 1500);
-		} else {
-			player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player_teal), (screenWidth), 1500);
-		}
-	}*/
 
 	// thread and surface
 	@Override
@@ -207,6 +193,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public Weight createWeight() {
+		// create arraylist of weight x positions for comparison using Arrays.asList(...).contains(...)
 		decider = Math.random() * 1;
 		// creates rocks randomly with the lowest chance for l, and the highest chance for m
 		if (decider <= 0.33) {

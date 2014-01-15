@@ -9,7 +9,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import com.main.francois.R;
 
 public class GameOverActivity extends Activity {
 
@@ -57,6 +56,7 @@ public class GameOverActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		Intent mainScreenActivityIntent = new Intent(GameOverActivity.this, MainScreenActivity.class);
+		mainScreenActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(mainScreenActivityIntent);
 		finish();
 	}
