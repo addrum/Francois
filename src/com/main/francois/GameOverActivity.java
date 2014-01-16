@@ -12,7 +12,7 @@ import android.widget.Button;
 
 public class GameOverActivity extends Activity {
 
-	Button playButton, backButton;
+	private Button playButton, backButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class GameOverActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				Intent mainScreenActivityIntent = new Intent(GameOverActivity.this, MainScreenActivity.class);
-				startActivity(mainScreenActivityIntent);
+				GameOverActivity.this.startActivity(mainScreenActivityIntent);
 				finish();
 			}
 
@@ -56,9 +56,9 @@ public class GameOverActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		Intent mainScreenActivityIntent = new Intent(GameOverActivity.this, MainScreenActivity.class);
-		mainScreenActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		startActivity(mainScreenActivityIntent);
+		GameOverActivity.this.startActivity(mainScreenActivityIntent);
 		finish();
+		super.onBackPressed();
 	}
 
 }

@@ -1,28 +1,26 @@
-package com.characters.francois;
+package com.entities.francois;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-public class WeightSmall extends Weight {
+public class WeightMedium extends Weight {
 
 	private static Bitmap bitmap; // the actual bitmap
 	private int x; // the X coordinate
 	private int y; // the Y coordinate
-	private static int width;
-	private int height;
+	private int width, height;
 	private float yv; // velocity value on the Y axis
 	private static int onScreen;
 	
-	public WeightSmall(Bitmap bitmap, int x, int y) {
+	public WeightMedium(Bitmap bitmap, int x, int y) {
 		super(bitmap, x, y);
-		WeightSmall.bitmap = bitmap;
+		WeightMedium.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
-		this.yv = 10;
+		this.yv = 20;
 		setWidth(bitmap.getWidth());
 		setHeight(bitmap.getHeight());
-		onScreen++;
 	}
 	
 	// updates the weight's internal state every tick
@@ -48,7 +46,7 @@ public class WeightSmall extends Weight {
 	}
 
 	public void setBitmap(Bitmap bitmap) {
-		WeightSmall.bitmap = bitmap;
+		WeightMedium.bitmap = bitmap;
 	}
 
 	public int getX() {
@@ -80,7 +78,7 @@ public class WeightSmall extends Weight {
 	}
 
 	public void setWidth(int width) {
-		WeightSmall.width = width;
+		this.width = width;
 	}
 
 	public int getHeight() {
@@ -91,12 +89,9 @@ public class WeightSmall extends Weight {
 		this.height = height;
 	}
 
+	@Override
 	public int getOnScreen() {
 		return onScreen;
-	}
-
-	public void setOnScreen(int onScreen) {
-		WeightSmall.onScreen = onScreen;
 	}
 
 }

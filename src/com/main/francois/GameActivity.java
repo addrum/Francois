@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.background.francois.Graphics;
+import com.background.francois.GameLogic;
 
 public class GameActivity extends Activity {
 
@@ -22,7 +22,7 @@ public class GameActivity extends Activity {
 		// making it full screen
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		// set our MainGamePanel as the View
-		setContentView(new Graphics(this));
+		setContentView(new GameLogic(this));
 		Log.d(TAG, "View added");
 		// set orientation to portrait
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -32,6 +32,7 @@ public class GameActivity extends Activity {
 	public void onBackPressed() {
 		Intent mainScreenActivityIntent = new Intent(GameActivity.this, MainScreenActivity.class);
 		startActivity(mainScreenActivityIntent);
+		finish();
 	}
 
 	@Override

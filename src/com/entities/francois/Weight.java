@@ -1,4 +1,4 @@
-package com.characters.francois;
+package com.entities.francois;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

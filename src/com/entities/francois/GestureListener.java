@@ -1,4 +1,4 @@
-package com.characters.francois;
+package com.entities.francois;
 
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;

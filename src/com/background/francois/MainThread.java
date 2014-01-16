@@ -19,12 +19,12 @@ public class MainThread extends Thread {
 	private SurfaceHolder surfaceHolder;
 	// The actual view that handles inputs
 	// and draws to the surface
-	private Graphics graphics;
+	private GameLogic graphics;
 
 	// flag to hold game state 
 	private boolean running;
 
-	public MainThread(SurfaceHolder surfaceHolder, Graphics graphics) {
+	public MainThread(SurfaceHolder surfaceHolder, GameLogic graphics) {
 		super();
 		this.surfaceHolder = surfaceHolder;
 		this.graphics = graphics;

@@ -1,31 +1,39 @@
-package com.characters.francois;
+package com.entities.francois;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-public class WeightMedium extends Weight {
+public class Player extends Entity {
 
-	private static Bitmap bitmap; // the actual bitmap
+	private boolean touched; // if player is touched/picked up
+	private Bitmap bitmap; // the actual bitmap
 	private int x; // the X coordinate
 	private int y; // the Y coordinate
 	private int width, height;
-	private float yv; // velocity value on the Y axis
-	private static int onScreen;
-	
-	public WeightMedium(Bitmap bitmap, int x, int y) {
+
+	public Player(Bitmap bitmap, int x, int y) {
 		super(bitmap, x, y);
-		WeightMedium.bitmap = bitmap;
+		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
-		this.yv = 20;
 		setWidth(bitmap.getWidth());
 		setHeight(bitmap.getHeight());
 	}
-	
-	// updates the weight's internal state every tick
-	public void update() {
-		setY((int) (getY() + getYv()));
+
+	// handles the player being touched (hehe)
+	public void handleActionDown(int eventX, int eventY) {
+		if (eventX >= (getX() - getBitmap().getWidth() / 2) && (eventX <= (getX() + getBitmap().getWidth() / 2))) {
+			if (eventY >= (getY() - getBitmap().getHeight() / 2) && (getY() <= (getY() + getBitmap().getHeight() / 2))) {
+				// player touched
+				setTouched(true);
+			} else {
+				setTouched(false);
+			}
+		} else {
+			setTouched(false);
+		}
+
 	}
 
 	// draws the sprite to the screen
@@ -46,7 +54,7 @@ public class WeightMedium extends Weight {
 	}
 
 	public void setBitmap(Bitmap bitmap) {
-		WeightMedium.bitmap = bitmap;
+		this.bitmap = bitmap;
 	}
 
 	public int getX() {
@@ -65,14 +73,6 @@ public class WeightMedium extends Weight {
 		this.y = y;
 	}
 
-	public float getYv() {
-		return yv;
-	}
-
-	public void setYv(float yv) {
-		this.yv = yv;
-	}
-
 	public int getWidth() {
 		return width;
 	}
@@ -89,9 +89,12 @@ public class WeightMedium extends Weight {
 		this.height = height;
 	}
 
-	@Override
-	public int getOnScreen() {
-		return onScreen;
+	public boolean isTouched() {
+		return touched;
+	}
+
+	public void setTouched(boolean touched) {
+		this.touched = touched;
 	}
 
 }

@@ -18,17 +18,17 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
-import com.characters.francois.Player;
-import com.characters.francois.Weight;
-import com.characters.francois.WeightLarge;
-import com.characters.francois.WeightMedium;
-import com.characters.francois.WeightSmall;
+import com.entities.francois.Player;
+import com.entities.francois.Weight;
+import com.entities.francois.WeightLarge;
+import com.entities.francois.WeightMedium;
+import com.entities.francois.WeightSmall;
 import com.main.francois.GameOverActivity;
 import com.main.francois.R;
 
-public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
+public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 
-	private static final String TAG = Graphics.class.getSimpleName();
+	private static final String TAG = GameLogic.class.getSimpleName();
 
 	private MainThread thread;
 	private Player player;
@@ -41,7 +41,7 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	private int screenHeight, screenWidth;
 	private double decider;
 
-	public Graphics(Context context) {
+	public GameLogic(Context context) {
 		super(context);
 		// adding the callback (this) to the surface holder to intercept events
 		getHolder().addCallback(this);
@@ -193,7 +193,6 @@ public class Graphics extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public Weight createWeight() {
-		// create arraylist of weight x positions for comparison using Arrays.asList(...).contains(...)
 		decider = Math.random() * 1;
 		// creates rocks randomly with the lowest chance for l, and the highest chance for m
 		if (decider <= 0.33) {

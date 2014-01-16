@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -14,8 +13,7 @@ import android.widget.Toast;
 
 public class MainScreenActivity extends Activity {
 
-	Button playButton, settingsButton;
-	private boolean doubleBackToExitPressedOnce = false;
+	private Button playButton, settingsButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +37,8 @@ public class MainScreenActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				Intent gameActivityIntent = new Intent(MainScreenActivity.this, GameActivity.class);
-				MainScreenActivity.this.startActivity(gameActivityIntent);
+				startActivity(gameActivityIntent);
+
 			}
 
 		});
@@ -56,21 +55,17 @@ public class MainScreenActivity extends Activity {
 		});
 	}
 
+	long lastPress;
+
 	@Override
 	public void onBackPressed() {
-
-		if (doubleBackToExitPressedOnce) {
+		long currentTime = System.currentTimeMillis();
+		if (currentTime - lastPress > 2000) {
+			Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+			lastPress = currentTime;
+		} else {
 			super.onBackPressed();
-			return;
 		}
-		this.doubleBackToExitPressedOnce = true;
-		Toast.makeText(this, "Press again to quit", Toast.LENGTH_SHORT).show();
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				doubleBackToExitPressedOnce = false;
-			}
-		}, 2000);
 	}
 
 	@Override

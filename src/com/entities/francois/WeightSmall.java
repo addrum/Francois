@@ -1,39 +1,33 @@
-package com.characters.francois;
+package com.entities.francois;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-public class Player extends Entity {
+public class WeightSmall extends Weight {
 
-	private boolean touched; // if player is touched/picked up
-	private Bitmap bitmap; // the actual bitmap
+	private static Bitmap bitmap; // the actual bitmap
 	private int x; // the X coordinate
 	private int y; // the Y coordinate
-	private int width, height;
-
-	public Player(Bitmap bitmap, int x, int y) {
+	private static int width;
+	private int height;
+	private float yv; // velocity value on the Y axis
+	private static int onScreen;
+	
+	public WeightSmall(Bitmap bitmap, int x, int y) {
 		super(bitmap, x, y);
-		this.bitmap = bitmap;
+		WeightSmall.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
+		this.yv = 10;
 		setWidth(bitmap.getWidth());
 		setHeight(bitmap.getHeight());
+		onScreen++;
 	}
-
-	// handles the player being touched (hehe)
-	public void handleActionDown(int eventX, int eventY) {
-		if (eventX >= (getX() - getBitmap().getWidth() / 2) && (eventX <= (getX() + getBitmap().getWidth() / 2))) {
-			if (eventY >= (getY() - getBitmap().getHeight() / 2) && (getY() <= (getY() + getBitmap().getHeight() / 2))) {
-				// player touched
-				setTouched(true);
-			} else {
-				setTouched(false);
-			}
-		} else {
-			setTouched(false);
-		}
-
+	
+	// updates the weight's internal state every tick
+	public void update() {
+		setY((int) (getY() + getYv()));
 	}
 
 	// draws the sprite to the screen
@@ -54,7 +48,7 @@ public class Player extends Entity {
 	}
 
 	public void setBitmap(Bitmap bitmap) {
-		this.bitmap = bitmap;
+		WeightSmall.bitmap = bitmap;
 	}
 
 	public int getX() {
@@ -73,12 +67,20 @@ public class Player extends Entity {
 		this.y = y;
 	}
 
+	public float getYv() {
+		return yv;
+	}
+
+	public void setYv(float yv) {
+		this.yv = yv;
+	}
+
 	public int getWidth() {
 		return width;
 	}
 
 	public void setWidth(int width) {
-		this.width = width;
+		WeightSmall.width = width;
 	}
 
 	public int getHeight() {
@@ -89,12 +91,12 @@ public class Player extends Entity {
 		this.height = height;
 	}
 
-	public boolean isTouched() {
-		return touched;
+	public int getOnScreen() {
+		return onScreen;
 	}
 
-	public void setTouched(boolean touched) {
-		this.touched = touched;
+	public void setOnScreen(int onScreen) {
+		WeightSmall.onScreen = onScreen;
 	}
 
 }
