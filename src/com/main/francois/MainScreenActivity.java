@@ -38,7 +38,7 @@ public class MainScreenActivity extends Activity {
 			public void onClick(View arg0) {
 				Intent gameActivityIntent = new Intent(MainScreenActivity.this, GameActivity.class);
 				startActivity(gameActivityIntent);
-
+				finish();
 			}
 
 		});

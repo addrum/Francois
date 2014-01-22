@@ -9,8 +9,10 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.CountDownTimer;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -33,13 +35,15 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	private MainThread thread;
 	private Player player;
 	private ArrayList<Weight> weights = new ArrayList<Weight>();
-	private CountDownTimer weightSpawnTimer;
+	private CountDownTimer gameTimer;
 	private boolean start = false;
 	private WindowManager wm;
 	private Display display;
 	private Point size;
 	private int screenHeight, screenWidth;
 	private double decider;
+	private int score = 0;
+	private Paint paint;
 
 	public GameLogic(Context context) {
 		super(context);
@@ -48,7 +52,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 
 		// create the game loop thread
 		thread = new MainThread(getHolder(), this);
-
+		
 		// make the GamePanel focusable so it can handle events
 		setFocusable(true);
 
@@ -62,10 +66,20 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		display.getSize(size);
 		screenHeight = size.y;
 		screenWidth = size.x;
+		paint = new Paint();
+		paint.setColor(Color.BLACK);
+		paint.setTextSize(72);
 
 		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player), (screenWidth / 2), (int) (screenHeight / 1.2));
 	}
 
+	public GameLogic(Context context, AttributeSet attributeSet)
+	{
+	    super(context, attributeSet);
+
+	    //TODO:
+	}
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -100,6 +114,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	public void render(Canvas canvas) {
 		if (canvas != null) {
 			canvas.drawColor(Color.WHITE);
+			canvas.drawText("Score: " + score, 10, 100, paint);
 			player.draw(canvas);
 			Weight[] weightArray = weights.toArray(new Weight[0]);
 			for (Weight weight : weightArray) {
@@ -115,9 +130,10 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 			weight.update();
 			if (weight.getBounds().intersect(player.getBounds())) {
 				player.setTouched(false);
+				gameTimer.cancel();
 				Intent gameOverIntent = new Intent(this.getContext(), GameOverActivity.class);
 				this.getContext().startActivity(gameOverIntent);
-				((Activity) getContext()).finish();
+				((Activity) this.getContext()).finish();
 			}
 		}
 	}
@@ -125,19 +141,21 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	// count down timer spawning weights in every tick
 	public void timer() {
 		if (start == true) {
-			if (weightSpawnTimer != null) {
-				weightSpawnTimer.cancel();
-				weightSpawnTimer = null;
+			if (gameTimer != null) {
+				gameTimer.cancel();
+				gameTimer = null;
 			}
-			weightSpawnTimer = new CountDownTimer(30000, 800) {
+			gameTimer = new CountDownTimer(30000, 800) {
 
 				public void onTick(long millisUntilFinished) {
-							weights.add(createWeight());
+					weights.add(createWeight());
+					score += 50;
+					Log.d("Score", "Score: " + score);
 				}
 
 				@Override
 				public void onFinish() {
-					weightSpawnTimer.start();
+					gameTimer.start();
 				}
 			}.start();
 		}
@@ -148,7 +166,6 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		new CountDownTimer(1000, 1000) {
 
 			public void onTick(long millisUntilFinished) {
-
 			}
 
 			public void onFinish() {
