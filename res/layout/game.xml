@@ -3,7 +3,6 @@
     android:id="@+id/canvas"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
     android:configChanges="keyboardHidden|orientation|screenSize"
     android:screenOrientation="portrait"
     tools:context=".GameActivity" >
@@ -11,7 +10,20 @@
     <FrameLayout
         android:id="@+id/surfaceView"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1" />
+        android:layout_height="fill_parent" >
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/scoreText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F7F7F7"
+        android:ems="10"
+        android:inputType="none"
+        android:paddingLeft="5dp"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        android:windowSoftInputMode="stateHidden" >
+    </TextView>
 
 </FrameLayout>

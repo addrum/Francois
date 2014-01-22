@@ -9,9 +9,9 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.CountDownTimer;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
@@ -25,6 +25,7 @@ import com.entities.francois.Weight;
 import com.entities.francois.WeightLarge;
 import com.entities.francois.WeightMedium;
 import com.entities.francois.WeightSmall;
+import com.main.francois.GameActivity;
 import com.main.francois.GameOverActivity;
 import com.main.francois.R;
 
@@ -43,7 +44,6 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	private int screenHeight, screenWidth;
 	private double decider;
 	private int score = 0;
-	private Paint paint;
 
 	public GameLogic(Context context) {
 		super(context);
@@ -52,7 +52,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 
 		// create the game loop thread
 		thread = new MainThread(getHolder(), this);
-		
+
 		// make the GamePanel focusable so it can handle events
 		setFocusable(true);
 
@@ -66,20 +66,14 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		display.getSize(size);
 		screenHeight = size.y;
 		screenWidth = size.x;
-		paint = new Paint();
-		paint.setColor(Color.BLACK);
-		paint.setTextSize(72);
 
 		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player), (screenWidth / 2), (int) (screenHeight / 1.2));
 	}
 
-	public GameLogic(Context context, AttributeSet attributeSet)
-	{
-	    super(context, attributeSet);
-
-	    //TODO:
+	public GameLogic(Context context, AttributeSet attributeSet) {
+		super(context, attributeSet);
 	}
-	
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -114,8 +108,10 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	public void render(Canvas canvas) {
 		if (canvas != null) {
 			canvas.drawColor(Color.WHITE);
-			canvas.drawText("Score: " + score, 10, 100, paint);
 			player.draw(canvas);
+			Message message = Message.obtain();
+			message.arg1 = score;
+			GameActivity.handler.sendMessage(message);
 			Weight[] weightArray = weights.toArray(new Weight[0]);
 			for (Weight weight : weightArray) {
 				weight.draw(canvas);
@@ -206,6 +202,8 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 				Log.e("surfaceDestroyed", "thread couldn't shut down properly");
 			}
 		}
+		gameTimer.cancel();
+		((Activity) this.getContext()).finish();
 		Log.d(TAG, "Thread was shut down cleanly");
 	}
 

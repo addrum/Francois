@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="#F7F7F7"
     android:orientation="vertical"
     tools:context=".MainScreenActivity" >
 
@@ -12,7 +12,7 @@
         android:layout_height="100dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:background="#0099cc"
+        android:background="#F7F7F7"
         android:gravity="center"
         android:text="@string/settings"
         android:textAppearance="?android:attr/textAppearanceLarge"

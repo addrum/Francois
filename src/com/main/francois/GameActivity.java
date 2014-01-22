@@ -1,20 +1,33 @@
 package com.main.francois;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.background.francois.GameLogic;
 
 public class GameActivity extends Activity {
 
+	public static Handler handler;
+	
 	private static final String TAG = GameActivity.class.getSimpleName();
 	private GameLogic gameLogic;
+	private TextView scoreText;
+	private WindowManager wm;
+	private Display display;
+	private Point size;
+	private int screenHeight, screenWidth;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,7 +43,27 @@ public class GameActivity extends Activity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		gameLogic = new GameLogic(this);
 		FrameLayout view = (FrameLayout) findViewById(R.id.surfaceView);
+		scoreText = (TextView) findViewById(R.id.scoreText);
 		view.addView(gameLogic);
+
+		// get screen size
+		wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
+		display = wm.getDefaultDisplay();
+		size = new Point();
+		display.getSize(size);
+		screenHeight = size.y;
+		screenWidth = size.x;
+		
+		// set padding based on 5% of screen dimensions
+		scoreText.setPadding((screenWidth / 100 * 2), (screenHeight / 100 * 2), (screenWidth / 100 * 2), (screenHeight / 100 * 2));
+
+		handler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				scoreText.setText("Score: " + String.valueOf(msg.arg1));
+			}
+		};
+
 	}
 
 	@Override
