@@ -3,8 +3,10 @@ package com.main.francois;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -44,13 +46,22 @@ public class GameActivity extends Activity {
 		// set orientation to portrait
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		gameLogic = new GameLogic(this);
+
+		// get id's
 		FrameLayout view = (FrameLayout) findViewById(R.id.surfaceView);
 		LinearLayout topBar = (LinearLayout) findViewById(R.id.topBar);
 		scoreText = (TextView) findViewById(R.id.scoreText);
 		timeText = (TextView) findViewById(R.id.timeText);
+
+		// set font
+		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
+		scoreText.setTypeface(exo2);
+		timeText.setTypeface(exo2);
+
+		// set animations
 		Animation slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		topBar.startAnimation(slideDownIn);
-		view.addView(gameLogic);		
+		view.addView(gameLogic);
 
 		// get screen size
 		wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
@@ -74,6 +85,7 @@ public class GameActivity extends Activity {
 
 	}
 
+	// handle hardware back button
 	@Override
 	public void onBackPressed() {
 		Intent mainScreenActivityIntent = new Intent(GameActivity.this, MainScreenActivity.class);

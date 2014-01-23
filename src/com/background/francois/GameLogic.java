@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -115,7 +116,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	public void render(Canvas canvas) {
 		if (canvas != null) {
 			canvas.drawColor(Color.WHITE);
-			player.draw(canvas);		
+			player.draw(canvas);
 			Message message = Message.obtain();
 			message.arg1 = score;
 			message.arg2 = time;
@@ -133,8 +134,10 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		for (Weight weight : weightArray) {
 			weight.update();
 			if (weight.getBounds().intersect(player.getBounds())) {
-				player.setTouched(false);
+				timer.cancel();		
 				gameTimer.cancel();
+				player.setTouched(false);
+				save(score, time);
 				Intent gameOverIntent = new Intent(this.getContext(), GameOverActivity.class);
 				this.getContext().startActivity(gameOverIntent);
 				((Activity) this.getContext()).finish();
@@ -163,6 +166,21 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
+	public Weight createWeight() {
+		decider = Math.random() * 1;
+		// creates rocks randomly with the lowest chance for l, and the highest chance for m
+		if (decider <= 0.33) {
+			// small weight
+			return new WeightSmall(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), new Random().nextInt(screenWidth), -10);
+		} else if (decider <= 0.5 && decider > 0.33) {
+			// large weight
+			return new WeightLarge(BitmapFactory.decodeResource(getResources(), R.drawable.weight_l), new Random().nextInt(screenWidth), -10);
+		} else {
+			// medium weight
+			return new WeightMedium(BitmapFactory.decodeResource(getResources(), R.drawable.weight_m), new Random().nextInt(screenWidth), -10);
+		}
+	}
+
 	// initial countdown timer to stop weights from spawning in too fast at the start (3 seconds)
 	public void startTimer() {
 		new CountDownTimer(3000, 1000) {
@@ -187,13 +205,25 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		}, delay, period);
 	}
-	
+
 	public void time() {
 		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
-				time++;				
+				time++;
 			}
 		}, delay, second);
+	}
+
+	// save score choice
+	private void save(final int score, final int time) {
+		SharedPreferences scorePreferences = getContext().getSharedPreferences("score", 0);
+		SharedPreferences timePreferences = getContext().getSharedPreferences("time", 0);
+		SharedPreferences.Editor editorScore = scorePreferences.edit();
+		SharedPreferences.Editor editorTime = timePreferences.edit();
+		editorScore.putInt("score", score);
+		editorTime.putInt("time", time);
+		editorScore.commit();
+		editorTime.commit();
 	}
 
 	// thread and surface
@@ -227,21 +257,6 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		}
 		Log.d(TAG, "Thread was shut down cleanly");
-	}
-
-	public Weight createWeight() {
-		decider = Math.random() * 1;
-		// creates rocks randomly with the lowest chance for l, and the highest chance for m
-		if (decider <= 0.33) {
-			// small weight
-			return new WeightSmall(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), new Random().nextInt(screenWidth), -10);
-		} else if (decider <= 0.5 && decider > 0.33) {
-			// large weight
-			return new WeightLarge(BitmapFactory.decodeResource(getResources(), R.drawable.weight_l), new Random().nextInt(screenWidth), -10);
-		} else {
-			// medium weight
-			return new WeightMedium(BitmapFactory.decodeResource(getResources(), R.drawable.weight_m), new Random().nextInt(screenWidth), -10);
-		}
 	}
 
 }

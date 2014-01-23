@@ -19,6 +19,7 @@ public class MainScreenActivity extends Activity {
 
 	private Button playButton, settingsButton;
 	private TextView title;
+	private long lastPress;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +37,13 @@ public class MainScreenActivity extends Activity {
 		playButton = (Button) findViewById(R.id.playButton);
 		settingsButton = (Button) findViewById(R.id.settingsButton);
 		title = (TextView) findViewById(R.id.title);
+		
+		// set font
 		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
 		playButton.setTypeface(exo2);
 		settingsButton.setTypeface(exo2);
+		
+		// set animations
 		Animation slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
 		Animation slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		playButton.startAnimation(slideUpIn);
@@ -71,8 +76,7 @@ public class MainScreenActivity extends Activity {
 		});
 	}
 
-	long lastPress;
-
+	// handle hardware back button
 	@Override
 	public void onBackPressed() {
 		long currentTime = System.currentTimeMillis();

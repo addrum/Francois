@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -31,9 +32,15 @@ public class SettingsActivity extends Activity {
 		// lock orientation to portrait
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-		// radio group id
+		// get id's
 		colourPicker = (RadioGroup) findViewById(R.id.colourPicker);
 		title = (TextView) findViewById(R.id.settings);
+
+		// set font
+		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
+		title.setTypeface(exo2);
+
+		// set animations
 		Animation slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		title.startAnimation(slideDownIn);
 
@@ -97,6 +104,7 @@ public class SettingsActivity extends Activity {
 		}
 	}
 
+	// handle hardware back button
 	@Override
 	public void onBackPressed() {
 		Intent mainScreenActivityIntent = new Intent(SettingsActivity.this, MainScreenActivity.class);
