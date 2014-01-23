@@ -2,6 +2,8 @@ package com.background.francois;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.Activity;
 import android.content.Context;
@@ -44,6 +46,11 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	private int screenHeight, screenWidth;
 	private double decider;
 	private int score = 0;
+	private Timer timer = new Timer();
+	private int delay = 0;
+	private int period = 100;
+	private int time = 0;
+	private int second = 1000;
 
 	public GameLogic(Context context) {
 		super(context);
@@ -108,9 +115,10 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	public void render(Canvas canvas) {
 		if (canvas != null) {
 			canvas.drawColor(Color.WHITE);
-			player.draw(canvas);
+			player.draw(canvas);		
 			Message message = Message.obtain();
 			message.arg1 = score;
+			message.arg2 = time;
 			GameActivity.handler.sendMessage(message);
 			Weight[] weightArray = weights.toArray(new Weight[0]);
 			for (Weight weight : weightArray) {
@@ -135,7 +143,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	// count down timer spawning weights in every tick
-	public void timer() {
+	public void spawnTimer() {
 		if (start == true) {
 			if (gameTimer != null) {
 				gameTimer.cancel();
@@ -145,8 +153,6 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 
 				public void onTick(long millisUntilFinished) {
 					weights.add(createWeight());
-					score += 50;
-					Log.d("Score", "Score: " + score);
 				}
 
 				@Override
@@ -157,9 +163,9 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
-	// initial countdown timer to stop weights from spawning in too fast at the start
+	// initial countdown timer to stop weights from spawning in too fast at the start (3 seconds)
 	public void startTimer() {
-		new CountDownTimer(1000, 1000) {
+		new CountDownTimer(3000, 1000) {
 
 			public void onTick(long millisUntilFinished) {
 			}
@@ -167,9 +173,27 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 			public void onFinish() {
 				start = true;
 				// timer for spawning weights per tick
-				timer();
+				spawnTimer();
+				scoreTimer();
+				time();
 			}
 		}.start();
+	}
+
+	public void scoreTimer() {
+		timer.scheduleAtFixedRate(new TimerTask() {
+			public void run() {
+				score += 5;
+			}
+		}, delay, period);
+	}
+	
+	public void time() {
+		timer.scheduleAtFixedRate(new TimerTask() {
+			public void run() {
+				time++;				
+			}
+		}, delay, second);
 	}
 
 	// thread and surface
@@ -195,15 +219,13 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 			try {
 				thread.setRunning(false);
 				thread.join();
-				((Activity) getContext()).finish();
+				((Activity) this.getContext()).finish();
 				retry = false;
 			} catch (InterruptedException e) {
 				// try again shutting down the thread
 				Log.e("surfaceDestroyed", "thread couldn't shut down properly");
 			}
 		}
-		gameTimer.cancel();
-		((Activity) this.getContext()).finish();
 		Log.d(TAG, "Thread was shut down cleanly");
 	}
 

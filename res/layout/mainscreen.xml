@@ -6,28 +6,41 @@
     android:orientation="vertical"
     tools:context=".MainScreenActivity" >
 
-    <Button
-        android:id="@+id/playButton"
+    <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_above="@+id/settingsButton"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="33dp"
-        android:background="#ffffff"
-        android:text="@string/play"
+        android:layout_alignParentTop="true"
+        android:background="#F7F7F7"
+        android:gravity="center"
+        android:text="@string/app_name"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#000000"
         android:textSize="35sp" />
-
+    
     <Button
         android:id="@+id/settingsButton"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_alignLeft="@+id/playButton"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="45dp"
-        android:background="#ffffff"
+        android:layout_marginBottom="15dp"
+        android:background="#F7F7F7"
+        android:gravity="center"
         android:text="@string/settings"
-        android:textColor="#000000"
-        android:textSize="35sp" />
+        android:textColor="@drawable/textcolour" />
+
+    <Button
+        android:id="@+id/playButton"
+        style="@style/ButtonText"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/settingsButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp"
+        android:background="@drawable/bluebutton"
+        android:gravity="center"
+        android:text="@string/play" />
 
 </RelativeLayout>

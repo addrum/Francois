@@ -3,17 +3,22 @@ package com.main.francois;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainScreenActivity extends Activity {
 
 	private Button playButton, settingsButton;
+	private TextView title;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,15 @@ public class MainScreenActivity extends Activity {
 		// get id's
 		playButton = (Button) findViewById(R.id.playButton);
 		settingsButton = (Button) findViewById(R.id.settingsButton);
+		title = (TextView) findViewById(R.id.title);
+		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
+		playButton.setTypeface(exo2);
+		settingsButton.setTypeface(exo2);
+		Animation slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
+		Animation slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		playButton.startAnimation(slideUpIn);
+		settingsButton.startAnimation(slideUpIn);
+		title.startAnimation(slideDownIn);
 
 		// button listeners
 		playButton.setOnClickListener(new OnClickListener() {
@@ -38,6 +52,7 @@ public class MainScreenActivity extends Activity {
 			public void onClick(View arg0) {
 				Intent gameActivityIntent = new Intent(MainScreenActivity.this, GameActivity.class);
 				startActivity(gameActivityIntent);
+				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
 				finish();
 			}
 
@@ -49,6 +64,7 @@ public class MainScreenActivity extends Activity {
 			public void onClick(View v) {
 				Intent settingsActivityIntent = new Intent(MainScreenActivity.this, SettingsActivity.class);
 				MainScreenActivity.this.startActivity(settingsActivityIntent);
+				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
 				finish();
 			}
 

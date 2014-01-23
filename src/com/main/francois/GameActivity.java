@@ -12,7 +12,10 @@ import android.util.Log;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.background.francois.GameLogic;
@@ -20,10 +23,9 @@ import com.background.francois.GameLogic;
 public class GameActivity extends Activity {
 
 	public static Handler handler;
-	
 	private static final String TAG = GameActivity.class.getSimpleName();
 	private GameLogic gameLogic;
-	private TextView scoreText;
+	private TextView scoreText, timeText;
 	private WindowManager wm;
 	private Display display;
 	private Point size;
@@ -43,8 +45,12 @@ public class GameActivity extends Activity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		gameLogic = new GameLogic(this);
 		FrameLayout view = (FrameLayout) findViewById(R.id.surfaceView);
+		LinearLayout topBar = (LinearLayout) findViewById(R.id.topBar);
 		scoreText = (TextView) findViewById(R.id.scoreText);
-		view.addView(gameLogic);
+		timeText = (TextView) findViewById(R.id.timeText);
+		Animation slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		topBar.startAnimation(slideDownIn);
+		view.addView(gameLogic);		
 
 		// get screen size
 		wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
@@ -53,14 +59,16 @@ public class GameActivity extends Activity {
 		display.getSize(size);
 		screenHeight = size.y;
 		screenWidth = size.x;
-		
+
 		// set padding based on 5% of screen dimensions
 		scoreText.setPadding((screenWidth / 100 * 2), (screenHeight / 100 * 2), (screenWidth / 100 * 2), (screenHeight / 100 * 2));
+		timeText.setPadding((screenWidth / 100 * 2), (screenHeight / 100 * 2), (screenWidth / 100 * 2), (screenHeight / 100 * 2));
 
 		handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 				scoreText.setText("Score: " + String.valueOf(msg.arg1));
+				timeText.setText("Time: " + String.valueOf(msg.arg2));
 			}
 		};
 
@@ -70,6 +78,7 @@ public class GameActivity extends Activity {
 	public void onBackPressed() {
 		Intent mainScreenActivityIntent = new Intent(GameActivity.this, MainScreenActivity.class);
 		startActivity(mainScreenActivityIntent);
+		overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
 		finish();
 	}
 

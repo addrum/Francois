@@ -13,17 +13,41 @@
         android:layout_height="fill_parent" >
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/scoreText"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#F7F7F7"
-        android:ems="10"
-        android:inputType="none"
-        android:paddingLeft="5dp"
-        android:textColor="#000000"
-        android:textSize="20sp"
-        android:windowSoftInputMode="stateHidden" >
-    </TextView>
+        android:orientation="horizontal"
+        android:id="@+id/topBar" >
+
+        <TextView
+            android:id="@+id/scoreText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#F7F7F7"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="none"
+            android:paddingLeft="5dp"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:windowSoftInputMode="stateHidden" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/timeText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#F7F7F7"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="none"
+            android:paddingLeft="5dp"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:windowSoftInputMode="stateHidden" >
+        </TextView>
+    </LinearLayout>
 
 </FrameLayout>

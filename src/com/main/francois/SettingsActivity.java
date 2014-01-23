@@ -8,12 +8,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
 
 public class SettingsActivity extends Activity {
 
-	RadioGroup colourPicker;
+	private RadioGroup colourPicker;
+	private TextView title;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +33,9 @@ public class SettingsActivity extends Activity {
 
 		// radio group id
 		colourPicker = (RadioGroup) findViewById(R.id.colourPicker);
+		title = (TextView) findViewById(R.id.settings);
+		Animation slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		title.startAnimation(slideDownIn);
 
 		// listeners
 		colourPicker.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -38,19 +45,19 @@ public class SettingsActivity extends Activity {
 				switch (checkedId) {
 				case R.id.radioOrange:
 					save("orange");
-					Log.d("colour", "saving orange");
+					Log.d("colour", "saved orange");
 					break;
 				case R.id.radioLilac:
 					save("lilac");
-					Log.d("colour", "saving lilac");
+					Log.d("colour", "saved lilac");
 					break;
 				case R.id.radioRed:
 					save("red");
-					Log.d("colour", "saving red");
+					Log.d("colour", "saved red");
 					break;
 				case R.id.radioTeal:
 					save("teal");
-					Log.d("colour", "saving teal");
+					Log.d("colour", "saved teal");
 					break;
 				}
 			}
@@ -94,6 +101,7 @@ public class SettingsActivity extends Activity {
 	public void onBackPressed() {
 		Intent mainScreenActivityIntent = new Intent(SettingsActivity.this, MainScreenActivity.class);
 		startActivity(mainScreenActivityIntent);
+		overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
 		finish();
 	}
 

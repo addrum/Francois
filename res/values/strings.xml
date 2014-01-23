@@ -2,14 +2,14 @@
 <resources>
 
     <string name="app_name">François</string>
-    <string name="play">PLAY</string>
-    <string name="back">BACK</string>
-    <string name="gameOver">GAME OVER</string>
-    <string name="settings">SETTINGS</string>
+    <string name="play">Play</string>
+    <string name="playAgain">Play Again</string>
+    <string name="gameOver">Game Over</string>
+    <string name="settings">Settings</string>
 
-    <string name="orange">ORANGE</string>
-    <string name="lilac">LILAC</string>
-    <string name="red">RED</string>
-    <string name="teal">TEAL</string>
+    <string name="orange">Orange</string>
+    <string name="lilac">Lilac</string>
+    <string name="red">Red</string>
+    <string name="teal">Teal</string>
     
 </resources>
