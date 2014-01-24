@@ -52,7 +52,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	private int period = 20;
 	private int time = 0;
 	private int second = 1000;
-	private SharedPreferences scorePreferences, timePreferences, highscorePreferences;
+	private SharedPreferences scorePreferences, highscorePreferences;
 
 	public GameLogic(Context context) {
 		super(context);
@@ -223,14 +223,8 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		SharedPreferences.Editor editorScore = scorePreferences.edit();
 		editorScore.putInt("score", score);
 
-		// save the time to pass to game over
-		timePreferences = getContext().getSharedPreferences("time", 0);
-		SharedPreferences.Editor editorTime = timePreferences.edit();
-		editorTime.putInt("time", time);
-
 		// commit all changes
 		editorScore.commit();
-		editorTime.commit();
 		
 		highscorePreferences = getContext().getSharedPreferences("highscore", 0);
 		
@@ -239,11 +233,6 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 			SharedPreferences.Editor editorHighscore = highscorePreferences.edit();
 			editorHighscore.putInt("highscore", score);
 			editorHighscore.commit();
-
-			timePreferences = getContext().getSharedPreferences("hightime", 0);
-			SharedPreferences.Editor editorHightime = timePreferences.edit();
-			editorHightime.putInt("hightime", time);
-			editorHightime.commit();
 		}
 
 	}

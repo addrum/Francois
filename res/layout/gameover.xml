@@ -70,30 +70,6 @@
         android:textSize="25sp" />
 
     <TextView
-        android:id="@+id/timeValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/timeText"
-        android:layout_below="@+id/timeText"
-        android:ems="10"
-        android:gravity="center"
-        android:textColor="#000000"
-        android:textSize="25sp" />
-
-    <TextView
-        android:id="@+id/timeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/scoreValue"
-        android:layout_below="@+id/scoreValue"
-        android:layout_marginTop="50dp"
-        android:ems="10"
-        android:gravity="center"
-        android:text="@string/time"
-        android:textColor="#000000"
-        android:textSize="25sp" />
-
-    <TextView
         android:id="@+id/highscoreValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -109,8 +85,8 @@
         android:id="@+id/highscoreText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/timeValue"
-        android:layout_centerHorizontal="true"
+        android:layout_alignLeft="@+id/scoreValue"
+        android:layout_below="@+id/scoreValue"
         android:layout_marginTop="50dp"
         android:ems="10"
         android:gravity="center"

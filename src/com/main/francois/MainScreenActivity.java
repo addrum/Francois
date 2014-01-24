@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 public class MainScreenActivity extends Activity {
 
-	private Button playButton, settingsButton, highscoresButton;
+	private Button playButton, settingsButton;
 	private TextView title;
 	private long lastPress;
 	private Animation slideUpIn, slideDownIn;
@@ -36,14 +36,12 @@ public class MainScreenActivity extends Activity {
 
 		// get id's
 		playButton = (Button) findViewById(R.id.playButton);
-		highscoresButton = (Button) findViewById(R.id.highscoresButton);
 		settingsButton = (Button) findViewById(R.id.settingsButton);
 		title = (TextView) findViewById(R.id.title);
 
 		// set font
 		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
 		playButton.setTypeface(exo2);
-		highscoresButton.setTypeface(exo2);
 		settingsButton.setTypeface(exo2);
 		title.setTypeface(exo2);
 
@@ -51,7 +49,6 @@ public class MainScreenActivity extends Activity {
 		slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
 		slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		playButton.startAnimation(slideUpIn);
-		highscoresButton.startAnimation(slideUpIn);
 		settingsButton.startAnimation(slideUpIn);
 		title.startAnimation(slideDownIn);
 
@@ -64,17 +61,6 @@ public class MainScreenActivity extends Activity {
 				startActivity(gameActivityIntent);
 				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
 				finish();
-			}
-
-		});
-		
-		highscoresButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent highscoresActivityIntent = new Intent(MainScreenActivity.this, HighscoreActivity.class);
-				MainScreenActivity.this.startActivity(highscoresActivityIntent);
-				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
 			}
 
 		});
@@ -122,7 +108,6 @@ public class MainScreenActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 		playButton.startAnimation(slideUpIn);
-		highscoresButton.startAnimation(slideUpIn);
 		settingsButton.startAnimation(slideUpIn);
 		title.startAnimation(slideDownIn);
 	}

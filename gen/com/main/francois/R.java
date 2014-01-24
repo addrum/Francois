@@ -43,31 +43,26 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class id {
         public static final int canvas=0x7f080000;
-        public static final int colourPicker=0x7f080016;
+        public static final int colourPicker=0x7f080011;
         public static final int gameOver=0x7f080005;
-        public static final int highscore=0x7f08000c;
-        public static final int highscore1=0x7f08000f;
-        public static final int highscoreText=0x7f08000b;
-        public static final int highscoreValue=0x7f08000a;
-        public static final int highscoresButton=0x7f080013;
-        public static final int linearLayout2=0x7f080015;
-        public static final int linearLayoutH1=0x7f08000d;
-        public static final int linearLayoutH2=0x7f08000e;
+        public static final int highscore=0x7f08000b;
+        public static final int highscore1=0x7f08000c;
+        public static final int highscoreText=0x7f08000a;
+        public static final int highscoreValue=0x7f080009;
+        public static final int linearLayout2=0x7f080010;
         public static final int playAgainButton=0x7f080007;
-        public static final int playButton=0x7f080012;
-        public static final int radioLilac=0x7f080018;
-        public static final int radioOrange=0x7f080017;
-        public static final int radioRed=0x7f080019;
-        public static final int radioTeal=0x7f08001a;
+        public static final int playButton=0x7f08000e;
+        public static final int radioLilac=0x7f080013;
+        public static final int radioOrange=0x7f080012;
+        public static final int radioRed=0x7f080014;
+        public static final int radioTeal=0x7f080015;
         public static final int scoreText=0x7f080003;
         public static final int scoreValue=0x7f080008;
-        public static final int settings=0x7f080014;
+        public static final int settings=0x7f08000f;
         public static final int settingsButton=0x7f080006;
         public static final int surfaceView=0x7f080001;
-        public static final int time1=0x7f080010;
         public static final int timeText=0x7f080004;
-        public static final int timeValue=0x7f080009;
-        public static final int title=0x7f080011;
+        public static final int title=0x7f08000d;
         public static final int topBar=0x7f080002;
     }
     public static final class layout {

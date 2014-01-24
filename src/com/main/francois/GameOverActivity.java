@@ -10,18 +10,20 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class GameOverActivity extends Activity {
 
 	private Button playAgainButton, settingsButton;
-	private TextView gameOver, scoreText, scoreValue, timeText, timeValue, highscoreText, highscoreValue;
-	private int score, time, highscore;
-	private Animation slideUpIn, slideDownIn;
-	private SharedPreferences scorePreferences, timePreferences, highscorePreferences;
+	private TextView gameOver, scoreText, scoreValue, highscoreText, highscoreValue;
+	private int score, highscore;
+	private Animation slideUpIn, slideDownIn, fadeIn;
+	private SharedPreferences scorePreferences, highscorePreferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +43,6 @@ public class GameOverActivity extends Activity {
 		gameOver = (TextView) findViewById(R.id.gameOver);
 		scoreText = (TextView) findViewById(R.id.scoreText);
 		scoreValue = (TextView) findViewById(R.id.scoreValue);
-		timeText = (TextView) findViewById(R.id.timeText);
-		timeValue = (TextView) findViewById(R.id.timeValue);
 		highscoreText = (TextView) findViewById(R.id.highscoreText);
 		highscoreValue = (TextView) findViewById(R.id.highscoreValue);
 
@@ -53,17 +53,22 @@ public class GameOverActivity extends Activity {
 		gameOver.setTypeface(exo2);
 		scoreText.setTypeface(exo2);
 		scoreValue.setTypeface(exo2);
-		timeText.setTypeface(exo2);
-		timeValue.setTypeface(exo2);
 		highscoreText.setTypeface(exo2);
 		highscoreValue.setTypeface(exo2);
 
 		// set animations
 		slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
 		slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		fadeIn = new AlphaAnimation(0, 1);
+		fadeIn.setInterpolator(new DecelerateInterpolator());
+		fadeIn.setDuration(1000);
 		playAgainButton.startAnimation(slideUpIn);
 		settingsButton.startAnimation(slideUpIn);
 		gameOver.startAnimation(slideDownIn);
+		scoreText.startAnimation(fadeIn);
+		scoreValue.startAnimation(fadeIn);
+		highscoreText.startAnimation(fadeIn);
+		highscoreValue.startAnimation(fadeIn);
 
 		// get score
 		load();
@@ -98,15 +103,10 @@ public class GameOverActivity extends Activity {
 	// load score from last session
 	private void load() {
 		// get score and set text field
-		scorePreferences = getSharedPreferences("score", 0);		
+		scorePreferences = getSharedPreferences("score", 0);
 		score = scorePreferences.getInt("score", 0);
 		scoreValue.setText(Integer.toString(score));
-		
-		// get time and set text field
-		timePreferences = getSharedPreferences("time", 0);
-		time = timePreferences.getInt("time", 0);
-		timeValue.setText(Integer.toString(time) + " seconds");
-		
+
 		// get highscore and set text field
 		highscorePreferences = getSharedPreferences("highscore", 0);
 		highscore = highscorePreferences.getInt("highscore", 0);
