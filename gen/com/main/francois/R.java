@@ -29,6 +29,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class color {
         public static final int black_overlay=0x7f050000;
+        public static final int togglebuttontext=0x7f050001;
     }
     public static final class drawable {
         public static final int bluebutton=0x7f020000;
@@ -42,25 +43,27 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int weight_s=0x7f020008;
     }
     public static final class id {
+        public static final int bottomBar=0x7f080016;
         public static final int canvas=0x7f080000;
-        public static final int colourPicker=0x7f080011;
+        public static final int clear=0x7f080013;
+        public static final int clearButton=0x7f080012;
         public static final int gameOver=0x7f080005;
         public static final int highscore=0x7f08000b;
         public static final int highscore1=0x7f08000c;
         public static final int highscoreText=0x7f08000a;
         public static final int highscoreValue=0x7f080009;
-        public static final int linearLayout2=0x7f080010;
+        public static final int lastScore=0x7f08000f;
+        public static final int lastScoreValue=0x7f080010;
         public static final int playAgainButton=0x7f080007;
         public static final int playButton=0x7f08000e;
-        public static final int radioLilac=0x7f080013;
-        public static final int radioOrange=0x7f080012;
-        public static final int radioRed=0x7f080014;
-        public static final int radioTeal=0x7f080015;
+        public static final int saveButton=0x7f080017;
         public static final int scoreText=0x7f080003;
         public static final int scoreValue=0x7f080008;
-        public static final int settings=0x7f08000f;
+        public static final int settings=0x7f080011;
         public static final int settingsButton=0x7f080006;
         public static final int surfaceView=0x7f080001;
+        public static final int theme=0x7f080015;
+        public static final int themeButton=0x7f080014;
         public static final int timeText=0x7f080004;
         public static final int title=0x7f08000d;
         public static final int topBar=0x7f080002;
@@ -74,18 +77,22 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class string {
         public static final int app_name=0x7f060000;
+        public static final int clear=0x7f06000d;
+        public static final int dark=0x7f06000a;
         public static final int gameOver=0x7f060003;
-        public static final int highscoreValue=0x7f06000c;
-        public static final int highscores=0x7f06000b;
-        public static final int lilac=0x7f060006;
-        public static final int orange=0x7f060005;
+        public static final int highscoreValue=0x7f060008;
+        public static final int highscores=0x7f060007;
+        public static final int lastScore=0x7f060010;
+        public static final int light=0x7f06000b;
+        public static final int no=0x7f06000f;
         public static final int play=0x7f060001;
         public static final int playAgain=0x7f060002;
-        public static final int red=0x7f060007;
-        public static final int score=0x7f060009;
+        public static final int save=0x7f06000c;
+        public static final int score=0x7f060005;
         public static final int settings=0x7f060004;
-        public static final int teal=0x7f060008;
-        public static final int time=0x7f06000a;
+        public static final int theme=0x7f060009;
+        public static final int time=0x7f060006;
+        public static final int yes=0x7f06000e;
     }
     public static final class style {
         /** 

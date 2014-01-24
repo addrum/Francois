@@ -44,13 +44,11 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	private WindowManager wm;
 	private Display display;
 	private Point size;
-	private int screenHeight, screenWidth;
+	private int screenHeight, screenWidth, spawnRange;
 	private double decider;
-	private int score = 0;
+	private int score, delay, time = 0;
 	private Timer timer = new Timer();
-	private int delay = 0;
 	private int period = 20;
-	private int time = 0;
 	private int second = 1000;
 	private SharedPreferences scorePreferences, highscorePreferences;
 
@@ -170,16 +168,18 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 
 	public Weight createWeight() {
 		decider = Math.random() * 1;
+		Random random = new Random();
+		spawnRange = random.nextInt((player.getX() + player.getWidth()) - (player.getX() - player.getWidth())) + (player.getX() - player.getWidth());
 		// creates rocks randomly with the lowest chance for l, and the highest chance for m
 		if (decider <= 0.33) {
 			// small weight
-			return new WeightSmall(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), new Random().nextInt(screenWidth), -10);
+			return new WeightSmall(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), spawnRange, -10);
 		} else if (decider <= 0.5 && decider > 0.33) {
 			// large weight
-			return new WeightLarge(BitmapFactory.decodeResource(getResources(), R.drawable.weight_l), new Random().nextInt(screenWidth), -10);
+			return new WeightLarge(BitmapFactory.decodeResource(getResources(), R.drawable.weight_l), spawnRange, -10);
 		} else {
 			// medium weight
-			return new WeightMedium(BitmapFactory.decodeResource(getResources(), R.drawable.weight_m), new Random().nextInt(screenWidth), -10);
+			return new WeightMedium(BitmapFactory.decodeResource(getResources(), R.drawable.weight_m), spawnRange, -10);
 		}
 	}
 

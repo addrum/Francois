@@ -61,7 +61,7 @@ public class GameOverActivity extends Activity {
 		slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		fadeIn = new AlphaAnimation(0, 1);
 		fadeIn.setInterpolator(new DecelerateInterpolator());
-		fadeIn.setDuration(1000);
+		fadeIn.setDuration(2500);
 		playAgainButton.startAnimation(slideUpIn);
 		settingsButton.startAnimation(slideUpIn);
 		gameOver.startAnimation(slideDownIn);
@@ -93,7 +93,6 @@ public class GameOverActivity extends Activity {
 				Intent settingsActivityIntent = new Intent(GameOverActivity.this, SettingsActivity.class);
 				GameOverActivity.this.startActivity(settingsActivityIntent);
 				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
-				finish();
 			}
 
 		});
@@ -120,6 +119,14 @@ public class GameOverActivity extends Activity {
 		GameOverActivity.this.startActivity(mainScreenActivityIntent);
 		overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
 		finish();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		playAgainButton.startAnimation(slideUpIn);
+		settingsButton.startAnimation(slideUpIn);
+		gameOver.startAnimation(slideDownIn);
 	}
 
 }

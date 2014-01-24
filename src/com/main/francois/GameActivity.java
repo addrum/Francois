@@ -73,7 +73,7 @@ public class GameActivity extends Activity {
 		screenHeight = size.y;
 		screenWidth = size.x;
 
-		// set padding based on 5% of screen dimensions
+		// set padding based on 2% of screen dimensions
 		scoreText.setPadding((screenWidth / 100 * 2), (screenHeight / 100 * 2), (screenWidth / 100 * 2), (screenHeight / 100 * 2));
 		timeText.setPadding((screenWidth / 100 * 2), (screenHeight / 100 * 2), (screenWidth / 100 * 2), (screenHeight / 100 * 2));
 

@@ -19,66 +19,76 @@
         android:textColor="#000000"
         android:textSize="35sp" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
+    <ToggleButton
+        android:id="@+id/clearButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/settings"
-        android:layout_marginTop="5dp"
+        android:layout_below="@+id/clear"
+        android:background="#ffffff"
+        android:textColor="@color/togglebuttontext"
+        android:textOff="@string/no"
+        android:textOn="@string/yes"
+        android:textSize="25sp" />
+
+    <ToggleButton
+        android:id="@+id/themeButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/theme"
+        android:background="#ffffff"
+        android:textColor="@color/togglebuttontext"
+        android:textOff="@string/light"
+        android:textOn="@string/dark"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/theme"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/clearButton"
+        android:layout_marginTop="51dp"
+        android:background="#ffffff"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:text="@string/theme"
+        android:textColor="#000000"
+        android:textSize="30sp" />
 
-        <RadioGroup
-            android:id="@+id/colourPicker"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.50" >
+    <TextView
+        android:id="@+id/clear"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/settings"
+        android:layout_marginTop="35dp"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:text="@string/clear"
+        android:textColor="#000000"
+        android:textSize="30sp" />
 
-            <RadioButton
-                android:id="@+id/radioOrange"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:drawableRight="@drawable/player"
-                android:text="@string/orange"
-                android:textColor="#000000"
-                android:textSize="28sp" >
-            </RadioButton>
+    <LinearLayout
+        android:id="@+id/bottomBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="#F7F7F7"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="3dp" >
 
-            <RadioButton
-                android:id="@+id/radioLilac"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:drawableRight="@drawable/player"
-                android:text="@string/lilac"
-                android:textColor="#000000"
-                android:textSize="28sp" >
-            </RadioButton>
-
-            <RadioButton
-                android:id="@+id/radioRed"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:drawableRight="@drawable/player"
-                android:text="@string/red"
-                android:textColor="#000000"
-                android:textSize="28sp" >
-            </RadioButton>
-
-            <RadioButton
-                android:id="@+id/radioTeal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:checked="false"
-                android:drawableRight="@drawable/player"
-                android:text="@string/teal"
-                android:textColor="#000000"
-                android:textSize="28sp" >
-            </RadioButton>
-        </RadioGroup>
+        <Button
+            android:id="@+id/saveButton"
+            style="@style/ButtonText"
+            android:layout_width="175dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/bluebutton"
+            android:gravity="center"
+            android:text="@string/save" />
     </LinearLayout>
 
 </RelativeLayout>

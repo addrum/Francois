@@ -2,6 +2,7 @@ package com.main.francois;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,8 +10,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,9 +21,11 @@ import android.widget.Toast;
 public class MainScreenActivity extends Activity {
 
 	private Button playButton, settingsButton;
-	private TextView title;
+	private TextView title, highscoreText, highscoreValue, lastScoreText, lastScoreValue;
 	private long lastPress;
-	private Animation slideUpIn, slideDownIn;
+	private int lastScore, highscore;
+	private SharedPreferences scorePreferences, highscorePreferences;
+	private Animation slideUpIn, slideDownIn, fadeIn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,19 +43,36 @@ public class MainScreenActivity extends Activity {
 		playButton = (Button) findViewById(R.id.playButton);
 		settingsButton = (Button) findViewById(R.id.settingsButton);
 		title = (TextView) findViewById(R.id.title);
+		highscoreText = (TextView) findViewById(R.id.highscoreText);
+		highscoreValue = (TextView) findViewById(R.id.highscoreValue);
+		lastScoreText = (TextView) findViewById(R.id.lastScore);
+		lastScoreValue = (TextView) findViewById(R.id.lastScoreValue);
 
 		// set font
 		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
 		playButton.setTypeface(exo2);
 		settingsButton.setTypeface(exo2);
 		title.setTypeface(exo2);
+		highscoreText.setTypeface(exo2);
+		highscoreValue.setTypeface(exo2);
+		lastScoreText.setTypeface(exo2);
+		lastScoreValue.setTypeface(exo2);
 
 		// set animations
 		slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
 		slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		fadeIn = new AlphaAnimation(0, 1);
+		fadeIn.setInterpolator(new DecelerateInterpolator());
+		fadeIn.setDuration(2500);
 		playButton.startAnimation(slideUpIn);
 		settingsButton.startAnimation(slideUpIn);
 		title.startAnimation(slideDownIn);
+		lastScoreText.startAnimation(fadeIn);
+		lastScoreValue.startAnimation(fadeIn);
+		highscoreText.startAnimation(fadeIn);
+		highscoreValue.startAnimation(fadeIn);
+
+		load();
 
 		// button listeners
 		playButton.setOnClickListener(new OnClickListener() {
@@ -75,6 +97,28 @@ public class MainScreenActivity extends Activity {
 			}
 
 		});
+	}
+
+	// load score from last session
+	private void load() {
+
+		// get score and set text field
+		scorePreferences = getSharedPreferences("score", 0);
+		lastScore = scorePreferences.getInt("score", 0);
+		if (lastScore == 0) {
+			lastScoreValue.setText("No score set.");
+		} else {
+			lastScoreValue.setText(Integer.toString(lastScore));
+		}
+
+		// get highscore and set text field
+		highscorePreferences = getSharedPreferences("highscore", 0);
+		highscore = highscorePreferences.getInt("highscore", 0);
+		if (highscore == 0) {
+			highscoreValue.setText("No score set.");
+		} else {
+			highscoreValue.setText(Integer.toString(highscore));
+		}
 	}
 
 	// handle hardware back button
