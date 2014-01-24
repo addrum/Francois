@@ -1,7 +1,6 @@
 package com.main.francois;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
@@ -19,6 +18,7 @@ public class SettingsActivity extends Activity {
 
 	private RadioGroup colourPicker;
 	private TextView title;
+	private Animation slideDownIn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class SettingsActivity extends Activity {
 		title.setTypeface(exo2);
 
 		// set animations
-		Animation slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		title.startAnimation(slideDownIn);
 
 		// listeners
@@ -92,7 +92,7 @@ public class SettingsActivity extends Activity {
 		String colour = sharedPreferences.getString("colour", null);
 
 		if (colour == null)
-			colourPicker.check(R.id.radioOrange); //Default if no preference exists
+			colourPicker.check(R.id.radioOrange); // default if no preference exists
 		else if (colour.equals("orange")) {
 			colourPicker.check(R.id.radioOrange);
 		} else if (colour.equals("lilac")) {
@@ -107,10 +107,8 @@ public class SettingsActivity extends Activity {
 	// handle hardware back button
 	@Override
 	public void onBackPressed() {
-		Intent mainScreenActivityIntent = new Intent(SettingsActivity.this, MainScreenActivity.class);
-		startActivity(mainScreenActivityIntent);
-		overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
 		finish();
+		overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);		
 	}
 
 }

@@ -49,9 +49,10 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	private int score = 0;
 	private Timer timer = new Timer();
 	private int delay = 0;
-	private int period = 100;
+	private int period = 20;
 	private int time = 0;
 	private int second = 1000;
+	private SharedPreferences scorePreferences, timePreferences, highscorePreferences;
 
 	public GameLogic(Context context) {
 		super(context);
@@ -134,11 +135,12 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		for (Weight weight : weightArray) {
 			weight.update();
 			if (weight.getBounds().intersect(player.getBounds())) {
-				timer.cancel();		
+				timer.cancel();
 				gameTimer.cancel();
 				player.setTouched(false);
 				save(score, time);
 				Intent gameOverIntent = new Intent(this.getContext(), GameOverActivity.class);
+				gameOverIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				this.getContext().startActivity(gameOverIntent);
 				((Activity) this.getContext()).finish();
 			}
@@ -201,7 +203,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	public void scoreTimer() {
 		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
-				score += 5;
+				score++;
 			}
 		}, delay, period);
 	}
@@ -215,15 +217,35 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	// save score choice
-	private void save(final int score, final int time) {
-		SharedPreferences scorePreferences = getContext().getSharedPreferences("score", 0);
-		SharedPreferences timePreferences = getContext().getSharedPreferences("time", 0);
+	private void save(int score, int time) {
+		// save the current score to pass to gameover
+		scorePreferences = getContext().getSharedPreferences("score", 0);
 		SharedPreferences.Editor editorScore = scorePreferences.edit();
-		SharedPreferences.Editor editorTime = timePreferences.edit();
 		editorScore.putInt("score", score);
+
+		// save the time to pass to game over
+		timePreferences = getContext().getSharedPreferences("time", 0);
+		SharedPreferences.Editor editorTime = timePreferences.edit();
 		editorTime.putInt("time", time);
+
+		// commit all changes
 		editorScore.commit();
 		editorTime.commit();
+		
+		highscorePreferences = getContext().getSharedPreferences("highscore", 0);
+		
+		// save score and time if current score is > than current highscore and time is > than current hightime
+		if (score > highscorePreferences.getInt("highscore", 0)) {			
+			SharedPreferences.Editor editorHighscore = highscorePreferences.edit();
+			editorHighscore.putInt("highscore", score);
+			editorHighscore.commit();
+
+			timePreferences = getContext().getSharedPreferences("hightime", 0);
+			SharedPreferences.Editor editorHightime = timePreferences.edit();
+			editorHightime.putInt("hightime", time);
+			editorHightime.commit();
+		}
+
 	}
 
 	// thread and surface

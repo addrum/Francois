@@ -18,7 +18,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#000000"
         android:textSize="35sp" />
-    
+
     <Button
         android:id="@+id/settingsButton"
         android:layout_width="175dp"
@@ -36,11 +36,22 @@
         style="@style/ButtonText"
         android:layout_width="175dp"
         android:layout_height="50dp"
-        android:layout_above="@+id/settingsButton"
+        android:layout_above="@+id/highscoresButton"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="45dp"
         android:background="@drawable/bluebutton"
         android:gravity="center"
         android:text="@string/play" />
+
+    <Button
+        android:id="@+id/highscoresButton"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/settingsButton"
+        android:layout_alignLeft="@+id/settingsButton"
+        android:background="#F7F7F7"
+        android:gravity="center"
+        android:text="@string/highscores"
+        android:textColor="@drawable/textcolour" />
 
 </RelativeLayout>

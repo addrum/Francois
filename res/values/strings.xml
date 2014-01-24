@@ -11,7 +11,9 @@
     <string name="lilac">Lilac</string>
     <string name="red">Red</string>
     <string name="teal">Teal</string>
-    <string name="score">Score: </string>
-    <string name="time">Time: </string>
+    <string name="score">Score:</string>
+    <string name="time">Time:</string>
+    <string name="highscores">Highscores</string>
+    <string name="highscoreValue">Highscore:</string>
     
 </resources>

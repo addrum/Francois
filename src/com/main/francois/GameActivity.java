@@ -3,7 +3,6 @@ package com.main.francois;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -32,6 +31,9 @@ public class GameActivity extends Activity {
 	private Display display;
 	private Point size;
 	private int screenHeight, screenWidth;
+	private Animation slideDownIn;
+	private LinearLayout topBar;
+	private FrameLayout view;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,8 +50,8 @@ public class GameActivity extends Activity {
 		gameLogic = new GameLogic(this);
 
 		// get id's
-		FrameLayout view = (FrameLayout) findViewById(R.id.surfaceView);
-		LinearLayout topBar = (LinearLayout) findViewById(R.id.topBar);
+		view = (FrameLayout) findViewById(R.id.surfaceView);
+		topBar = (LinearLayout) findViewById(R.id.topBar);
 		scoreText = (TextView) findViewById(R.id.scoreText);
 		timeText = (TextView) findViewById(R.id.timeText);
 
@@ -59,7 +61,7 @@ public class GameActivity extends Activity {
 		timeText.setTypeface(exo2);
 
 		// set animations
-		Animation slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		topBar.startAnimation(slideDownIn);
 		view.addView(gameLogic);
 

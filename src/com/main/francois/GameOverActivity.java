@@ -18,8 +18,10 @@ import android.widget.TextView;
 public class GameOverActivity extends Activity {
 
 	private Button playAgainButton, settingsButton;
-	private TextView gameOver, scoreText, scoreValue, timeText, timeValue;
-	private int score, time;
+	private TextView gameOver, scoreText, scoreValue, timeText, timeValue, highscoreText, highscoreValue;
+	private int score, time, highscore;
+	private Animation slideUpIn, slideDownIn;
+	private SharedPreferences scorePreferences, timePreferences, highscorePreferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,9 @@ public class GameOverActivity extends Activity {
 		scoreValue = (TextView) findViewById(R.id.scoreValue);
 		timeText = (TextView) findViewById(R.id.timeText);
 		timeValue = (TextView) findViewById(R.id.timeValue);
-		
+		highscoreText = (TextView) findViewById(R.id.highscoreText);
+		highscoreValue = (TextView) findViewById(R.id.highscoreValue);
+
 		// set font
 		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
 		playAgainButton.setTypeface(exo2);
@@ -51,17 +55,19 @@ public class GameOverActivity extends Activity {
 		scoreValue.setTypeface(exo2);
 		timeText.setTypeface(exo2);
 		timeValue.setTypeface(exo2);
-		
+		highscoreText.setTypeface(exo2);
+		highscoreValue.setTypeface(exo2);
+
 		// set animations
-		Animation slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
-		Animation slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
+		slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		playAgainButton.startAnimation(slideUpIn);
 		settingsButton.startAnimation(slideUpIn);
 		gameOver.startAnimation(slideDownIn);
-		
+
 		// get score
 		load();
-		
+
 		// button listeners
 		playAgainButton.setOnClickListener(new OnClickListener() {
 
@@ -74,7 +80,7 @@ public class GameOverActivity extends Activity {
 			}
 
 		});
-		
+
 		settingsButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -86,19 +92,27 @@ public class GameOverActivity extends Activity {
 			}
 
 		});
-		
+
 	}
 
 	// load score from last session
 	private void load() {
-		SharedPreferences scorePreferences = getSharedPreferences("score", 0);
+		// get score and set text field
+		scorePreferences = getSharedPreferences("score", 0);		
 		score = scorePreferences.getInt("score", 0);
 		scoreValue.setText(Integer.toString(score));
-		SharedPreferences timePreferences = getSharedPreferences("time", 0);
+		
+		// get time and set text field
+		timePreferences = getSharedPreferences("time", 0);
 		time = timePreferences.getInt("time", 0);
-		timeValue.setText(Integer.toString(time) + "seconds");
+		timeValue.setText(Integer.toString(time) + " seconds");
+		
+		// get highscore and set text field
+		highscorePreferences = getSharedPreferences("highscore", 0);
+		highscore = highscorePreferences.getInt("highscore", 0);
+		highscoreValue.setText(Integer.toString(highscore));
 	}
-	
+
 	// handle hardware back button
 	@Override
 	public void onBackPressed() {
@@ -106,7 +120,6 @@ public class GameOverActivity extends Activity {
 		GameOverActivity.this.startActivity(mainScreenActivityIntent);
 		overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
 		finish();
-		super.onBackPressed();
 	}
 
 }

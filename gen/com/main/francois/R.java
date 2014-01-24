@@ -14,7 +14,8 @@ public final class R {
         public static final int infrombottom=0x7f040002;
         public static final int infromtop=0x7f040003;
         public static final int lefttocenter=0x7f040004;
-        public static final int righttocenter=0x7f040005;
+        public static final int outtotop=0x7f040005;
+        public static final int righttocenter=0x7f040006;
     }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
@@ -31,46 +32,56 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class drawable {
         public static final int bluebutton=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int player=0x7f020002;
-        public static final int textcolour=0x7f020003;
-        public static final int weight_blank=0x7f020004;
-        public static final int weight_l=0x7f020005;
-        public static final int weight_m=0x7f020006;
-        public static final int weight_s=0x7f020007;
+        public static final int border=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
+        public static final int player=0x7f020003;
+        public static final int textcolour=0x7f020004;
+        public static final int weight_blank=0x7f020005;
+        public static final int weight_l=0x7f020006;
+        public static final int weight_m=0x7f020007;
+        public static final int weight_s=0x7f020008;
     }
     public static final class id {
         public static final int canvas=0x7f080000;
-        public static final int colourPicker=0x7f080010;
+        public static final int colourPicker=0x7f080016;
         public static final int gameOver=0x7f080005;
-        public static final int linearLayout2=0x7f08000f;
-        public static final int linearLayoutH1=0x7f080008;
-        public static final int linearLayoutH2=0x7f08000a;
+        public static final int highscore=0x7f08000c;
+        public static final int highscore1=0x7f08000f;
+        public static final int highscoreText=0x7f08000b;
+        public static final int highscoreValue=0x7f08000a;
+        public static final int highscoresButton=0x7f080013;
+        public static final int linearLayout2=0x7f080015;
+        public static final int linearLayoutH1=0x7f08000d;
+        public static final int linearLayoutH2=0x7f08000e;
         public static final int playAgainButton=0x7f080007;
-        public static final int playButton=0x7f08000d;
-        public static final int radioLilac=0x7f080012;
-        public static final int radioOrange=0x7f080011;
-        public static final int radioRed=0x7f080013;
-        public static final int radioTeal=0x7f080014;
+        public static final int playButton=0x7f080012;
+        public static final int radioLilac=0x7f080018;
+        public static final int radioOrange=0x7f080017;
+        public static final int radioRed=0x7f080019;
+        public static final int radioTeal=0x7f08001a;
         public static final int scoreText=0x7f080003;
-        public static final int scoreValue=0x7f080009;
-        public static final int settings=0x7f08000e;
+        public static final int scoreValue=0x7f080008;
+        public static final int settings=0x7f080014;
         public static final int settingsButton=0x7f080006;
         public static final int surfaceView=0x7f080001;
+        public static final int time1=0x7f080010;
         public static final int timeText=0x7f080004;
-        public static final int timeValue=0x7f08000b;
-        public static final int title=0x7f08000c;
+        public static final int timeValue=0x7f080009;
+        public static final int title=0x7f080011;
         public static final int topBar=0x7f080002;
     }
     public static final class layout {
         public static final int game=0x7f030000;
         public static final int gameover=0x7f030001;
-        public static final int mainscreen=0x7f030002;
-        public static final int settings=0x7f030003;
+        public static final int highscore=0x7f030002;
+        public static final int mainscreen=0x7f030003;
+        public static final int settings=0x7f030004;
     }
     public static final class string {
         public static final int app_name=0x7f060000;
         public static final int gameOver=0x7f060003;
+        public static final int highscoreValue=0x7f06000c;
+        public static final int highscores=0x7f06000b;
         public static final int lilac=0x7f060006;
         public static final int orange=0x7f060005;
         public static final int play=0x7f060001;
