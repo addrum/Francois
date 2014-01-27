@@ -10,8 +10,8 @@ public abstract class Weight extends Entity {
 	private int x; // the X coordinate
 	private int y; // the Y coordinate
 
-	public Weight(Bitmap bitmap, int x, int y) {
-		super(bitmap, x, y);
+	public Weight(Bitmap bitmap, int spawnX, int y) {
+		super(bitmap, spawnX, y);
 	}
 	
 	// updates the weight's internal state every tick

@@ -18,5 +18,7 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="lastScore">Last Score:</string>
+    <string name="helpText">Avoid the rocks that fall from above and collect powerups to help you out. Simple! Have fun!</string>
+    <string name="help">Help</string>
     
 </resources>

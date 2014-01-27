@@ -7,10 +7,12 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -25,15 +27,16 @@ public class GameActivity extends Activity {
 
 	public static Handler handler;
 	private static final String TAG = GameActivity.class.getSimpleName();
-	private GameLogic gameLogic;
-	private TextView scoreText, timeText;
+
 	private WindowManager wm;
 	private Display display;
 	private Point size;
-	private int screenHeight, screenWidth;
+	private GameLogic gameLogic;
 	private Animation slideDownIn;
 	private LinearLayout topBar;
 	private FrameLayout view;
+	private TextView scoreText, timeText, countdownText;
+	private int screenHeight, screenWidth;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,15 +57,19 @@ public class GameActivity extends Activity {
 		topBar = (LinearLayout) findViewById(R.id.topBar);
 		scoreText = (TextView) findViewById(R.id.scoreText);
 		timeText = (TextView) findViewById(R.id.timeText);
+		countdownText = (TextView) findViewById(R.id.countdownText);
 
 		// set font
 		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
 		scoreText.setTypeface(exo2);
 		timeText.setTypeface(exo2);
+		countdownText.setTypeface(exo2);
 
 		// set animations
 		slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		topBar.startAnimation(slideDownIn);
+
+		// add the view to display on screen and run game logic
 		view.addView(gameLogic);
 
 		// get screen size
@@ -77,6 +84,8 @@ public class GameActivity extends Activity {
 		scoreText.setPadding((screenWidth / 100 * 2), (screenHeight / 100 * 2), (screenWidth / 100 * 2), (screenHeight / 100 * 2));
 		timeText.setPadding((screenWidth / 100 * 2), (screenHeight / 100 * 2), (screenWidth / 100 * 2), (screenHeight / 100 * 2));
 
+		startTimer();
+
 		handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
@@ -85,6 +94,23 @@ public class GameActivity extends Activity {
 			}
 		};
 
+	}
+
+	public void startTimer() {
+		new CountDownTimer(3500, 500) {
+
+			public void onTick(long millisUntilFinished) {
+				if (millisUntilFinished / 1000 == 0) {
+					countdownText.setText("GO");
+				} else {
+					countdownText.setText("" + millisUntilFinished / 1000);
+				}
+			}
+
+			public void onFinish() {
+				countdownText.setVisibility(View.GONE);
+			}
+		}.start();
 	}
 
 	// handle hardware back button

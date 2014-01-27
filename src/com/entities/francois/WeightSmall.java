@@ -14,10 +14,10 @@ public class WeightSmall extends Weight {
 	private float yv; // velocity value on the Y axis
 	private static int onScreen;
 	
-	public WeightSmall(Bitmap bitmap, int x, int y) {
-		super(bitmap, x, y);
+	public WeightSmall(Bitmap bitmap, int spawnX, int y) {
+		super(bitmap, spawnX, y);
 		WeightSmall.bitmap = bitmap;
-		this.x = x;
+		this.x = spawnX;
 		this.y = y;
 		this.yv = 10;
 		setWidth(bitmap.getWidth());

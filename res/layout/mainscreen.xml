@@ -20,12 +20,23 @@
         android:textSize="35sp" />
 
     <Button
-        android:id="@+id/settingsButton"
+        android:id="@+id/helpButton"
         android:layout_width="175dp"
         android:layout_height="50dp"
         android:layout_alignLeft="@+id/playButton"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
+        android:background="#F7F7F7"
+        android:gravity="center"
+        android:text="@string/help"
+        android:textColor="@drawable/textcolour" />
+
+    <Button
+        android:id="@+id/settingsButton"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/helpButton"
+        android:layout_alignLeft="@+id/helpButton"
         android:background="#F7F7F7"
         android:gravity="center"
         android:text="@string/settings"

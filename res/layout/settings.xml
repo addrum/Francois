@@ -69,26 +69,15 @@
         android:textColor="#000000"
         android:textSize="30sp" />
 
-    <LinearLayout
-        android:id="@+id/bottomBar"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+    <Button
+        android:id="@+id/saveButton"
+        style="@style/ButtonText"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:background="#F7F7F7"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bluebutton"
         android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="3dp" >
-
-        <Button
-            android:id="@+id/saveButton"
-            style="@style/ButtonText"
-            android:layout_width="175dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/bluebutton"
-            android:gravity="center"
-            android:text="@string/save" />
-    </LinearLayout>
+        android:text="@string/save" />
 
 </RelativeLayout>

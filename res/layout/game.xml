@@ -14,10 +14,10 @@
     </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/topBar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/topBar" >
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/scoreText"
@@ -27,11 +27,9 @@
             android:background="#F7F7F7"
             android:ems="10"
             android:gravity="center"
-            android:inputType="none"
             android:paddingLeft="5dp"
             android:textColor="#000000"
-            android:textSize="20sp"
-            android:windowSoftInputMode="stateHidden" >
+            android:textSize="20sp" >
         </TextView>
 
         <TextView
@@ -42,12 +40,23 @@
             android:background="#F7F7F7"
             android:ems="10"
             android:gravity="center"
-            android:inputType="none"
             android:paddingLeft="5dp"
             android:textColor="#000000"
-            android:textSize="20sp"
-            android:windowSoftInputMode="stateHidden" >
+            android:textSize="20sp" >
         </TextView>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/countdownText"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:background="#FFFFFF"
+        android:ems="10"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:textColor="#000000"
+        android:textSize="40sp" >
+    </TextView>
 
 </FrameLayout>

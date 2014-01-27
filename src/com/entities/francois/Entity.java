@@ -6,7 +6,7 @@ import android.graphics.Rect;
 
 public abstract class Entity {
 
-	public Entity(Bitmap bitmap, int x, int y) {
+	public Entity(Bitmap bitmap, int spawnX, int y) {
 	}
 
 	// draws the sprite to the screen
