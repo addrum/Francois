@@ -140,7 +140,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		Weight[] weightArray = weights.toArray(new Weight[0]);
 		for (Weight weight : weightArray) {
 			weight.update();
-			if (weight.getBounds().intersect(player.getBounds())) {
+			if (CollisionUtil.isCollisionDetected(weight.getBitmap(), weight.getX(), weight.getY(), player.getBitmap(), player.getX(), player.getY())) {
 				Intent gameOverIntent = new Intent(this.getContext(), GameOverActivity.class);
 				gameOverIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				this.getContext().startActivity(gameOverIntent);
