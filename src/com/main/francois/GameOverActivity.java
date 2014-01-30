@@ -1,5 +1,8 @@
 package com.main.francois;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,9 +11,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -24,9 +27,12 @@ public class GameOverActivity extends Activity {
 	private RelativeLayout mainLayout;
 	private Button playAgainButton, settingsButton;
 	private TextView gameOver, scoreText, scoreValue, highscoreText, highscoreValue;
-	private int score, highscore;
+	private int score, highscore, incrementScore;
+	private int delay = 0;
+	private int period = 20;
 	private Animation slideUpIn, slideDownIn, fadeIn;
 	private SharedPreferences scorePreferences, highscorePreferences, themePreferences;
+	private Timer timer = new Timer();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +114,7 @@ public class GameOverActivity extends Activity {
 		// get score and set text field
 		scorePreferences = getSharedPreferences("score", 0);
 		score = scorePreferences.getInt("score", 0);
-		scoreValue.setText(Integer.toString(score));
+		scoreValue.setText(String.valueOf(score));
 
 		// get highscore and set text field
 		highscorePreferences = getSharedPreferences("highscore", 0);
@@ -127,6 +133,7 @@ public class GameOverActivity extends Activity {
 			scoreText.setTextColor(Color.WHITE);
 			scoreValue.setTextColor(Color.WHITE);
 		}
+
 	}
 
 	// handle hardware back button

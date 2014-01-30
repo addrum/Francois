@@ -82,6 +82,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int app_name=0x7f060000;
         public static final int clear=0x7f06000d;
         public static final int dark=0x7f06000a;
+        public static final int exit=0x7f060014;
         public static final int gameOver=0x7f060003;
         public static final int help=0x7f060012;
         public static final int helpText=0x7f060011;
@@ -90,8 +91,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int lastScore=0x7f060010;
         public static final int light=0x7f06000b;
         public static final int no=0x7f06000f;
+        public static final int paused=0x7f060015;
         public static final int play=0x7f060001;
         public static final int playAgain=0x7f060002;
+        public static final int resume=0x7f060013;
         public static final int save=0x7f06000c;
         public static final int score=0x7f060005;
         public static final int settings=0x7f060004;

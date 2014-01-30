@@ -1,7 +1,9 @@
 package com.main.francois;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
@@ -36,7 +38,8 @@ public class GameActivity extends Activity {
 	private LinearLayout topBar;
 	private FrameLayout view;
 	private TextView scoreText, timeText, countdownText;
-	private int screenHeight, screenWidth;
+	private CountDownTimer goTimer;
+	private int screenHeight, screenWidth, score, time;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -84,20 +87,22 @@ public class GameActivity extends Activity {
 		scoreText.setPadding((screenWidth / 100 * 2), (screenHeight / 100 * 2), (screenWidth / 100 * 2), (screenHeight / 100 * 2));
 		timeText.setPadding((screenWidth / 100 * 2), (screenHeight / 100 * 2), (screenWidth / 100 * 2), (screenHeight / 100 * 2));
 
-		startTimer();
+		goTimer();
 
 		handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
 				scoreText.setText("Score: " + String.valueOf(msg.arg1));
+				score = msg.arg1;
 				timeText.setText("Time: " + String.valueOf(msg.arg2));
+				time = msg.arg2;
 			}
 		};
 
 	}
 
-	public void startTimer() {
-		new CountDownTimer(3500, 500) {
+	public void goTimer() {
+		goTimer = new CountDownTimer(3500, 500) {
 
 			public void onTick(long millisUntilFinished) {
 				if (millisUntilFinished / 1000 == 0) {
@@ -109,6 +114,7 @@ public class GameActivity extends Activity {
 
 			public void onFinish() {
 				countdownText.setVisibility(View.GONE);
+				gameLogic.setPaused(false);
 			}
 		}.start();
 	}
@@ -116,16 +122,36 @@ public class GameActivity extends Activity {
 	// handle hardware back button
 	@Override
 	public void onBackPressed() {
-		Intent mainScreenActivityIntent = new Intent(GameActivity.this, MainScreenActivity.class);
-		startActivity(mainScreenActivityIntent);
-		overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
-		finish();
+		if (gameLogic.getReady()) {
+			gameLogic.setPaused(true);
+			new AlertDialog.Builder(this).setTitle("Paused").setPositiveButton(R.string.resume, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.cancel();
+					gameLogic.setPaused(false);
+				}
+			}).setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					Intent mainScreenActivityIntent = new Intent(GameActivity.this, MainScreenActivity.class);
+					startActivity(mainScreenActivityIntent);
+					overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
+					finish();
+				}
+			}).show().setOnCancelListener(new DialogInterface.OnCancelListener() {
+				@Override
+				public void onCancel(DialogInterface dialog) {
+					gameLogic.setPaused(false);
+				}
+			});
+		}
 	}
 
 	@Override
 	protected void onDestroy() {
 		Log.d(TAG, "Destroying...");
 		super.onDestroy();
+		gameLogic.setPaused(true);
+		gameLogic.getStartTimer().cancel();
+		gameLogic.save(score, time);
 	}
 
 	@Override
@@ -137,12 +163,18 @@ public class GameActivity extends Activity {
 	@Override
 	public void onPause() {
 		super.onPause();
+		gameLogic.setPaused(true);
+		gameLogic.getStartTimer().cancel();
+		gameLogic.save(score, time);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		getIntent();
+		if (gameLogic.getPaused()) {
+			countdownText.setVisibility(View.VISIBLE);
+			goTimer.start();
+		}
 	}
 
 }

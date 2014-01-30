@@ -92,7 +92,7 @@ public class GameThread extends Thread {
 		this.running = running;
 	}
 	
-	public boolean getRunning() {
+	public boolean isRunning() {
 		return running;
 	}
 

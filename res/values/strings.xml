@@ -10,7 +10,7 @@
     <string name="time">Time:</string>
     <string name="highscores">Highscores</string>
     <string name="highscoreValue">Highscore:</string>
-    <string name="theme">Theme</string>
+    <string name="theme">UI Theme</string>
     <string name="dark">Dark</string>
     <string name="light">Light</string>
     <string name="save">Save</string>
@@ -20,5 +20,8 @@
     <string name="lastScore">Last Score:</string>
     <string name="helpText">Avoid the rocks that fall from above and collect powerups to help you out. Simple! Have fun!</string>
     <string name="help">Help</string>
+    <string name="resume">Resume</string>
+    <string name="exit">Exit</string>
+    <string name="paused">Paused</string>
     
 </resources>
