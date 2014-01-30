@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:configChanges="keyboardHidden|orientation|screenSize"
     android:screenOrientation="portrait"
-    tools:context=".GameActivity" >
+    tools:context=".GameActivity"
+    android:background="#FFFFFF" >
 
     <FrameLayout
         android:id="@+id/surfaceView"

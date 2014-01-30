@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
@@ -14,17 +15,20 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class SettingsActivity extends Activity {
 
+	private RelativeLayout mainLayout;
 	private TextView title, clearText, themeText;
 	private ToggleButton clearButton, themeButton;
 	private Button save;
 	private Animation slideDownIn, slideUpIn;
 	private boolean clear = false;
-	private SharedPreferences sharedPrefences;
+	private boolean theme = false;
+	private SharedPreferences sharedPrefences, themePreferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,7 @@ public class SettingsActivity extends Activity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// get id's
+		mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
 		title = (TextView) findViewById(R.id.settings);
 		clearText = (TextView) findViewById(R.id.clear);
 		clearButton = (ToggleButton) findViewById(R.id.clearButton);
@@ -61,6 +66,8 @@ public class SettingsActivity extends Activity {
 		title.startAnimation(slideDownIn);
 		save.startAnimation(slideUpIn);
 
+		load();
+		
 		// button listeners
 		save.setOnClickListener(new OnClickListener() {
 
@@ -77,11 +84,26 @@ public class SettingsActivity extends Activity {
 					sharedPrefences = getSharedPreferences("highscore", 0);
 					SharedPreferences.Editor editorHighscore = sharedPrefences.edit();
 					editorHighscore.putInt("highscore", 0);
-					
+
 					// commit all changes
 					editorScore.commit();
 					editorHighscore.commit();
 				}
+
+				if (theme) {
+					// save theme prefs
+					sharedPrefences = getSharedPreferences("theme", 0);
+					SharedPreferences.Editor editor = sharedPrefences.edit();
+					editor.putBoolean("theme", true);
+					editor.commit();
+				} else {
+					// save theme prefs
+					sharedPrefences = getSharedPreferences("theme", 0);
+					SharedPreferences.Editor editor = sharedPrefences.edit();
+					editor.putBoolean("theme", false);
+					editor.commit();
+				}
+
 				Intent mainScreenActivityIntent = new Intent(SettingsActivity.this, MainScreenActivity.class);
 				SettingsActivity.this.startActivity(mainScreenActivityIntent);
 				overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
@@ -102,7 +124,33 @@ public class SettingsActivity extends Activity {
 			}
 
 		});
+		themeButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (isChecked) {
+					theme = true;
+				} else {
+					theme = false;
+				}
+			}
+		});
+
+	}
+
+	public void load() {
+		// get theme prefs
+		themePreferences = getSharedPreferences("theme", 0);
+		boolean theme = themePreferences.getBoolean("theme", false);
+		if (theme == true) {
+			mainLayout.setBackgroundColor(Color.BLACK);
+			clearText.setTextColor(Color.WHITE);
+			clearText.setBackgroundColor(Color.BLACK);
+			clearButton.setBackgroundColor(Color.BLACK);
+			themeText.setTextColor(Color.WHITE);
+			themeText.setBackgroundColor(Color.BLACK);
+			themeButton.setBackgroundColor(Color.BLACK);
+		}
 	}
 
 	@Override

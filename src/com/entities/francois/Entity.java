@@ -2,20 +2,20 @@ package com.entities.francois;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 
-public abstract class Entity {
-
-	public Entity(Bitmap bitmap, int spawnX, int y) {
-	}
+public interface Entity {
 
 	// draws the sprite to the screen
 	public abstract void draw(Canvas canvas);
+	
+	// update the sprite's positions
+	public abstract void update();
+	
+	// moves the sprite offscreen
+	public abstract void destroy();
+	
 	//---------------------------------------------------------------//
 	// getters and setters
-
-	// get the bounds of the sprite
-	public abstract Rect getBounds();
 
 	public abstract Bitmap getBitmap();
 

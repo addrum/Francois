@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
@@ -15,16 +16,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainScreenActivity extends Activity {
 
+	private RelativeLayout mainLayout;
 	private Button playButton, settingsButton, helpButton;
 	private TextView title, highscoreText, highscoreValue, lastScoreText, lastScoreValue;
 	private long lastPress;
 	private int lastScore, highscore;
-	private SharedPreferences scorePreferences, highscorePreferences;
+	private SharedPreferences scorePreferences, highscorePreferences, themePreferences;
 	private Animation slideUpIn, slideDownIn, fadeIn;
 
 	@Override
@@ -40,6 +43,7 @@ public class MainScreenActivity extends Activity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// get id's
+		mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
 		playButton = (Button) findViewById(R.id.playButton);
 		settingsButton = (Button) findViewById(R.id.settingsButton);
 		helpButton = (Button) findViewById(R.id.helpButton);
@@ -131,6 +135,23 @@ public class MainScreenActivity extends Activity {
 			highscoreValue.setText("No score set.");
 		} else {
 			highscoreValue.setText(Integer.toString(highscore));
+		}
+
+		// get theme prefs
+		themePreferences = getSharedPreferences("theme", 0);
+		boolean theme = themePreferences.getBoolean("theme", false);
+		if (theme == true) {
+			mainLayout.setBackgroundColor(Color.BLACK);
+			settingsButton.setBackgroundColor(Color.BLACK);
+			settingsButton.setTextColor(Color.WHITE);
+			helpButton.setBackgroundColor(Color.BLACK);
+			helpButton.setTextColor(Color.WHITE);
+			title.setBackgroundColor(Color.BLACK);
+			title.setTextColor(Color.WHITE);
+			highscoreText.setTextColor(Color.WHITE);
+			highscoreValue.setTextColor(Color.WHITE);
+			lastScoreText.setTextColor(Color.WHITE);
+			lastScoreValue.setTextColor(Color.WHITE);
 		}
 	}
 

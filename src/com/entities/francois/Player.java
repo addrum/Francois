@@ -2,9 +2,8 @@ package com.entities.francois;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 
-public class Player extends Entity {
+public class Player implements Entity {
 
 	private boolean touched; // if player is touched/picked up
 	private Bitmap bitmap; // the actual bitmap
@@ -13,7 +12,6 @@ public class Player extends Entity {
 	private int width, height;
 
 	public Player(Bitmap bitmap, int x, int y) {
-		super(bitmap, x, y);
 		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
@@ -22,7 +20,7 @@ public class Player extends Entity {
 	}
 
 	// handles the player being touched (hehe)
-	public void handleActionDown(int eventX, int eventY) {
+	public synchronized void handleActionDown(int eventX, int eventY) {
 		if (eventX >= (getX() - getBitmap().getWidth() / 2) && (eventX <= (getX() + getBitmap().getWidth() / 2))) {
 			if (eventY >= (getY() - getBitmap().getHeight() / 2) && (getY() <= (getY() + getBitmap().getHeight() / 2))) {
 				// player touched
@@ -37,64 +35,70 @@ public class Player extends Entity {
 	}
 
 	// draws the sprite to the screen
-	public void draw(Canvas canvas) {
+	public synchronized void draw(Canvas canvas) {
 		canvas.drawBitmap(bitmap, x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), null);
+	}
+	
+	@Override
+	public synchronized void destroy() {
+		setY(2000);
 	}
 
 	//---------------------------------------------------------------//
 	// getters and setters
 
-	// get the bounds of the sprite
-	public Rect getBounds() {
-		return new Rect(x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), x + (bitmap.getWidth() / 2), y + (bitmap.getHeight() / 2));
-	}
-
-	public Bitmap getBitmap() {
+	public synchronized Bitmap getBitmap() {
 		return bitmap;
 	}
 
-	public void setBitmap(Bitmap bitmap) {
+	public synchronized void setBitmap(Bitmap bitmap) {
 		this.bitmap = bitmap;
 	}
 
-	public int getX() {
+	public synchronized int getX() {
 		return x;
 	}
 
-	public void setX(int x) {
+	public synchronized void setX(int x) {
 		this.x = x;
 	}
 
-	public int getY() {
+	public synchronized int getY() {
 		return y;
 	}
 
-	public void setY(int y) {
+	public synchronized void setY(int y) {
 		this.y = y;
 	}
 
-	public int getWidth() {
+	public synchronized int getWidth() {
 		return width;
 	}
 
-	public void setWidth(int width) {
+	public synchronized void setWidth(int width) {
 		this.width = width;
 	}
 
-	public int getHeight() {
+	public synchronized int getHeight() {
 		return height;
 	}
 
-	public void setHeight(int height) {
+	public synchronized void setHeight(int height) {
 		this.height = height;
 	}
 
-	public boolean isTouched() {
+	public synchronized boolean isTouched() {
 		return touched;
 	}
 
-	public void setTouched(boolean touched) {
+	public synchronized void setTouched(boolean touched) {
 		this.touched = touched;
 	}
 
+	@Override
+	public synchronized void update() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

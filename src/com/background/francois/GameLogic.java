@@ -23,11 +23,12 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
+import com.entities.francois.Entity;
 import com.entities.francois.Player;
-import com.entities.francois.Weight;
-import com.entities.francois.WeightLarge;
-import com.entities.francois.WeightMedium;
-import com.entities.francois.WeightSmall;
+import com.entities.items.francois.ScoreBoost;
+import com.entities.weight.francois.WeightLarge;
+import com.entities.weight.francois.WeightMedium;
+import com.entities.weight.francois.WeightSmall;
 import com.main.francois.GameActivity;
 import com.main.francois.GameOverActivity;
 import com.main.francois.R;
@@ -39,18 +40,21 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	private WindowManager wm;
 	private Display display;
 	private Point size;
-	private MainThread thread;
+	private GameThread thread;
 	private Player player;
-	private ArrayList<Weight> weights = new ArrayList<Weight>();
+	private ArrayList<Entity> weights = new ArrayList<Entity>();
+	private ArrayList<Entity> items = new ArrayList<Entity>();
 	private boolean ready = false;
 	private int screenHeight, screenWidth;
-	private int score, delay, time = 0;
+	private int score, smallRockDelay, time = 0;
 	private int mediumRockDelay = 15000;
 	private int largeRockDelay = 30000;
-	private int period = 20;
+	private int scoreBoostDelay = 10000;
+	private int scorePeriod = 20;
 	private int smallRockPeriod = 1000;
 	private int mediumRockPeriod = 4500;
 	private int largeRockPeriod = 10000;
+	private int scoreBoostPeriod = 10000;
 	private int second = 1000;
 	private Timer timer = new Timer();
 	private SharedPreferences scorePreferences, highscorePreferences;
@@ -62,7 +66,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		getHolder().addCallback(this);
 
 		// create the game loop thread
-		thread = new MainThread(getHolder(), this);
+		thread = new GameThread(getHolder(), this);
 
 		// make the GamePanel focusable so it can handle events
 		setFocusable(true);
@@ -122,24 +126,39 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 
 	public void render(Canvas canvas) {
 		if (canvas != null) {
+			// draw canvas color, player, items and weights
 			canvas.drawColor(Color.WHITE);
 			player.draw(canvas);
+
+			// draws items to screen
+			Entity[] itemArray = items.toArray(new Entity[0]);
+			for (Entity items : itemArray) {
+				items.draw(canvas);
+			}
+
+			// draws weights to screen
+			Entity[] weightArray = weights.toArray(new Entity[0]);
+			for (Entity weight : weightArray) {
+				weight.draw(canvas);
+			}
+
+			// post score and time to UI
 			Message message = Message.obtain();
 			message.arg1 = score;
 			message.arg2 = time;
 			GameActivity.handler.sendMessage(message);
-			Weight[] weightArray = weights.toArray(new Weight[0]);
-			for (Weight weight : weightArray) {
-				weight.draw(canvas);
-			}
 		}
 	}
 
 	// updates the weights position on the screen and checks collision with the player
 	public void update() {
-		Weight[] weightArray = weights.toArray(new Weight[0]);
-		for (Weight weight : weightArray) {
+
+		// updates all weight's positions
+		Entity[] weightArray = weights.toArray(new Entity[0]);
+		for (Entity weight : weightArray) {
 			weight.update();
+
+			// handles game over circumstances
 			if (CollisionUtil.isCollisionDetected(weight.getBitmap(), weight.getX(), weight.getY(), player.getBitmap(), player.getX(), player.getY())) {
 				Intent gameOverIntent = new Intent(this.getContext(), GameOverActivity.class);
 				gameOverIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -148,6 +167,18 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 				timer.cancel();
 				player.setTouched(false);
 				save(score, time);
+			}
+		}
+
+		// updates all item's positions
+		Entity[] itemArray = items.toArray(new Entity[0]);
+		for (Entity items : itemArray) {
+			items.update();
+
+			// handles score boost circumstances
+			if (CollisionUtil.isCollisionDetected(items.getBitmap(), items.getX(), items.getY(), player.getBitmap(), player.getX(), player.getY())) {
+				items.destroy();
+				score += 500;
 			}
 		}
 	}
@@ -167,23 +198,50 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 				largeWeightTimer();
 				scoreTimer();
 				time();
+				scoreBoostTimer();
 			}
 		}.start();
+	}
+
+	public void scoreBoostTimer() {
+		timer.scheduleAtFixedRate(new TimerTask() {
+			public void run() {
+				int spawnX = 0;
+				int chance = random.nextInt(100);
+				int chanceToSpawn = random.nextInt(100);
+				if (chanceToSpawn > 50) {
+					if (player.getX() > screenWidth / 2) {
+						if (chance > 50) {
+							spawnX = random.nextInt(screenWidth - (screenWidth / 2)) + (screenWidth / 2);
+						} else {
+							spawnX = random.nextInt((screenWidth / 2) - 0);
+						}
+					} else {
+						if (chance > 50) {
+							spawnX = random.nextInt((screenWidth / 2) - 0);
+						} else {
+							spawnX = random.nextInt(screenWidth - (screenWidth / 2)) + (screenWidth / 2);
+						}
+					}
+					items.add(new ScoreBoost(BitmapFactory.decodeResource(getResources(), R.drawable.plus500), spawnX, (int) -10));
+				}
+			}
+		}, scoreBoostDelay, scoreBoostPeriod);
 	}
 
 	public void smallWeightTimer() {
 		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				int spawnX = 0;
-				int chance = random.nextInt(10);
+				int chance = random.nextInt(100);
 				if (player.getX() > screenWidth / 2) {
-					if (chance > 3) {
+					if (chance > 45) {
 						spawnX = random.nextInt(screenWidth - (screenWidth / 2)) + (screenWidth / 2);
 					} else {
 						spawnX = random.nextInt((screenWidth / 2) - 0);
 					}
 				} else {
-					if (chance > 3) {
+					if (chance > 45) {
 						spawnX = random.nextInt((screenWidth / 2) - 0);
 					} else {
 						spawnX = random.nextInt(screenWidth - (screenWidth / 2)) + (screenWidth / 2);
@@ -191,22 +249,22 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 				}
 				weights.add(new WeightSmall(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), spawnX, -10));
 			}
-		}, delay, smallRockPeriod);
+		}, smallRockDelay, smallRockPeriod);
 	}
 
 	public void mediumWeightTimer() {
 		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				int spawnX = 0;
-				int chance = random.nextInt(10);
+				int chance = random.nextInt(100);
 				if (player.getX() > screenWidth / 2) {
-					if (chance > 4) {
+					if (chance > 50) {
 						spawnX = random.nextInt(screenWidth - (screenWidth / 2)) + (screenWidth / 2);
 					} else {
 						spawnX = random.nextInt((screenWidth / 2) - 0);
 					}
 				} else {
-					if (chance > 4) {
+					if (chance > 50) {
 						spawnX = random.nextInt((screenWidth / 2) - 0);
 					} else {
 						spawnX = random.nextInt(screenWidth - (screenWidth / 2)) + (screenWidth / 2);
@@ -221,15 +279,15 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				int spawnX = 0;
-				int chance = random.nextInt(10);
+				int chance = random.nextInt(100);
 				if (player.getX() > screenWidth / 2) {
-					if (chance > 5) {
+					if (chance > 60) {
 						spawnX = random.nextInt(screenWidth - (screenWidth / 2)) + (screenWidth / 2);
 					} else {
 						spawnX = random.nextInt((screenWidth / 2) - 0);
 					}
 				} else {
-					if (chance > 5) {
+					if (chance > 60) {
 						spawnX = random.nextInt((screenWidth / 2) - 0);
 					} else {
 						spawnX = random.nextInt(screenWidth - (screenWidth / 2)) + (screenWidth / 2);
@@ -244,13 +302,16 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				if (time > 30) {
-					mediumRockPeriod--;
-				} else if (time > 45) {
-					largeRockPeriod--;
+					if (mediumRockPeriod > 3500)
+						mediumRockPeriod -= 10;
+				}
+				if (time > 45) {
+					if (largeRockPeriod > 9000)
+						largeRockPeriod -= 10;
 				}
 				score++;
 			}
-		}, delay, period);
+		}, smallRockDelay, scorePeriod);
 	}
 
 	public void time() {
@@ -258,7 +319,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 			public void run() {
 				time++;
 			}
-		}, delay, second);
+		}, smallRockDelay, second);
 	}
 
 	// save score choice

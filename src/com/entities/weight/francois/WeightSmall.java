@@ -1,31 +1,38 @@
-package com.entities.francois;
+package com.entities.weight.francois;
+
+import com.entities.francois.Entity;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 
-public class WeightMedium extends Weight {
+public class WeightSmall implements Entity {
 
 	private static Bitmap bitmap; // the actual bitmap
 	private int x; // the X coordinate
 	private int y; // the Y coordinate
-	private int width, height;
+	private static int width;
+	private int height;
 	private float yv; // velocity value on the Y axis
 	private static int onScreen;
 	
-	public WeightMedium(Bitmap bitmap, int x, int y) {
-		super(bitmap, x, y);
-		WeightMedium.bitmap = bitmap;
-		this.x = x;
+	public WeightSmall(Bitmap bitmap, int spawnX, int y) {
+		WeightSmall.bitmap = bitmap;
+		this.x = spawnX;
 		this.y = y;
-		this.yv = 20;
+		this.yv = 10;
 		setWidth(bitmap.getWidth());
 		setHeight(bitmap.getHeight());
+		onScreen++;
 	}
 	
 	// updates the weight's internal state every tick
 	public void update() {
 		setY((int) (getY() + getYv()));
+	}
+	
+	@Override
+	public void destroy() {
+		setY(2000);
 	}
 
 	// draws the sprite to the screen
@@ -36,17 +43,12 @@ public class WeightMedium extends Weight {
 	//---------------------------------------------------------------//
 	// getters and setters
 
-	// get the bounds of the sprite
-	public Rect getBounds() {
-		return new Rect(x - (bitmap.getWidth() / 2), y - (bitmap.getHeight() / 2), x + (bitmap.getWidth() / 2), y + (bitmap.getHeight() / 2));
-	}
-
 	public Bitmap getBitmap() {
 		return bitmap;
 	}
 
 	public void setBitmap(Bitmap bitmap) {
-		WeightMedium.bitmap = bitmap;
+		WeightSmall.bitmap = bitmap;
 	}
 
 	public int getX() {
@@ -78,7 +80,7 @@ public class WeightMedium extends Weight {
 	}
 
 	public void setWidth(int width) {
-		this.width = width;
+		WeightSmall.width = width;
 	}
 
 	public int getHeight() {
@@ -89,9 +91,12 @@ public class WeightMedium extends Weight {
 		this.height = height;
 	}
 
-	@Override
 	public int getOnScreen() {
 		return onScreen;
+	}
+
+	public void setOnScreen(int onScreen) {
+		WeightSmall.onScreen = onScreen;
 	}
 
 }
