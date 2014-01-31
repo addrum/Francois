@@ -1,8 +1,5 @@
 package com.main.francois;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,12 +24,9 @@ public class GameOverActivity extends Activity {
 	private RelativeLayout mainLayout;
 	private Button playAgainButton, settingsButton;
 	private TextView gameOver, scoreText, scoreValue, highscoreText, highscoreValue;
-	private int score, highscore, incrementScore;
-	private int delay = 0;
-	private int period = 20;
+	private int score, highscore;
 	private Animation slideUpIn, slideDownIn, fadeIn;
 	private SharedPreferences scorePreferences, highscorePreferences, themePreferences;
-	private Timer timer = new Timer();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

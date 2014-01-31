@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.background.francois.GameLogic;
+import com.background.francois.GameTimers;
 
 public class GameActivity extends Activity {
 
@@ -39,7 +40,9 @@ public class GameActivity extends Activity {
 	private FrameLayout view;
 	private TextView scoreText, timeText, countdownText;
 	private CountDownTimer goTimer;
+	private GameTimers gameTimers;
 	private int screenHeight, screenWidth, score, time;
+	private boolean goTimerStarted = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +90,7 @@ public class GameActivity extends Activity {
 		scoreText.setPadding((screenWidth / 100 * 2), (screenHeight / 100 * 2), (screenWidth / 100 * 2), (screenHeight / 100 * 2));
 		timeText.setPadding((screenWidth / 100 * 2), (screenHeight / 100 * 2), (screenWidth / 100 * 2), (screenHeight / 100 * 2));
 
+		Log.d(TAG, "onCreate goTimer");
 		goTimer();
 
 		handler = new Handler() {
@@ -101,6 +105,7 @@ public class GameActivity extends Activity {
 
 	}
 
+	// 3 2 1 count down and initiates spawn timers
 	public void goTimer() {
 		goTimer = new CountDownTimer(3500, 500) {
 
@@ -122,7 +127,7 @@ public class GameActivity extends Activity {
 	// handle hardware back button
 	@Override
 	public void onBackPressed() {
-		if (gameLogic.getReady()) {
+		if (gameLogic.isReady()) {
 			gameLogic.setPaused(true);
 			new AlertDialog.Builder(this).setTitle("Paused").setPositiveButton(R.string.resume, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
@@ -146,11 +151,27 @@ public class GameActivity extends Activity {
 	}
 
 	@Override
+	public void onPause() {
+		super.onPause();
+		gameLogic.setPaused(true);
+		gameLogic.save(score, time);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (gameLogic.isPaused()) {
+			countdownText.setVisibility(View.VISIBLE);
+			Log.d(TAG, "onResume goTimer");
+			goTimer();
+		}
+	}
+
+	@Override
 	protected void onDestroy() {
 		Log.d(TAG, "Destroying...");
 		super.onDestroy();
 		gameLogic.setPaused(true);
-		gameLogic.getStartTimer().cancel();
 		gameLogic.save(score, time);
 	}
 
@@ -158,23 +179,6 @@ public class GameActivity extends Activity {
 	protected void onStop() {
 		Log.d(TAG, "Stopping...");
 		super.onStop();
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		gameLogic.setPaused(true);
-		gameLogic.getStartTimer().cancel();
-		gameLogic.save(score, time);
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		if (gameLogic.getPaused()) {
-			countdownText.setVisibility(View.VISIBLE);
-			goTimer.start();
-		}
 	}
 
 }

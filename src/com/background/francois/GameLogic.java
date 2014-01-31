@@ -3,7 +3,6 @@ package com.background.francois;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +15,6 @@ import android.graphics.Point;
 import android.os.CountDownTimer;
 import android.os.Message;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -35,8 +33,6 @@ import com.main.francois.R;
 
 public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 
-	private static final String TAG = GameLogic.class.getSimpleName();
-
 	private WindowManager wm;
 	private Display display;
 	private Point size;
@@ -44,23 +40,14 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	private Player player;
 	private ArrayList<Entity> weights = new ArrayList<Entity>();
 	private ArrayList<Entity> items = new ArrayList<Entity>();
-	private boolean ready, paused, startTimerStarted = false;
-	private int screenHeight, screenWidth;
-	private int score, smallRockDelay, time = 0;
-	private int mediumRockDelay = 15000;
-	private int largeRockDelay = 30000;
-	private int scoreBoostDelay = 10000;
-	private int scorePeriod = 20;
-	private int smallRockPeriod = 1000;
-	private int mediumRockPeriod = 4500;
-	private int largeRockPeriod = 10000;
-	private int scoreBoostPeriod = 10000;
-	private int second = 1000;
-	private int smallX, mediumX, largeX, score500X;
-	private Timer timer = new Timer();
-	private CountDownTimer startTimer, goTimer;
 	private SharedPreferences scorePreferences, highscorePreferences;
 	private Random random = new Random();
+	private GameTimers gameTimers;
+	private CountDownTimer goTimer;
+	private boolean ready, paused, goTimerStarted;
+	private int screenHeight, screenWidth;
+	private int score, time = 0;
+	private int smallX, mediumX, largeX, score500X;
 
 	public GameLogic(Context context) {
 		super(context);
@@ -80,6 +67,9 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		display.getSize(size);
 		screenHeight = size.y;
 		screenWidth = size.x;
+		
+		gameTimers = new GameTimers(this.getContext(), this);
+		goTimer = gameTimers.getGoTimer();
 
 		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player), (screenWidth / 2), (int) (screenHeight / 1.2));
 	}
@@ -100,8 +90,6 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 					if (event.getY() > getHeight() - 50) {
 						thread.setRunning(false);
 						((Activity) getContext()).finish();
-					} else {
-						Log.d(TAG, "Coords: x=" + event.getX() + ",y=" + event.getY());
 					}
 				}
 				if (event.getAction() == MotionEvent.ACTION_MOVE) {
@@ -169,7 +157,6 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 					gameOverIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					this.getContext().startActivity(gameOverIntent);
 					((Activity) this.getContext()).finish();
-					timer.cancel();
 					player.setTouched(false);
 					save(score, time);
 				}
@@ -189,91 +176,44 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
-	// initial countdown timer to stop weights from spawning in too fast at the start (3 seconds)
-	public void startTimer() {
-		startTimer = new CountDownTimer(3000, 1000) {
-
-			public void onTick(long millisUntilFinished) {
-			}
-
-			public void onFinish() {
-				ready = true;
-				// start weight spawn timers
-				smallWeightTimer();
-				mediumWeightTimer();
-				largeWeightTimer();
-				scoreTimer();
-				time();
-				scoreBoostTimer();
-			}
-		}.start();
+	public void spawnSmallWeight(int chance) {
+		checkChance("smallX", chance, 45);
+		weights.add(new WeightSmall(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), smallX, -10));
 	}
 
-	public void scoreBoostTimer() {
-		timer.scheduleAtFixedRate(new TimerTask() {
-			public void run() {
-				if (!paused) {
-					int chance = random.nextInt(100);
-					int chanceToSpawn = random.nextInt(100);
-					if (chanceToSpawn > 50) {
-						checkChance("score500X", chance, 50);
-						items.add(new ScoreBoost(BitmapFactory.decodeResource(getResources(), R.drawable.plus500), score500X, (int) -10));
-					}
-				}
-			}
-		}, scoreBoostDelay, scoreBoostPeriod);
+	public void spawnMediumWeight(int chance) {
+		checkChance("mediumX", chance, 50);
+		weights.add(new WeightMedium(BitmapFactory.decodeResource(getResources(), R.drawable.weight_m), mediumX, -10));
 	}
 
-	public void smallWeightTimer() {
-		timer.scheduleAtFixedRate(new TimerTask() {
-			public void run() {
-				if (!paused) {
-					int chance = random.nextInt(100);
-					checkChance("smallX", chance, 45);
-					weights.add(new WeightSmall(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), smallX, -10));
-				}
-			}
-		}, smallRockDelay, smallRockPeriod);
+	public void spawnLargeWeight(int chance) {
+		checkChance("largeX", chance, 60);
+		weights.add(new WeightLarge(BitmapFactory.decodeResource(getResources(), R.drawable.weight_l), largeX, -10));
 	}
 
-	public void mediumWeightTimer() {
-		timer.scheduleAtFixedRate(new TimerTask() {
-			public void run() {
-				if (!paused) {
-					int chance = random.nextInt(100);
-					checkChance("mediumX", chance, 50);
-					weights.add(new WeightMedium(BitmapFactory.decodeResource(getResources(), R.drawable.weight_m), mediumX, -10));
-				}
-			}
-		}, mediumRockDelay, mediumRockPeriod);
+	public void spawnScoreBoost(int chance) {
+		checkChance("score500X", chance, 50);
+		items.add(new ScoreBoost(BitmapFactory.decodeResource(getResources(), R.drawable.plus500), score500X, (int) -10));
 	}
 
-	public void largeWeightTimer() {
-		timer.scheduleAtFixedRate(new TimerTask() {
-			public void run() {
-				if (!paused) {
-					int chance = random.nextInt(100);
-					checkChance("largeX", chance, 60);
-					weights.add(new WeightLarge(BitmapFactory.decodeResource(getResources(), R.drawable.weight_l), largeX, -10));
-				}
-			}
-		}, largeRockDelay, largeRockPeriod);
-	}
-
-	public void checkChance(final String spawnX, final int chance, final int value) {
+	public void checkChance(String spawnX, int chance, int value) {
 		int intermediary;
 
 		if (player.getX() > screenWidth / 2) {
 			if (chance > value) {
 				intermediary = random.nextInt(screenWidth - (screenWidth / 2)) + (screenWidth / 2);
+				checkIntermediary(intermediary);
 			} else {
 				intermediary = random.nextInt(screenWidth / 2);
+				checkIntermediary(intermediary);
 			}
 		} else {
 			if (chance > value) {
 				intermediary = random.nextInt(screenWidth / 2);
+				checkIntermediary(intermediary);
 			} else {
 				intermediary = random.nextInt(screenWidth - (screenWidth / 2)) + (screenWidth / 2);
+				checkIntermediary(intermediary);
 			}
 		}
 
@@ -288,31 +228,13 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
-	public void scoreTimer() {
-		timer.scheduleAtFixedRate(new TimerTask() {
-			public void run() {
-				if (!paused) {
-					if (time > 30) {
-						if (mediumRockPeriod > 3500)
-							mediumRockPeriod -= 10;
-					}
-					if (time > 45) {
-						if (largeRockPeriod > 9000)
-							largeRockPeriod -= 10;
-					}
-					score++;
-				}
-			}
-		}, smallRockDelay, scorePeriod);
-	}
-
-	public void time() {
-		timer.scheduleAtFixedRate(new TimerTask() {
-			public void run() {
-				if (!paused)
-					time++;
-			}
-		}, smallRockDelay, second);
+	public int checkIntermediary(int intermediary) {
+		if (intermediary < 0) {
+			intermediary += (player.getWidth() / 2);
+		} else if (intermediary > screenWidth) {
+			intermediary -= (player.getWidth() / 2);
+		}
+		return intermediary;
 	}
 
 	// save score choice
@@ -336,18 +258,6 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 
 	}
 
-	public void goTimer() {
-		goTimer = new CountDownTimer(3500, 500) {
-
-			public void onTick(long millisUntilFinished) {
-			}
-
-			public void onFinish() {
-				setPaused(false);
-			}
-		}.start();
-	}
-
 	// thread and surface
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
@@ -356,32 +266,35 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 			thread.setRunning(true);
 			thread.start();
 		}
-		if (paused)
-			goTimer();		
-		if (!startTimerStarted) {			
-			// initial countdown to stop rocks spawning in before canvas is fully loaded
-			startTimer();
-			startTimerStarted = true;
+		if (!goTimerStarted) {
+			gameTimers.goTimer();
+			goTimerStarted = true;
 		}
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 		screenWidth = size.x;
-		Log.d("screenwidth", Integer.toString(screenWidth));
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		setPaused(true);
-		startTimer.cancel();
+	}
+	
+	public Player getPlayer() {
+		return player;
 	}
 
 	public int getScore() {
 		return score;
 	}
 
-	public boolean getPaused() {
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public boolean isPaused() {
 		return paused;
 	}
 
@@ -389,7 +302,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		this.paused = paused;
 	}
 
-	public boolean getReady() {
+	public boolean isReady() {
 		return ready;
 	}
 
@@ -397,12 +310,16 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		this.ready = ready;
 	}
 
-	public GameThread getThread() {
-		return thread;
+	public void setTime(int time) {
+		this.time = time;
 	}
 
-	public CountDownTimer getStartTimer() {
-		return startTimer;
+	public boolean isGoTimerStarted() {
+		return goTimerStarted;
+	}
+
+	public void setGoTimerStarted(boolean goTimerStarted) {
+		this.goTimerStarted = goTimerStarted;
 	}
 
 }
