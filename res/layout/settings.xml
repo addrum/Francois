@@ -27,35 +27,9 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/clear"
         android:background="#ffffff"
-        android:textColor="@color/togglebuttontext"
         android:textOff="@string/no"
         android:textOn="@string/yes"
         android:textSize="25sp" />
-
-    <ToggleButton
-        android:id="@+id/themeButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/theme"
-        android:background="#ffffff"
-        android:textColor="@color/togglebuttontext"
-        android:textOff="@string/light"
-        android:textOn="@string/dark"
-        android:textSize="25sp" />
-
-    <TextView
-        android:id="@+id/theme"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/clearButton"
-        android:layout_marginTop="51dp"
-        android:background="#ffffff"
-        android:gravity="center"
-        android:text="@string/theme"
-        android:textColor="#000000"
-        android:textSize="30sp" />
 
     <TextView
         android:id="@+id/clear"

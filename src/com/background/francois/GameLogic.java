@@ -23,7 +23,6 @@ import android.view.WindowManager;
 
 import com.entities.francois.Entity;
 import com.entities.francois.Player;
-import com.entities.items.francois.ScoreBoost;
 import com.entities.weight.francois.WeightLarge;
 import com.entities.weight.francois.WeightMedium;
 import com.entities.weight.francois.WeightSmall;
@@ -189,11 +188,6 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	public void spawnLargeWeight(int chance) {
 		checkChance("largeX", chance, 60);
 		weights.add(new WeightLarge(BitmapFactory.decodeResource(getResources(), R.drawable.weight_l), largeX, -10));
-	}
-
-	public void spawnScoreBoost(int chance) {
-		checkChance("score500X", chance, 50);
-		items.add(new ScoreBoost(BitmapFactory.decodeResource(getResources(), R.drawable.plus500), score500X, (int) -10));
 	}
 
 	public void checkChance(String spawnX, int chance, int value) {

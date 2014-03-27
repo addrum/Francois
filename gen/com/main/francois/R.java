@@ -8,15 +8,6 @@
 package com.main.francois;
 
 public final class R {
-    public static final class anim {
-        public static final int centertoleft=0x7f040000;
-        public static final int centertoright=0x7f040001;
-        public static final int infrombottom=0x7f040002;
-        public static final int infromtop=0x7f040003;
-        public static final int lefttocenter=0x7f040004;
-        public static final int outtotop=0x7f040005;
-        public static final int righttocenter=0x7f040006;
-    }
     public static final class attr {
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
@@ -28,96 +19,75 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int buttonBarStyle=0x7f010000;
     }
     public static final class color {
-        public static final int black_overlay=0x7f050000;
-        public static final int togglebuttontext=0x7f050001;
+        public static final int black_overlay=0x7f040000;
     }
     public static final class drawable {
         public static final int bluebutton=0x7f020000;
-        public static final int border=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int player=0x7f020003;
-        public static final int plus500=0x7f020004;
-        public static final int textcolour=0x7f020005;
-        public static final int weight_blank=0x7f020006;
-        public static final int weight_l=0x7f020007;
-        public static final int weight_m=0x7f020008;
-        public static final int weight_s=0x7f020009;
+        public static final int ic_launcher=0x7f020001;
+        public static final int player=0x7f020002;
+        public static final int weight_blank=0x7f020003;
+        public static final int weight_l=0x7f020004;
+        public static final int weight_m=0x7f020005;
+        public static final int weight_s=0x7f020006;
     }
     public static final class id {
-        public static final int canvas=0x7f080000;
-        public static final int clear=0x7f080016;
-        public static final int clearButton=0x7f080015;
-        public static final int countdownText=0x7f080005;
-        public static final int gameOver=0x7f080007;
-        public static final int help=0x7f08000d;
-        public static final int helpButton=0x7f080010;
-        public static final int helpText=0x7f08000e;
-        public static final int highscoreText=0x7f08000c;
-        public static final int highscoreValue=0x7f08000b;
-        public static final int lastScore=0x7f080012;
-        public static final int lastScoreValue=0x7f080013;
-        public static final int mainLayout=0x7f080006;
-        public static final int playAgainButton=0x7f080009;
-        public static final int playButton=0x7f080011;
-        public static final int saveButton=0x7f080019;
-        public static final int scoreText=0x7f080003;
-        public static final int scoreValue=0x7f08000a;
-        public static final int settings=0x7f080014;
-        public static final int settingsButton=0x7f080008;
-        public static final int surfaceView=0x7f080001;
-        public static final int theme=0x7f080018;
-        public static final int themeButton=0x7f080017;
-        public static final int timeText=0x7f080004;
-        public static final int title=0x7f08000f;
-        public static final int topBar=0x7f080002;
+        public static final int canvas=0x7f070000;
+        public static final int clear=0x7f070014;
+        public static final int clearButton=0x7f070013;
+        public static final int countdownText=0x7f070005;
+        public static final int gameOver=0x7f070007;
+        public static final int helpButton=0x7f07000e;
+        public static final int highscoreText=0x7f07000c;
+        public static final int highscoreValue=0x7f07000b;
+        public static final int lastScore=0x7f070010;
+        public static final int lastScoreValue=0x7f070011;
+        public static final int mainLayout=0x7f070006;
+        public static final int playAgainButton=0x7f070009;
+        public static final int playButton=0x7f07000f;
+        public static final int saveButton=0x7f070015;
+        public static final int scoreText=0x7f070003;
+        public static final int scoreValue=0x7f07000a;
+        public static final int settings=0x7f070012;
+        public static final int settingsButton=0x7f070008;
+        public static final int surfaceView=0x7f070001;
+        public static final int timeText=0x7f070004;
+        public static final int title=0x7f07000d;
+        public static final int topBar=0x7f070002;
     }
     public static final class layout {
         public static final int game=0x7f030000;
         public static final int gameover=0x7f030001;
-        public static final int help=0x7f030002;
-        public static final int mainscreen=0x7f030003;
-        public static final int settings=0x7f030004;
+        public static final int mainscreen=0x7f030002;
+        public static final int settings=0x7f030003;
     }
     public static final class string {
-        public static final int app_name=0x7f060000;
-        public static final int clear=0x7f06000d;
-        public static final int dark=0x7f06000a;
-        public static final int exit=0x7f060014;
-        public static final int gameOver=0x7f060003;
-        public static final int help=0x7f060012;
-        public static final int helpText=0x7f060011;
-        public static final int highscoreValue=0x7f060008;
-        public static final int highscores=0x7f060007;
-        public static final int lastScore=0x7f060010;
-        public static final int light=0x7f06000b;
-        public static final int no=0x7f06000f;
-        public static final int paused=0x7f060015;
-        public static final int play=0x7f060001;
-        public static final int playAgain=0x7f060002;
-        public static final int resume=0x7f060013;
-        public static final int save=0x7f06000c;
-        public static final int score=0x7f060005;
-        public static final int settings=0x7f060004;
-        public static final int theme=0x7f060009;
-        public static final int time=0x7f060006;
-        public static final int yes=0x7f06000e;
+        public static final int app_name=0x7f050000;
+        public static final int clear=0x7f050007;
+        public static final int game_over=0x7f050004;
+        public static final int help=0x7f05000a;
+        public static final int high_score=0x7f050002;
+        public static final int last_score=0x7f05000c;
+        public static final int no=0x7f050009;
+        public static final int play=0x7f05000b;
+        public static final int play_again=0x7f050003;
+        public static final int save=0x7f050006;
+        public static final int score=0x7f050001;
+        public static final int settings=0x7f050005;
+        public static final int yes=0x7f050008;
     }
     public static final class style {
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
-
         
 
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
-
     
  API 11 theme customizations can go here. 
 
@@ -127,16 +97,12 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f070000;
+        public static final int AppBaseTheme=0x7f060000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f070001;
-        public static final int ButtonBar=0x7f070003;
-        public static final int ButtonBarButton=0x7f070004;
-        public static final int ButtonText=0x7f070005;
-        public static final int FullscreenActionBarStyle=0x7f070006;
-        public static final int FullscreenTheme=0x7f070002;
+        public static final int AppTheme=0x7f060001;
+        public static final int ButtonText=0x7f060002;
     }
     public static final class styleable {
         /** 

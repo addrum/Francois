@@ -127,27 +127,6 @@ public class GameActivity extends Activity {
 	// handle hardware back button
 	@Override
 	public void onBackPressed() {
-		if (gameLogic.isReady()) {
-			gameLogic.setPaused(true);
-			new AlertDialog.Builder(this).setTitle("Paused").setPositiveButton(R.string.resume, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.cancel();
-					gameLogic.setPaused(false);
-				}
-			}).setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					Intent mainScreenActivityIntent = new Intent(GameActivity.this, MainScreenActivity.class);
-					startActivity(mainScreenActivityIntent);
-					overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
-					finish();
-				}
-			}).show().setOnCancelListener(new DialogInterface.OnCancelListener() {
-				@Override
-				public void onCancel(DialogInterface dialog) {
-					gameLogic.setPaused(false);
-				}
-			});
-		}
 	}
 
 	@Override

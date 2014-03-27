@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:background="#F7F7F7"
         android:gravity="center"
-        android:text="@string/gameOver"
+        android:text="@string/game_over"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#000000"
         android:textSize="35sp" />
@@ -31,7 +31,7 @@
         android:background="#ffffff"
         android:gravity="center"
         android:text="@string/settings"
-        android:textColor="@drawable/textcolour" />
+        android:textColor="@drawable/bluebutton" />
 
     <Button
         android:id="@+id/playAgainButton"
@@ -43,7 +43,7 @@
         android:layout_marginBottom="45dp"
         android:background="@drawable/bluebutton"
         android:gravity="center"
-        android:text="@string/playAgain" />
+        android:text="@string/play_again" />
 
     <TextView
         android:id="@+id/scoreText"
@@ -91,7 +91,7 @@
         android:layout_marginTop="50dp"
         android:ems="10"
         android:gravity="center"
-        android:text="@string/highscoreValue"
+        android:text="@string/high_score"
         android:textColor="#000000"
         android:textSize="25sp" />
 
