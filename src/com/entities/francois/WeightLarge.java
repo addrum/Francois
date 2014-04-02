@@ -1,28 +1,23 @@
-package com.entities.weight.francois;
-
-import com.entities.francois.Entity;
+package com.entities.francois;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
-public class WeightSmall implements Entity {
+public class WeightLarge implements Entity {
 
 	private static Bitmap bitmap; // the actual bitmap
 	private int x; // the X coordinate
 	private int y; // the Y coordinate
-	private static int width;
-	private int height;
+	private int width, height;
 	private float yv; // velocity value on the Y axis
-	private static int onScreen;
 	
-	public WeightSmall(Bitmap bitmap, int spawnX, int y) {
-		WeightSmall.bitmap = bitmap;
-		this.x = spawnX;
+	public WeightLarge(Bitmap bitmap, int x, int y) {
+		WeightLarge.bitmap = bitmap;
+		this.x = x;
 		this.y = y;
-		this.yv = 10;
+		this.yv = 30;
 		setWidth(bitmap.getWidth());
 		setHeight(bitmap.getHeight());
-		onScreen++;
 	}
 	
 	// updates the weight's internal state every tick
@@ -48,7 +43,7 @@ public class WeightSmall implements Entity {
 	}
 
 	public void setBitmap(Bitmap bitmap) {
-		WeightSmall.bitmap = bitmap;
+		WeightLarge.bitmap = bitmap;
 	}
 
 	public int getX() {
@@ -80,7 +75,7 @@ public class WeightSmall implements Entity {
 	}
 
 	public void setWidth(int width) {
-		WeightSmall.width = width;
+		this.width = width;
 	}
 
 	public int getHeight() {
@@ -89,14 +84,6 @@ public class WeightSmall implements Entity {
 
 	public void setHeight(int height) {
 		this.height = height;
-	}
-
-	public int getOnScreen() {
-		return onScreen;
-	}
-
-	public void setOnScreen(int onScreen) {
-		WeightSmall.onScreen = onScreen;
 	}
 
 }

@@ -61,14 +61,14 @@ public class GameOverActivity extends Activity {
 		highscoreValue.setTypeface(exo2);
 
 		// set animations
-		slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
-		slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		//slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
+		//slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		fadeIn = new AlphaAnimation(0, 1);
 		fadeIn.setInterpolator(new DecelerateInterpolator());
 		fadeIn.setDuration(2500);
-		playAgainButton.startAnimation(slideUpIn);
-		settingsButton.startAnimation(slideUpIn);
-		gameOver.startAnimation(slideDownIn);
+		//playAgainButton.startAnimation(slideUpIn);
+		//settingsButton.startAnimation(slideUpIn);
+		//gameOver.startAnimation(slideDownIn);
 		scoreText.startAnimation(fadeIn);
 		scoreValue.startAnimation(fadeIn);
 		highscoreText.startAnimation(fadeIn);
@@ -84,7 +84,7 @@ public class GameOverActivity extends Activity {
 			public void onClick(View arg0) {
 				Intent gameActivityIntent = new Intent(GameOverActivity.this, GameActivity.class);
 				GameOverActivity.this.startActivity(gameActivityIntent);
-				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
+				//overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
 				finish();
 			}
 
@@ -96,7 +96,7 @@ public class GameOverActivity extends Activity {
 			public void onClick(View v) {
 				Intent settingsActivityIntent = new Intent(GameOverActivity.this, SettingsActivity.class);
 				GameOverActivity.this.startActivity(settingsActivityIntent);
-				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
+				//overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
 			}
 
 		});
@@ -135,16 +135,16 @@ public class GameOverActivity extends Activity {
 	public void onBackPressed() {
 		Intent mainScreenActivityIntent = new Intent(GameOverActivity.this, MainScreenActivity.class);
 		GameOverActivity.this.startActivity(mainScreenActivityIntent);
-		overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
+		//overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
 		finish();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		playAgainButton.startAnimation(slideUpIn);
-		settingsButton.startAnimation(slideUpIn);
-		gameOver.startAnimation(slideDownIn);
+		//playAgainButton.startAnimation(slideUpIn);
+		//settingsButton.startAnimation(slideUpIn);
+		//gameOver.startAnimation(slideDownIn);
 	}
 
 }

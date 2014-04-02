@@ -23,11 +23,11 @@ import android.widget.Toast;
 public class MainScreenActivity extends Activity {
 
 	private RelativeLayout mainLayout;
-	private Button playButton, settingsButton, helpButton;
+	private Button playButton, settingsButton;
 	private TextView title, highscoreText, highscoreValue, lastScoreText, lastScoreValue;
 	private long lastPress;
 	private int lastScore, highscore;
-	private SharedPreferences scorePreferences, highscorePreferences, themePreferences;
+	private SharedPreferences scorePreferences, highscorePreferences;
 	private Animation slideUpIn, slideDownIn, fadeIn;
 
 	@Override
@@ -46,7 +46,6 @@ public class MainScreenActivity extends Activity {
 		mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
 		playButton = (Button) findViewById(R.id.playButton);
 		settingsButton = (Button) findViewById(R.id.settingsButton);
-		helpButton = (Button) findViewById(R.id.helpButton);
 		title = (TextView) findViewById(R.id.title);
 		highscoreText = (TextView) findViewById(R.id.highscoreText);
 		highscoreValue = (TextView) findViewById(R.id.highscoreValue);
@@ -57,7 +56,6 @@ public class MainScreenActivity extends Activity {
 		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
 		playButton.setTypeface(exo2);
 		settingsButton.setTypeface(exo2);
-		helpButton.setTypeface(exo2);
 		title.setTypeface(exo2);
 		highscoreText.setTypeface(exo2);
 		highscoreValue.setTypeface(exo2);
@@ -65,15 +63,15 @@ public class MainScreenActivity extends Activity {
 		lastScoreValue.setTypeface(exo2);
 
 		// set animations
-		slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
-		slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		//slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
+		//slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		fadeIn = new AlphaAnimation(0, 1);
 		fadeIn.setInterpolator(new DecelerateInterpolator());
 		fadeIn.setDuration(2500);
-		playButton.startAnimation(slideUpIn);
-		settingsButton.startAnimation(slideUpIn);
-		helpButton.startAnimation(slideUpIn);
-		title.startAnimation(slideDownIn);
+		//playButton.startAnimation(slideUpIn);
+		//settingsButton.startAnimation(slideUpIn);
+		//helpButton.startAnimation(slideUpIn);
+		//title.startAnimation(slideDownIn);
 		lastScoreText.startAnimation(fadeIn);
 		lastScoreValue.startAnimation(fadeIn);
 		highscoreText.startAnimation(fadeIn);
@@ -88,7 +86,7 @@ public class MainScreenActivity extends Activity {
 			public void onClick(View arg0) {
 				Intent gameActivityIntent = new Intent(MainScreenActivity.this, GameActivity.class);
 				startActivity(gameActivityIntent);
-				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
+				//overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
 				finish();
 			}
 
@@ -100,17 +98,7 @@ public class MainScreenActivity extends Activity {
 			public void onClick(View v) {
 				Intent settingsActivityIntent = new Intent(MainScreenActivity.this, SettingsActivity.class);
 				MainScreenActivity.this.startActivity(settingsActivityIntent);
-				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
-			}
-
-		});
-		helpButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent HelpActivityIntent = new Intent(MainScreenActivity.this, HelpActivity.class);
-				MainScreenActivity.this.startActivity(HelpActivityIntent);
-				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
+				//overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
 			}
 
 		});
@@ -135,23 +123,6 @@ public class MainScreenActivity extends Activity {
 			highscoreValue.setText("No score set.");
 		} else {
 			highscoreValue.setText(Integer.toString(highscore));
-		}
-
-		// get theme prefs
-		themePreferences = getSharedPreferences("theme", 0);
-		boolean theme = themePreferences.getBoolean("theme", false);
-		if (theme == true) {
-			mainLayout.setBackgroundColor(Color.BLACK);
-			settingsButton.setBackgroundColor(Color.BLACK);
-			settingsButton.setTextColor(Color.WHITE);
-			helpButton.setBackgroundColor(Color.BLACK);
-			helpButton.setTextColor(Color.WHITE);
-			title.setBackgroundColor(Color.BLACK);
-			title.setTextColor(Color.WHITE);
-			highscoreText.setTextColor(Color.WHITE);
-			highscoreValue.setTextColor(Color.WHITE);
-			lastScoreText.setTextColor(Color.WHITE);
-			lastScoreValue.setTextColor(Color.WHITE);
 		}
 	}
 
@@ -185,10 +156,9 @@ public class MainScreenActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		playButton.startAnimation(slideUpIn);
-		settingsButton.startAnimation(slideUpIn);
-		helpButton.startAnimation(slideUpIn);
-		title.startAnimation(slideDownIn);
+		//playButton.startAnimation(slideUpIn);
+		//settingsButton.startAnimation(slideUpIn);
+		//title.startAnimation(slideDownIn);
 	}
 
 }

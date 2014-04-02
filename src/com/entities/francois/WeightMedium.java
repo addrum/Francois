@@ -1,6 +1,4 @@
-package com.entities.weight.francois;
-
-import com.entities.francois.Entity;
+package com.entities.francois;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

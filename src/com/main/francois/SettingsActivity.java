@@ -22,13 +22,12 @@ import android.widget.ToggleButton;
 public class SettingsActivity extends Activity {
 
 	private RelativeLayout mainLayout;
-	private TextView title, clearText, themeText;
-	private ToggleButton clearButton, themeButton;
+	private TextView title, clearText;
+	private ToggleButton clearButton;
 	private Button save;
 	private Animation slideDownIn, slideUpIn;
 	private boolean clear = false;
-	private boolean theme = false;
-	private SharedPreferences sharedPrefences, themePreferences;
+	private SharedPreferences sharedPrefences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +46,6 @@ public class SettingsActivity extends Activity {
 		title = (TextView) findViewById(R.id.settings);
 		clearText = (TextView) findViewById(R.id.clear);
 		clearButton = (ToggleButton) findViewById(R.id.clearButton);
-		themeText = (TextView) findViewById(R.id.theme);
-		themeButton = (ToggleButton) findViewById(R.id.themeButton);
 		save = (Button) findViewById(R.id.saveButton);
 
 		// set font
@@ -56,17 +53,13 @@ public class SettingsActivity extends Activity {
 		title.setTypeface(exo2);
 		clearText.setTypeface(exo2);
 		clearButton.setTypeface(exo2);
-		themeText.setTypeface(exo2);
-		themeButton.setTypeface(exo2);
 		save.setTypeface(exo2);
 
 		// set animations
-		slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
-		slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
-		title.startAnimation(slideDownIn);
-		save.startAnimation(slideUpIn);
-
-		load();
+		//slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		//slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
+		//title.startAnimation(slideDownIn);
+		//save.startAnimation(slideUpIn);
 		
 		// button listeners
 		save.setOnClickListener(new OnClickListener() {
@@ -90,23 +83,9 @@ public class SettingsActivity extends Activity {
 					editorHighscore.commit();
 				}
 
-				if (theme) {
-					// save theme prefs
-					sharedPrefences = getSharedPreferences("theme", 0);
-					SharedPreferences.Editor editor = sharedPrefences.edit();
-					editor.putBoolean("theme", true);
-					editor.commit();
-				} else {
-					// save theme prefs
-					sharedPrefences = getSharedPreferences("theme", 0);
-					SharedPreferences.Editor editor = sharedPrefences.edit();
-					editor.putBoolean("theme", false);
-					editor.commit();
-				}
-
 				Intent mainScreenActivityIntent = new Intent(SettingsActivity.this, MainScreenActivity.class);
 				SettingsActivity.this.startActivity(mainScreenActivityIntent);
-				overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
+				//overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
 				finish();
 			}
 
@@ -124,33 +103,6 @@ public class SettingsActivity extends Activity {
 			}
 
 		});
-		themeButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (isChecked) {
-					theme = true;
-				} else {
-					theme = false;
-				}
-			}
-		});
-
-	}
-
-	public void load() {
-		// get theme prefs
-		themePreferences = getSharedPreferences("theme", 0);
-		boolean theme = themePreferences.getBoolean("theme", false);
-		if (theme == true) {
-			mainLayout.setBackgroundColor(Color.BLACK);
-			clearText.setTextColor(Color.WHITE);
-			clearText.setBackgroundColor(Color.BLACK);
-			clearButton.setBackgroundColor(Color.BLACK);
-			themeText.setTextColor(Color.WHITE);
-			themeText.setBackgroundColor(Color.BLACK);
-			themeButton.setBackgroundColor(Color.BLACK);
-		}
 	}
 
 	@Override
@@ -162,7 +114,7 @@ public class SettingsActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		finish();
-		overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
+		//overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
 	}
 
 }

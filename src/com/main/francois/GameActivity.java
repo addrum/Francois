@@ -42,7 +42,7 @@ public class GameActivity extends Activity {
 	private CountDownTimer goTimer;
 	private GameTimers gameTimers;
 	private int screenHeight, screenWidth, score, time;
-	private boolean goTimerStarted = false;
+	private boolean goTimerStarted;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -72,8 +72,8 @@ public class GameActivity extends Activity {
 		countdownText.setTypeface(exo2);
 
 		// set animations
-		slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
-		topBar.startAnimation(slideDownIn);
+		//slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		//topBar.startAnimation(slideDownIn);
 
 		// add the view to display on screen and run game logic
 		view.addView(gameLogic);
@@ -90,6 +90,7 @@ public class GameActivity extends Activity {
 		scoreText.setPadding((screenWidth / 100 * 2), (screenHeight / 100 * 2), (screenWidth / 100 * 2), (screenHeight / 100 * 2));
 		timeText.setPadding((screenWidth / 100 * 2), (screenHeight / 100 * 2), (screenWidth / 100 * 2), (screenHeight / 100 * 2));
 
+		goTimerStarted = false;
 		Log.d(TAG, "onCreate goTimer");
 		goTimer();
 
