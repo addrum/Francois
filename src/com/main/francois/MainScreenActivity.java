@@ -22,13 +22,13 @@ import android.widget.Toast;
 
 public class MainScreenActivity extends Activity {
 
+	private long lastPress;
+	private int lastScore, highscore;
 	private RelativeLayout mainLayout;
 	private Button playButton, settingsButton;
 	private TextView title, highscoreText, highscoreValue, lastScoreText, lastScoreValue;
-	private long lastPress;
-	private int lastScore, highscore;
 	private SharedPreferences scorePreferences, highscorePreferences;
-	private Animation slideUpIn, slideDownIn, fadeIn;
+	private Animation inFromBottom, inFromTop, fadeIn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +63,14 @@ public class MainScreenActivity extends Activity {
 		lastScoreValue.setTypeface(exo2);
 
 		// set animations
-		//slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
-		//slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		inFromBottom = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
+		inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		fadeIn = new AlphaAnimation(0, 1);
 		fadeIn.setInterpolator(new DecelerateInterpolator());
 		fadeIn.setDuration(2500);
-		//playButton.startAnimation(slideUpIn);
-		//settingsButton.startAnimation(slideUpIn);
-		//helpButton.startAnimation(slideUpIn);
-		//title.startAnimation(slideDownIn);
+		playButton.startAnimation(inFromBottom);
+		settingsButton.startAnimation(inFromBottom);
+		title.startAnimation(inFromTop);
 		lastScoreText.startAnimation(fadeIn);
 		lastScoreValue.startAnimation(fadeIn);
 		highscoreText.startAnimation(fadeIn);
@@ -156,9 +155,9 @@ public class MainScreenActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		//playButton.startAnimation(slideUpIn);
-		//settingsButton.startAnimation(slideUpIn);
-		//title.startAnimation(slideDownIn);
+		playButton.startAnimation(inFromBottom);
+		settingsButton.startAnimation(inFromBottom);
+		title.startAnimation(inFromTop);
 	}
 
 }

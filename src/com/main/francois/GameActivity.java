@@ -31,18 +31,18 @@ public class GameActivity extends Activity {
 	public static Handler handler;
 	private static final String TAG = GameActivity.class.getSimpleName();
 
+	private int screenHeight, screenWidth, score, time;
+	private boolean goTimerStarted;
 	private WindowManager wm;
 	private Display display;
 	private Point size;
 	private GameLogic gameLogic;
-	private Animation slideDownIn;
+	private Animation inFromTop;
 	private LinearLayout topBar;
 	private FrameLayout view;
 	private TextView scoreText, timeText, countdownText;
 	private CountDownTimer goTimer;
 	private GameTimers gameTimers;
-	private int screenHeight, screenWidth, score, time;
-	private boolean goTimerStarted;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -72,8 +72,8 @@ public class GameActivity extends Activity {
 		countdownText.setTypeface(exo2);
 
 		// set animations
-		//slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
-		//topBar.startAnimation(slideDownIn);
+		inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		topBar.startAnimation(inFromTop);
 
 		// add the view to display on screen and run game logic
 		view.addView(gameLogic);

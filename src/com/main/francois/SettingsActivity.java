@@ -21,12 +21,12 @@ import android.widget.ToggleButton;
 
 public class SettingsActivity extends Activity {
 
+	private boolean clear = false;
 	private RelativeLayout mainLayout;
 	private TextView title, clearText;
 	private ToggleButton clearButton;
 	private Button save;
-	private Animation slideDownIn, slideUpIn;
-	private boolean clear = false;
+	private Animation inFromTop, inFromBottom;
 	private SharedPreferences sharedPrefences;
 
 	@Override
@@ -56,10 +56,10 @@ public class SettingsActivity extends Activity {
 		save.setTypeface(exo2);
 
 		// set animations
-		//slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
-		//slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
-		//title.startAnimation(slideDownIn);
-		//save.startAnimation(slideUpIn);
+		inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		inFromBottom = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
+		title.startAnimation(inFromTop);
+		save.startAnimation(inFromBottom);
 		
 		// button listeners
 		save.setOnClickListener(new OnClickListener() {

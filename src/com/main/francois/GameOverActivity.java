@@ -21,11 +21,11 @@ import android.widget.TextView;
 
 public class GameOverActivity extends Activity {
 
+	private int score, highscore;
 	private RelativeLayout mainLayout;
 	private Button playAgainButton, settingsButton;
 	private TextView gameOver, scoreText, scoreValue, highscoreText, highscoreValue;
-	private int score, highscore;
-	private Animation slideUpIn, slideDownIn, fadeIn;
+	private Animation inFromTop, inFromBottom, fadeIn;
 	private SharedPreferences scorePreferences, highscorePreferences, themePreferences;
 
 	@Override
@@ -61,14 +61,14 @@ public class GameOverActivity extends Activity {
 		highscoreValue.setTypeface(exo2);
 
 		// set animations
-		//slideUpIn = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
-		//slideDownIn = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		inFromBottom = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
+		inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		fadeIn = new AlphaAnimation(0, 1);
 		fadeIn.setInterpolator(new DecelerateInterpolator());
 		fadeIn.setDuration(2500);
-		//playAgainButton.startAnimation(slideUpIn);
-		//settingsButton.startAnimation(slideUpIn);
-		//gameOver.startAnimation(slideDownIn);
+		playAgainButton.startAnimation(inFromBottom);
+		settingsButton.startAnimation(inFromBottom);
+		gameOver.startAnimation(inFromTop);
 		scoreText.startAnimation(fadeIn);
 		scoreValue.startAnimation(fadeIn);
 		highscoreText.startAnimation(fadeIn);
@@ -142,9 +142,9 @@ public class GameOverActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		//playAgainButton.startAnimation(slideUpIn);
-		//settingsButton.startAnimation(slideUpIn);
-		//gameOver.startAnimation(slideDownIn);
+		playAgainButton.startAnimation(inFromBottom);
+		settingsButton.startAnimation(inFromBottom);
+		gameOver.startAnimation(inFromTop);
 	}
 
 }

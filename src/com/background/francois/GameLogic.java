@@ -176,7 +176,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
-	/*public void spawnSmallWeight(int chance) {
+	public void spawnSmallWeight(int chance) {
 		checkChance("smallX", chance, 45);
 		weights.add(new WeightSmall(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), smallX, -10));
 	}
@@ -189,7 +189,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	public void spawnLargeWeight(int chance) {
 		checkChance("largeX", chance, 60);
 		weights.add(new WeightLarge(BitmapFactory.decodeResource(getResources(), R.drawable.weight_l), largeX, -10));
-	}*/
+	}
 
 	public void checkChance(String spawnX, int chance, int value) {
 		int intermediary;
