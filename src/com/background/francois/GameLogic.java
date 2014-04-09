@@ -262,7 +262,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 			thread.start();
 		}
 		if (!goTimerStarted) {
-			gameTimers.startTimers();
+			gameTimers.start();
 			goTimerStarted = true;
 		}
 	}

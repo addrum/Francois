@@ -7,8 +7,9 @@ import java.util.TimerTask;
 import android.content.Context;
 import android.os.CountDownTimer;
 
-public class GameTimers {
+public class GameTimers extends Thread {
 
+	private Thread thread;
 	private Context context;
 	private GameLogic gameLogic;
 	private CountDownTimer goTimer;
@@ -18,8 +19,17 @@ public class GameTimers {
 		this.context = context;
 		this.gameLogic = gameLogic;
 	}
+	
+	@Override
+	public void start() {
+		if (thread == null) {
+			thread = new Thread(this);
+			thread.start();
+		}
+	}
 
-	public void startTimers() {
+	@Override
+	public void run() {
 		smallRockTimer();
 		mediumRockTimer();
 		largeRockTimer();
