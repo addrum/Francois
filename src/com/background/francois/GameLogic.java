@@ -2,7 +2,6 @@ package com.background.francois;
 
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Timer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,7 +11,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.os.CountDownTimer;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.view.Display;
@@ -32,6 +30,10 @@ import com.main.francois.R;
 
 public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 
+	private boolean ready, paused, goTimerStarted;
+	private int screenHeight, screenWidth;
+	private int score, time = 0;
+	private int smallX, mediumX, largeX;
 	private WindowManager wm;
 	private Display display;
 	private Point size;
@@ -42,12 +44,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	private SharedPreferences scorePreferences, highscorePreferences;
 	private Random random = new Random();
 	private GameTimers gameTimers;
-	private CountDownTimer goTimer;
-	private boolean ready, paused, goTimerStarted;
-	private int screenHeight, screenWidth;
-	private int score, time = 0;
-	private int smallX, mediumX, largeX, score500X;
-
+	
 	public GameLogic(Context context) {
 		super(context);
 		// adding the callback (this) to the surface holder to intercept events
@@ -68,7 +65,6 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		screenWidth = size.x;
 		
 		gameTimers = new GameTimers(this.getContext(), this);
-		goTimer = gameTimers.getGoTimer();
 
 		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player), (screenWidth / 2), (int) (screenHeight / 1.2));
 	}
@@ -218,8 +214,6 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 			mediumX = intermediary;
 		} else if (spawnX.equals("largeX")) {
 			largeX = intermediary;
-		} else if (spawnX.equals("score500X")) {
-			score500X = intermediary;
 		}
 	}
 

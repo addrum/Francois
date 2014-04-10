@@ -13,7 +13,6 @@ public class GameTimers extends Thread {
 	private Context context;
 	private GameLogic gameLogic;
 	private CountDownTimer goTimer;
-	private Random random;
 	
 	public GameTimers(Context context, GameLogic gameLogic) {
 		this.context = context;

@@ -1,10 +1,7 @@
 package com.main.francois;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.graphics.Typeface;
@@ -24,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.background.francois.GameLogic;
-import com.background.francois.GameTimers;
 
 public class GameActivity extends Activity {
 
@@ -32,7 +28,6 @@ public class GameActivity extends Activity {
 	private static final String TAG = GameActivity.class.getSimpleName();
 
 	private int screenHeight, screenWidth, score, time;
-	private boolean goTimerStarted;
 	private WindowManager wm;
 	private Display display;
 	private Point size;
@@ -42,8 +37,7 @@ public class GameActivity extends Activity {
 	private FrameLayout view;
 	private TextView scoreText, timeText, countdownText;
 	private CountDownTimer goTimer;
-	private GameTimers gameTimers;
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -90,10 +84,6 @@ public class GameActivity extends Activity {
 		scoreText.setPadding((screenWidth / 100 * 2), (screenHeight / 100 * 2), (screenWidth / 100 * 2), (screenHeight / 100 * 2));
 		timeText.setPadding((screenWidth / 100 * 2), (screenHeight / 100 * 2), (screenWidth / 100 * 2), (screenHeight / 100 * 2));
 
-		goTimerStarted = false;
-		Log.d(TAG, "onCreate goTimer");
-		goTimer();
-
 		handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
@@ -103,6 +93,8 @@ public class GameActivity extends Activity {
 				time = msg.arg2;
 			}
 		};
+		
+		goTimer();
 
 	}
 
