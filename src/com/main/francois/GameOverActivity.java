@@ -61,7 +61,7 @@ public class GameOverActivity extends Activity {
 		highscoreValue.setTypeface(exo2);
 
 		// set animations
-		inFromBottom = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
+		/*inFromBottom = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
 		inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		fadeIn = new AlphaAnimation(0, 1);
 		fadeIn.setInterpolator(new DecelerateInterpolator());
@@ -72,7 +72,7 @@ public class GameOverActivity extends Activity {
 		scoreText.startAnimation(fadeIn);
 		scoreValue.startAnimation(fadeIn);
 		highscoreText.startAnimation(fadeIn);
-		highscoreValue.startAnimation(fadeIn);
+		highscoreValue.startAnimation(fadeIn);*/
 
 		// get score
 		load();

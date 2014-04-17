@@ -35,8 +35,7 @@ public class GameActivity extends Activity {
 	private Animation inFromTop;
 	private LinearLayout topBar;
 	private FrameLayout view;
-	private TextView scoreText, timeText, countdownText;
-	private CountDownTimer goTimer;
+	private TextView scoreText, timeText;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,17 +56,15 @@ public class GameActivity extends Activity {
 		topBar = (LinearLayout) findViewById(R.id.topBar);
 		scoreText = (TextView) findViewById(R.id.scoreText);
 		timeText = (TextView) findViewById(R.id.timeText);
-		countdownText = (TextView) findViewById(R.id.countdownText);
 
 		// set font
 		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
 		scoreText.setTypeface(exo2);
 		timeText.setTypeface(exo2);
-		countdownText.setTypeface(exo2);
 
 		// set animations
-		inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
-		topBar.startAnimation(inFromTop);
+		/*inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		topBar.startAnimation(inFromTop);*/
 
 		// add the view to display on screen and run game logic
 		view.addView(gameLogic);
@@ -93,28 +90,6 @@ public class GameActivity extends Activity {
 				time = msg.arg2;
 			}
 		};
-		
-		goTimer();
-
-	}
-
-	// 3 2 1 count down and initiates spawn timers
-	public void goTimer() {
-		goTimer = new CountDownTimer(3500, 500) {
-
-			public void onTick(long millisUntilFinished) {
-				if (millisUntilFinished / 1000 == 0) {
-					countdownText.setText("GO");
-				} else {
-					countdownText.setText("" + millisUntilFinished / 1000);
-				}
-			}
-
-			public void onFinish() {
-				countdownText.setVisibility(View.GONE);
-				gameLogic.setPaused(false);
-			}
-		}.start();
 	}
 
 	// handle hardware back button
@@ -125,25 +100,18 @@ public class GameActivity extends Activity {
 	@Override
 	public void onPause() {
 		super.onPause();
-		gameLogic.setPaused(true);
 		gameLogic.save(score, time);
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (gameLogic.isPaused()) {
-			countdownText.setVisibility(View.VISIBLE);
-			Log.d(TAG, "onResume goTimer");
-			goTimer();
-		}
 	}
 
 	@Override
 	protected void onDestroy() {
 		Log.d(TAG, "Destroying...");
 		super.onDestroy();
-		gameLogic.setPaused(true);
 		gameLogic.save(score, time);
 	}
 

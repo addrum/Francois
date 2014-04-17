@@ -38,26 +38,25 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class id {
         public static final int canvas=0x7f080000;
-        public static final int clear=0x7f080014;
-        public static final int clearButton=0x7f080013;
-        public static final int countdownText=0x7f080005;
-        public static final int gameOver=0x7f080007;
-        public static final int helpButton=0x7f08000e;
-        public static final int highscoreText=0x7f08000c;
-        public static final int highscoreValue=0x7f08000b;
-        public static final int lastScore=0x7f080010;
-        public static final int lastScoreValue=0x7f080011;
-        public static final int mainLayout=0x7f080006;
-        public static final int playAgainButton=0x7f080009;
-        public static final int playButton=0x7f08000f;
-        public static final int saveButton=0x7f080015;
+        public static final int clear=0x7f080013;
+        public static final int clearButton=0x7f080012;
+        public static final int gameOver=0x7f080006;
+        public static final int helpButton=0x7f08000d;
+        public static final int highscoreText=0x7f08000b;
+        public static final int highscoreValue=0x7f08000a;
+        public static final int lastScore=0x7f08000f;
+        public static final int lastScoreValue=0x7f080010;
+        public static final int mainLayout=0x7f080005;
+        public static final int playAgainButton=0x7f080008;
+        public static final int playButton=0x7f08000e;
+        public static final int saveButton=0x7f080014;
         public static final int scoreText=0x7f080003;
-        public static final int scoreValue=0x7f08000a;
-        public static final int settings=0x7f080012;
-        public static final int settingsButton=0x7f080008;
+        public static final int scoreValue=0x7f080009;
+        public static final int settings=0x7f080011;
+        public static final int settingsButton=0x7f080007;
         public static final int surfaceView=0x7f080001;
         public static final int timeText=0x7f080004;
-        public static final int title=0x7f08000d;
+        public static final int title=0x7f08000c;
         public static final int topBar=0x7f080002;
     }
     public static final class layout {

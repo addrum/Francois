@@ -29,8 +29,7 @@
         android:layout_marginBottom="15dp"
         android:background="#F7F7F7"
         android:gravity="center"
-        android:text="@string/help"
-        android:textColor="@drawable/bluebutton" />
+        android:text="@string/help" />
 
     <Button
         android:id="@+id/settingsButton"
@@ -40,8 +39,7 @@
         android:layout_alignLeft="@+id/helpButton"
         android:background="#F7F7F7"
         android:gravity="center"
-        android:text="@string/settings"
-        android:textColor="@drawable/bluebutton" />
+        android:text="@string/settings" />
 
     <Button
         android:id="@+id/playButton"
@@ -54,19 +52,6 @@
         android:background="@drawable/bluebutton"
         android:gravity="center"
         android:text="@string/play" />
-
-    <TextView
-        android:id="@+id/highscoreText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="75dp"
-        android:ems="10"
-        android:gravity="center"
-        android:text="@string/high_score"
-        android:textColor="#000000"
-        android:textSize="25sp" />
 
     <TextView
         android:id="@+id/highscoreValue"
@@ -103,6 +88,19 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/highscoreText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:gravity="center"
+        android:text="@string/high_score"
         android:textColor="#000000"
         android:textSize="25sp" />
 

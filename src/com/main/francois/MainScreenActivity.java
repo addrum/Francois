@@ -62,7 +62,7 @@ public class MainScreenActivity extends Activity {
 		lastScoreValue.setTypeface(exo2);
 
 		// set animations
-		inFromBottom = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
+		/*inFromBottom = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
 		inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		fadeIn = new AlphaAnimation(0, 1);
 		fadeIn.setInterpolator(new DecelerateInterpolator());
@@ -73,7 +73,7 @@ public class MainScreenActivity extends Activity {
 		lastScoreText.startAnimation(fadeIn);
 		lastScoreValue.startAnimation(fadeIn);
 		highscoreText.startAnimation(fadeIn);
-		highscoreValue.startAnimation(fadeIn);
+		highscoreValue.startAnimation(fadeIn);*/
 
 		load();
 
@@ -154,9 +154,9 @@ public class MainScreenActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		playButton.startAnimation(inFromBottom);
+		/*playButton.startAnimation(inFromBottom);
 		settingsButton.startAnimation(inFromBottom);
-		title.startAnimation(inFromTop);
+		title.startAnimation(inFromTop);*/
 	}
 
 }

@@ -32,6 +32,7 @@ public class GameTimers extends Thread {
 		smallRockTimer();
 		mediumRockTimer();
 		largeRockTimer();
+		time();
 	}
 	
 	public void smallRockTimer() {
@@ -64,14 +65,22 @@ public class GameTimers extends Thread {
 		}, 0, 3000);
 	}
 	
+	public void time() {
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			@Override
+			public void run() {
+				int time = gameLogic.getTime();
+				time++;
+				gameLogic.setTime(time);
+			}
+		}, 0, 1000);
+	}
+	
 	public int getChance() {
 		Random random = new Random();
 		int chance = random.nextInt(100);
 		return chance;
-	}
-	
-	public CountDownTimer getGoTimer() {
-		return goTimer;
 	}
 	
 }

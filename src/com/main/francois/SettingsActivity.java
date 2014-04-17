@@ -56,10 +56,10 @@ public class SettingsActivity extends Activity {
 		save.setTypeface(exo2);
 
 		// set animations
-		inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		/*inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		inFromBottom = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
 		title.startAnimation(inFromTop);
-		save.startAnimation(inFromBottom);
+		save.startAnimation(inFromBottom);*/
 		
 		// button listeners
 		save.setOnClickListener(new OnClickListener() {

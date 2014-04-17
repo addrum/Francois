@@ -31,7 +31,7 @@
         android:background="#ffffff"
         android:gravity="center"
         android:text="@string/settings"
-        android:textColor="@drawable/bluebutton" />
+        android:color="#ffffff" />
 
     <Button
         android:id="@+id/playAgainButton"
@@ -43,7 +43,8 @@
         android:layout_marginBottom="45dp"
         android:background="@drawable/bluebutton"
         android:gravity="center"
-        android:text="@string/play_again" />
+        android:text="@string/play_again"
+        android:color="#ffffff" />
 
     <TextView
         android:id="@+id/scoreText"
