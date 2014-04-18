@@ -6,12 +6,10 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Display;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -63,8 +61,8 @@ public class GameActivity extends Activity {
 		timeText.setTypeface(exo2);
 
 		// set animations
-		/*inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
-		topBar.startAnimation(inFromTop);*/
+		inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		topBar.startAnimation(inFromTop);
 
 		// add the view to display on screen and run game logic
 		view.addView(gameLogic);
@@ -84,9 +82,9 @@ public class GameActivity extends Activity {
 		handler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				scoreText.setText("Score: " + String.valueOf(msg.arg1));
+				scoreText.setText(String.valueOf(msg.arg1));
 				score = msg.arg1;
-				timeText.setText("Time: " + String.valueOf(msg.arg2));
+				timeText.setText(String.valueOf(msg.arg2));
 				time = msg.arg2;
 			}
 		};

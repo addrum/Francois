@@ -56,10 +56,10 @@ public class SettingsActivity extends Activity {
 		save.setTypeface(exo2);
 
 		// set animations
-		/*inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
+		inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		inFromBottom = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
 		title.startAnimation(inFromTop);
-		save.startAnimation(inFromBottom);*/
+		save.startAnimation(inFromBottom);
 		
 		// button listeners
 		save.setOnClickListener(new OnClickListener() {
@@ -85,7 +85,7 @@ public class SettingsActivity extends Activity {
 
 				Intent mainScreenActivityIntent = new Intent(SettingsActivity.this, MainScreenActivity.class);
 				SettingsActivity.this.startActivity(mainScreenActivityIntent);
-				//overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
+				overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
 				finish();
 			}
 
@@ -114,7 +114,7 @@ public class SettingsActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		finish();
-		//overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
+		overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
 	}
 
 }

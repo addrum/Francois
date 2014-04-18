@@ -4,18 +4,12 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import android.content.Context;
-import android.os.CountDownTimer;
-
 public class GameTimers extends Thread {
 
 	private Thread thread;
-	private Context context;
 	private GameLogic gameLogic;
-	private CountDownTimer goTimer;
 	
-	public GameTimers(Context context, GameLogic gameLogic) {
-		this.context = context;
+	public GameTimers(GameLogic gameLogic) {
 		this.gameLogic = gameLogic;
 	}
 	
@@ -42,7 +36,7 @@ public class GameTimers extends Thread {
 			public void run() {
 				gameLogic.spawnEntity(getChance(), "small");
 			}
-		}, 0, 1000);
+		}, 0, 800);
 	}
 	
 	public void mediumRockTimer() {
@@ -52,7 +46,7 @@ public class GameTimers extends Thread {
 			public void run() {
 				gameLogic.spawnEntity(getChance(), "medium");
 			}
-		}, 0, 2000);
+		}, 1000, 1800);
 	}
 	
 	public void largeRockTimer() {
@@ -62,7 +56,7 @@ public class GameTimers extends Thread {
 			public void run() {
 				gameLogic.spawnEntity(getChance(), "large");
 			}
-		}, 0, 3000);
+		}, 3000, 4500);
 	}
 	
 	public void time() {

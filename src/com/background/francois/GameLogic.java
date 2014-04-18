@@ -12,7 +12,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Message;
-import android.util.AttributeSet;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -30,7 +29,7 @@ import com.main.francois.R;
 
 public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 
-	private boolean started;
+	private boolean started, gameOver;
 	private int screenHeight, screenWidth;
 	private int score, time = 0;
 	private int smallX, mediumX, largeX;
@@ -65,7 +64,9 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		screenHeight = size.y;
 		screenWidth = size.x;
 
-		gameTimers = new GameTimers(this.getContext(), this);
+		gameTimers = new GameTimers(this);
+		
+		gameOver = false;
 
 		player = new Player(BitmapFactory.decodeResource(getResources(),
 				R.drawable.player), (screenWidth / 2),
@@ -106,54 +107,57 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public void render(Canvas canvas) {
-		if (canvas != null) {
-			// draw canvas color, player, items and weights
-			canvas.drawColor(Color.WHITE);
-			player.draw(canvas);
+		if (!gameOver)
+			if (canvas != null) {
+				// draw canvas color, player, items and weights
+				canvas.drawColor(Color.WHITE);
+				player.draw(canvas);
 
-			// draws items to screen
-			Entity[] itemArray = items.toArray(new Entity[0]);
-			for (Entity items : itemArray) {
-				items.draw(canvas);
+				// draws items to screen
+				Entity[] itemArray = items.toArray(new Entity[0]);
+				for (Entity items : itemArray) {
+					items.draw(canvas);
+				}
+
+				// draws weights to screen
+				Entity[] weightArray = weights.toArray(new Entity[0]);
+				for (Entity weight : weightArray) {
+					weight.draw(canvas);
+				}
+
+				// post score and time to UI
+				Message message = Message.obtain();
+				message.arg1 = score;
+				message.arg2 = time;
+				GameActivity.handler.sendMessage(message);
 			}
-
-			// draws weights to screen
-			Entity[] weightArray = weights.toArray(new Entity[0]);
-			for (Entity weight : weightArray) {
-				weight.draw(canvas);
-			}
-
-			// post score and time to UI
-			Message message = Message.obtain();
-			message.arg1 = score;
-			message.arg2 = time;
-			GameActivity.handler.sendMessage(message);
-		}
 	}
 
 	// updates the weights position on the screen and checks collision with the
 	// player
 	public void update() {
-		// updates all weight's positions
-		Entity[] weightArray = weights.toArray(new Entity[0]);
-		for (Entity weight : weightArray) {
-			weight.update();
+		if (!gameOver) {
+			// updates all weight's positions
+			Entity[] weightArray = weights.toArray(new Entity[0]);
+			for (Entity weight : weightArray) {
+				weight.update();
 
-			// handles game over circumstances
-			if (CollisionUtil.isCollisionDetected(weight.getBitmap(),
-					weight.getX(), weight.getY(), player.getBitmap(),
-					player.getX(), player.getY())) {
-				Intent gameOverIntent = new Intent(this.getContext(),
-						GameOverActivity.class);
-				gameOverIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				this.getContext().startActivity(gameOverIntent);
-				((Activity) this.getContext()).finish();
-				player.setTouched(false);
-				save(score, time);
-				try {
-					gameTimers.join();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+				// handles game over circumstances
+				if (CollisionUtil.isCollisionDetected(weight.getBitmap(),
+						weight.getX(), weight.getY(), player.getBitmap(),
+						player.getX(), player.getY())) {					
+					Intent gameOverIntent = new Intent(this.getContext(),
+							GameOverActivity.class);
+					player.setTouched(false);
+					this.getContext().startActivity(gameOverIntent);
+					((Activity) this.getContext()).finish();
+					save(score, time);
+					try {
+						gameTimers.join();
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					gameOver = true;
 				}
 			}
 		}
@@ -291,7 +295,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	public void setScore(int score) {
 		this.score = score;
 	}
-	
+
 	public int getTime() {
 		return time;
 	}

@@ -42,7 +42,7 @@ public class GameOverActivity extends Activity {
 
 		// get id's
 		mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
-		playAgainButton = (Button) findViewById(R.id.playAgainButton);
+		playAgainButton = (Button) findViewById(R.id.playButton);
 		settingsButton = (Button) findViewById(R.id.settingsButton);
 		gameOver = (TextView) findViewById(R.id.gameOver);
 		scoreText = (TextView) findViewById(R.id.scoreText);
@@ -61,7 +61,7 @@ public class GameOverActivity extends Activity {
 		highscoreValue.setTypeface(exo2);
 
 		// set animations
-		/*inFromBottom = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
+		inFromBottom = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
 		inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		fadeIn = new AlphaAnimation(0, 1);
 		fadeIn.setInterpolator(new DecelerateInterpolator());
@@ -72,7 +72,7 @@ public class GameOverActivity extends Activity {
 		scoreText.startAnimation(fadeIn);
 		scoreValue.startAnimation(fadeIn);
 		highscoreText.startAnimation(fadeIn);
-		highscoreValue.startAnimation(fadeIn);*/
+		highscoreValue.startAnimation(fadeIn);
 
 		// get score
 		load();
@@ -84,7 +84,7 @@ public class GameOverActivity extends Activity {
 			public void onClick(View arg0) {
 				Intent gameActivityIntent = new Intent(GameOverActivity.this, GameActivity.class);
 				GameOverActivity.this.startActivity(gameActivityIntent);
-				//overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
+				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
 				finish();
 			}
 
@@ -96,7 +96,7 @@ public class GameOverActivity extends Activity {
 			public void onClick(View v) {
 				Intent settingsActivityIntent = new Intent(GameOverActivity.this, SettingsActivity.class);
 				GameOverActivity.this.startActivity(settingsActivityIntent);
-				//overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
+				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
 			}
 
 		});
@@ -135,7 +135,7 @@ public class GameOverActivity extends Activity {
 	public void onBackPressed() {
 		Intent mainScreenActivityIntent = new Intent(GameOverActivity.this, MainScreenActivity.class);
 		GameOverActivity.this.startActivity(mainScreenActivityIntent);
-		//overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
+		overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
 		finish();
 	}
 

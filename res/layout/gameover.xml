@@ -25,7 +25,7 @@
         android:id="@+id/settingsButton"
         android:layout_width="175dp"
         android:layout_height="50dp"
-        android:layout_alignLeft="@+id/playAgainButton"
+        android:layout_alignLeft="@+id/playButton"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
         android:background="#ffffff"
@@ -34,7 +34,7 @@
         android:color="#ffffff" />
 
     <Button
-        android:id="@+id/playAgainButton"
+        android:id="@+id/playButton"
         style="@style/ButtonText"
         android:layout_width="175dp"
         android:layout_height="50dp"
@@ -43,7 +43,7 @@
         android:layout_marginBottom="45dp"
         android:background="@drawable/bluebutton"
         android:gravity="center"
-        android:text="@string/play_again"
+        android:text="@string/play"
         android:color="#ffffff" />
 
     <TextView

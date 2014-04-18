@@ -15,7 +15,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +22,6 @@ public class MainScreenActivity extends Activity {
 
 	private long lastPress;
 	private int lastScore, highscore;
-	private RelativeLayout mainLayout;
 	private Button playButton, settingsButton;
 	private TextView title, highscoreText, highscoreValue, lastScoreText, lastScoreValue;
 	private SharedPreferences scorePreferences, highscorePreferences;
@@ -42,7 +40,6 @@ public class MainScreenActivity extends Activity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// get id's
-		mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
 		playButton = (Button) findViewById(R.id.playButton);
 		settingsButton = (Button) findViewById(R.id.settingsButton);
 		title = (TextView) findViewById(R.id.title);
@@ -62,7 +59,7 @@ public class MainScreenActivity extends Activity {
 		lastScoreValue.setTypeface(exo2);
 
 		// set animations
-		/*inFromBottom = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
+		inFromBottom = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
 		inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		fadeIn = new AlphaAnimation(0, 1);
 		fadeIn.setInterpolator(new DecelerateInterpolator());
@@ -73,7 +70,7 @@ public class MainScreenActivity extends Activity {
 		lastScoreText.startAnimation(fadeIn);
 		lastScoreValue.startAnimation(fadeIn);
 		highscoreText.startAnimation(fadeIn);
-		highscoreValue.startAnimation(fadeIn);*/
+		highscoreValue.startAnimation(fadeIn);
 
 		load();
 
@@ -84,7 +81,7 @@ public class MainScreenActivity extends Activity {
 			public void onClick(View arg0) {
 				Intent gameActivityIntent = new Intent(MainScreenActivity.this, GameActivity.class);
 				startActivity(gameActivityIntent);
-				//overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
+				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
 				finish();
 			}
 
@@ -96,7 +93,7 @@ public class MainScreenActivity extends Activity {
 			public void onClick(View v) {
 				Intent settingsActivityIntent = new Intent(MainScreenActivity.this, SettingsActivity.class);
 				MainScreenActivity.this.startActivity(settingsActivityIntent);
-				//overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
+				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
 			}
 
 		});
@@ -154,9 +151,9 @@ public class MainScreenActivity extends Activity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		/*playButton.startAnimation(inFromBottom);
+		playButton.startAnimation(inFromBottom);
 		settingsButton.startAnimation(inFromBottom);
-		title.startAnimation(inFromTop);*/
+		title.startAnimation(inFromTop);
 	}
 
 }
