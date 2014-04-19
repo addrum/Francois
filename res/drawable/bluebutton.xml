@@ -9,7 +9,9 @@
             <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="5dp" />
         </shape></item>
     <item><shape>
-            <gradient android:angle="270" android:endColor="#32CFFA" android:startColor="#32CFFA" />
+            <gradient android:angle="270" android:endColor="#14C8FA" android:startColor="#32CFFA" />
+
+            <stroke android:width="1dp" android:color="#26C4F0" />
 
             <corners android:radius="25dp" />
 

@@ -24,11 +24,11 @@ import com.google.example.games.basegameutils.BaseGameActivity;
 public class GameOverActivity extends BaseGameActivity {
 
 	private long lastPress;
-	private int score, highscore;
+	private int score, highscore, time;
 	private Button playAgainButton, leaderboardsButton, settingsButton;
 	private TextView gameOver, scoreText, scoreValue, highscoreText, highscoreValue;
 	private Animation inFromTop, inFromBottom, fadeIn;
-	private SharedPreferences scorePreferences, highscorePreferences;
+	private SharedPreferences scorePreferences, highscorePreferences, timePreferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +126,9 @@ public class GameOverActivity extends BaseGameActivity {
 		scorePreferences = getSharedPreferences("score", 0);
 		score = scorePreferences.getInt("score", 0);
 		scoreValue.setText(String.valueOf(score));
+		
+		timePreferences = getSharedPreferences("time", 0);
+		time = timePreferences.getInt("time", 0);
 
 		// get highscore and set text field
 		highscorePreferences = getSharedPreferences("highscore", 0);
@@ -155,6 +158,7 @@ public class GameOverActivity extends BaseGameActivity {
 	public void onSignInSucceeded() {
 		if (isSignedIn()) {
 			Games.Leaderboards.submitScore(getApiClient(), "CgkIkNf1ofsQEAIQAQ", score);
+			Games.Leaderboards.submitScore(getApiClient(), "CgkIkNf1ofsQEAIQAg", time);
 		} else {
 			Log.d("not signed in", "Not signed in to submit score");
 		}

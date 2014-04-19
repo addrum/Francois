@@ -41,7 +41,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	private Player player;
 	private ArrayList<Entity> weights = new ArrayList<Entity>();
 	private ArrayList<Entity> items = new ArrayList<Entity>();
-	private SharedPreferences scorePreferences, highscorePreferences;
+	private SharedPreferences scorePreferences, highscorePreferences, timePreferences;
 	private Random random = new Random();
 	private GameTimers gameTimers;
 
@@ -252,8 +252,13 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		SharedPreferences.Editor editorScore = scorePreferences.edit();
 		editorScore.putInt("score", score);
 
+		timePreferences = getContext().getSharedPreferences("time", 0);
+		SharedPreferences.Editor editorTime = timePreferences.edit();
+		editorTime.putInt("time", time);
+		
 		// commit all changes
 		editorScore.commit();
+		editorTime.commit();
 
 		highscorePreferences = getContext().getSharedPreferences("highscore", 0);
 
