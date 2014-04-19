@@ -20,6 +20,7 @@ import android.view.WindowManager;
 
 import com.entities.francois.Entity;
 import com.entities.francois.Player;
+import com.entities.francois.ScoreItem;
 import com.entities.francois.WeightLarge;
 import com.entities.francois.WeightMedium;
 import com.entities.francois.WeightSmall;
@@ -32,7 +33,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	private boolean started, gameOver;
 	private int screenHeight, screenWidth;
 	private int score, time = 0;
-	private int smallX, mediumX, largeX;
+	private int smallX, mediumX, largeX, scoreItemX;
 	private WindowManager wm;
 	private Display display;
 	private Point size;
@@ -65,7 +66,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		screenWidth = size.x;
 
 		gameTimers = new GameTimers(this);
-		
+
 		gameOver = false;
 
 		player = new Player(BitmapFactory.decodeResource(getResources(),
@@ -145,7 +146,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 				// handles game over circumstances
 				if (CollisionUtil.isCollisionDetected(weight.getBitmap(),
 						weight.getX(), weight.getY(), player.getBitmap(),
-						player.getX(), player.getY())) {					
+						player.getX(), player.getY())) {
 					Intent gameOverIntent = new Intent(this.getContext(),
 							GameOverActivity.class);
 					player.setTouched(false);
@@ -158,6 +159,18 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 						e.printStackTrace();
 					}
 					gameOver = true;
+				}
+			}
+
+			Entity[] itemArray = items.toArray(new Entity[0]);
+			for (Entity item : itemArray) {
+				item.update();
+
+				if (CollisionUtil.isCollisionDetected(item.getBitmap(),
+						item.getX(), item.getY(), player.getBitmap(),
+						player.getX(), player.getY())) {
+					item.destroy();
+					score++;
 				}
 			}
 		}
@@ -176,6 +189,10 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 			checkChance("largeX", chance, 60);
 			weights.add(new WeightLarge(BitmapFactory.decodeResource(
 					getResources(), R.drawable.weight_l), largeX, -10));
+		} else if (entityType.equals("score")) {
+			checkChance("scoreItemX", chance, 50);
+			items.add(new ScoreItem(BitmapFactory.decodeResource(
+					getResources(), R.drawable.score_item), scoreItemX, -10));
 		}
 	}
 
@@ -195,6 +212,12 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		checkChance("largeX", chance, 60);
 		weights.add(new WeightLarge(BitmapFactory.decodeResource(
 				getResources(), R.drawable.weight_l), largeX, -10));
+	}
+
+	public void spawnScoreItem(int chance) {
+		checkChance("scoreItemX", chance, 50);
+		items.add(new ScoreItem(BitmapFactory.decodeResource(getResources(),
+				R.drawable.score_item), scoreItemX, -10));
 	}
 
 	public void checkChance(String spawnX, int chance, int value) {
@@ -226,6 +249,8 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 			mediumX = intermediary;
 		} else if (spawnX.equals("largeX")) {
 			largeX = intermediary;
+		} else if (spawnX.equals("scoreItemX")) {
+			scoreItemX = intermediary;
 		}
 	}
 

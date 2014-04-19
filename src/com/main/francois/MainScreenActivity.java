@@ -45,7 +45,7 @@ public class MainScreenActivity extends Activity {
 		title = (TextView) findViewById(R.id.title);
 		highscoreText = (TextView) findViewById(R.id.highscoreText);
 		highscoreValue = (TextView) findViewById(R.id.highscoreValue);
-		lastScoreText = (TextView) findViewById(R.id.lastScore);
+		lastScoreText = (TextView) findViewById(R.id.lastScoreText);
 		lastScoreValue = (TextView) findViewById(R.id.lastScoreValue);
 
 		// set font
@@ -94,6 +94,7 @@ public class MainScreenActivity extends Activity {
 				Intent settingsActivityIntent = new Intent(MainScreenActivity.this, SettingsActivity.class);
 				MainScreenActivity.this.startActivity(settingsActivityIntent);
 				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
+				
 			}
 
 		});

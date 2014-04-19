@@ -21,37 +21,37 @@
         android:textSize="35sp" />
 
     <TextView
+        android:id="@+id/lastScoreValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lastScoreText"
+        android:layout_below="@+id/lastScoreText"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="25sp" />
+
+    <TextView
+        android:id="@+id/highscoreText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lastScoreValue"
+        android:layout_below="@+id/lastScoreValue"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:gravity="center"
+        android:text="@string/high_score"
+        android:textColor="#000000"
+        android:textSize="25sp" />
+
+    <TextView
         android:id="@+id/highscoreValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/highscoreText"
         android:layout_below="@+id/highscoreText"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:gravity="center"
-        android:textColor="#000000"
-        android:textSize="25sp" />
-
-    <TextView
-        android:id="@+id/lastScore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/highscoreValue"
-        android:layout_below="@+id/highscoreValue"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:gravity="center"
-        android:text="@string/last_score"
-        android:textColor="#000000"
-        android:textSize="25sp" />
-
-    <TextView
-        android:id="@+id/lastScoreValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/lastScore"
-        android:layout_below="@+id/lastScore"
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:gravity="center"
@@ -67,7 +67,8 @@
         android:layout_marginBottom="25dp"
         android:background="#F7F7F7"
         android:gravity="center"
-        android:text="@string/settings" />
+        android:text="@string/settings"
+        android:textColor="@drawable/hovercolour" />
 
     <Button
         android:id="@+id/playButton"
@@ -81,7 +82,7 @@
         android:text="@string/play" />
 
     <TextView
-        android:id="@+id/highscoreText"
+        android:id="@+id/lastScoreText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/title"
@@ -89,7 +90,7 @@
         android:layout_marginTop="39dp"
         android:ems="10"
         android:gravity="center"
-        android:text="@string/high_score"
+        android:text="@string/last_score"
         android:textColor="#000000"
         android:textSize="25sp" />
 

@@ -51,6 +51,7 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="81dp"
         android:background="@drawable/bluebutton"
         android:gravity="center"
         android:text="@string/save" />

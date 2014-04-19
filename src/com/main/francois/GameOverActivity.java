@@ -47,8 +47,8 @@ public class GameOverActivity extends Activity {
 		gameOver = (TextView) findViewById(R.id.gameOver);
 		scoreText = (TextView) findViewById(R.id.scoreText);
 		scoreValue = (TextView) findViewById(R.id.scoreValue);
-		highscoreText = (TextView) findViewById(R.id.highscoreText);
-		highscoreValue = (TextView) findViewById(R.id.highscoreValue);
+		highscoreText = (TextView) findViewById(R.id.lastScoreText);
+		highscoreValue = (TextView) findViewById(R.id.a);
 
 		// set font
 		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
