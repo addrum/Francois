@@ -57,8 +57,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		setFocusable(true);
 
 		// get screen size
-		wm = (WindowManager) this.getContext().getSystemService(
-				Context.WINDOW_SERVICE);
+		wm = (WindowManager) this.getContext().getSystemService(Context.WINDOW_SERVICE);
 		display = wm.getDefaultDisplay();
 		size = new Point();
 		display.getSize(size);
@@ -69,9 +68,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 
 		gameOver = false;
 
-		player = new Player(BitmapFactory.decodeResource(getResources(),
-				R.drawable.player), (screenWidth / 2),
-				(int) (screenHeight / 1.2));
+		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player), (screenWidth / 2), (int) (screenHeight / 1.2));
 	}
 
 	@Override
@@ -144,11 +141,8 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 				weight.update();
 
 				// handles game over circumstances
-				if (CollisionUtil.isCollisionDetected(weight.getBitmap(),
-						weight.getX(), weight.getY(), player.getBitmap(),
-						player.getX(), player.getY())) {
-					Intent gameOverIntent = new Intent(this.getContext(),
-							GameOverActivity.class);
+				if (CollisionUtil.isCollisionDetected(weight.getBitmap(), weight.getX(), weight.getY(), player.getBitmap(), player.getX(), player.getY())) {
+					Intent gameOverIntent = new Intent(this.getContext(), GameOverActivity.class);
 					player.setTouched(false);
 					this.getContext().startActivity(gameOverIntent);
 					((Activity) this.getContext()).finish();
@@ -166,9 +160,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 			for (Entity item : itemArray) {
 				item.update();
 
-				if (CollisionUtil.isCollisionDetected(item.getBitmap(),
-						item.getX(), item.getY(), player.getBitmap(),
-						player.getX(), player.getY())) {
+				if (CollisionUtil.isCollisionDetected(item.getBitmap(), item.getX(), item.getY(), player.getBitmap(), player.getX(), player.getY())) {
 					item.destroy();
 					score++;
 				}
@@ -179,45 +171,37 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	public void spawnEntity(int chance, String entityType) {
 		if (entityType.equals("small")) {
 			checkChance("smallX", chance, 45);
-			weights.add(new WeightSmall(BitmapFactory.decodeResource(
-					getResources(), R.drawable.weight_s), smallX, -10));
+			weights.add(new WeightSmall(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), smallX, -10));
 		} else if (entityType.equals("medium")) {
 			checkChance("mediumX", chance, 50);
-			weights.add(new WeightMedium(BitmapFactory.decodeResource(
-					getResources(), R.drawable.weight_m), mediumX, -10));
+			weights.add(new WeightMedium(BitmapFactory.decodeResource(getResources(), R.drawable.weight_m), mediumX, -10));
 		} else if (entityType.equals("large")) {
 			checkChance("largeX", chance, 60);
-			weights.add(new WeightLarge(BitmapFactory.decodeResource(
-					getResources(), R.drawable.weight_l), largeX, -10));
+			weights.add(new WeightLarge(BitmapFactory.decodeResource(getResources(), R.drawable.weight_l), largeX, -10));
 		} else if (entityType.equals("score")) {
 			checkChance("scoreItemX", chance, 50);
-			items.add(new ScoreItem(BitmapFactory.decodeResource(
-					getResources(), R.drawable.score_item), scoreItemX, -10));
+			items.add(new ScoreItem(BitmapFactory.decodeResource(getResources(), R.drawable.score_item), scoreItemX, -10));
 		}
 	}
 
 	public void spawnSmallWeight(int chance) {
 		checkChance("smallX", chance, 45);
-		weights.add(new WeightSmall(BitmapFactory.decodeResource(
-				getResources(), R.drawable.weight_s), smallX, -10));
+		weights.add(new WeightSmall(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), smallX, -10));
 	}
 
 	public void spawnMediumWeight(int chance) {
 		checkChance("mediumX", chance, 50);
-		weights.add(new WeightMedium(BitmapFactory.decodeResource(
-				getResources(), R.drawable.weight_m), mediumX, -10));
+		weights.add(new WeightMedium(BitmapFactory.decodeResource(getResources(), R.drawable.weight_m), mediumX, -10));
 	}
 
 	public void spawnLargeWeight(int chance) {
 		checkChance("largeX", chance, 60);
-		weights.add(new WeightLarge(BitmapFactory.decodeResource(
-				getResources(), R.drawable.weight_l), largeX, -10));
+		weights.add(new WeightLarge(BitmapFactory.decodeResource(getResources(), R.drawable.weight_l), largeX, -10));
 	}
 
 	public void spawnScoreItem(int chance) {
 		checkChance("scoreItemX", chance, 50);
-		items.add(new ScoreItem(BitmapFactory.decodeResource(getResources(),
-				R.drawable.score_item), scoreItemX, -10));
+		items.add(new ScoreItem(BitmapFactory.decodeResource(getResources(), R.drawable.score_item), scoreItemX, -10));
 	}
 
 	public void checkChance(String spawnX, int chance, int value) {
@@ -225,8 +209,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 
 		if (player.getX() > screenWidth / 2) {
 			if (chance > value) {
-				intermediary = random.nextInt(screenWidth - (screenWidth / 2))
-						+ (screenWidth / 2);
+				intermediary = random.nextInt(screenWidth - (screenWidth / 2)) + (screenWidth / 2);
 				checkIntermediary(intermediary);
 			} else {
 				intermediary = random.nextInt(screenWidth / 2);
@@ -237,8 +220,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 				intermediary = random.nextInt(screenWidth / 2);
 				checkIntermediary(intermediary);
 			} else {
-				intermediary = random.nextInt(screenWidth - (screenWidth / 2))
-						+ (screenWidth / 2);
+				intermediary = random.nextInt(screenWidth - (screenWidth / 2)) + (screenWidth / 2);
 				checkIntermediary(intermediary);
 			}
 		}
@@ -273,14 +255,12 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		// commit all changes
 		editorScore.commit();
 
-		highscorePreferences = getContext()
-				.getSharedPreferences("highscore", 0);
+		highscorePreferences = getContext().getSharedPreferences("highscore", 0);
 
 		// save score and time if current score is > than current highscore and
 		// time is > than current hightime
 		if (score > highscorePreferences.getInt("highscore", 0)) {
-			SharedPreferences.Editor editorHighscore = highscorePreferences
-					.edit();
+			SharedPreferences.Editor editorHighscore = highscorePreferences.edit();
 			editorHighscore.putInt("highscore", score);
 			editorHighscore.commit();
 		}
@@ -299,8 +279,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 		// set screen width equal to physical device screen width
 		screenWidth = size.x;
 	}

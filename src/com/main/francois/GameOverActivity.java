@@ -1,10 +1,8 @@
 package com.main.francois;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
@@ -16,23 +14,27 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class GameOverActivity extends Activity {
+import com.google.android.gms.games.Games;
+import com.google.example.games.basegameutils.BaseGameActivity;
+
+public class GameOverActivity extends BaseGameActivity {
 
 	private int score, highscore;
-	private RelativeLayout mainLayout;
 	private Button playAgainButton, settingsButton;
 	private TextView gameOver, scoreText, scoreValue, highscoreText, highscoreValue;
 	private Animation inFromTop, inFromBottom, fadeIn;
-	private SharedPreferences scorePreferences, highscorePreferences, themePreferences;
+	private SharedPreferences scorePreferences, highscorePreferences;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		setRequestedClients(BaseGameActivity.CLIENT_GAMES);
 		// requesting to turn the title OFF
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// set requested clients (games and cloud save)
+		setRequestedClients(BaseGameActivity.CLIENT_GAMES);
+		super.onCreate(savedInstanceState);
 		// making it full screen
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		// set layout file for this activity
@@ -41,14 +43,13 @@ public class GameOverActivity extends Activity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// get id's
-		mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
 		playAgainButton = (Button) findViewById(R.id.playButton);
 		settingsButton = (Button) findViewById(R.id.settingsButton);
 		gameOver = (TextView) findViewById(R.id.gameOver);
 		scoreText = (TextView) findViewById(R.id.scoreText);
 		scoreValue = (TextView) findViewById(R.id.scoreValue);
-		highscoreText = (TextView) findViewById(R.id.lastScoreText);
-		highscoreValue = (TextView) findViewById(R.id.a);
+		highscoreText = (TextView) findViewById(R.id.highscoreText);
+		highscoreValue = (TextView) findViewById(R.id.highscoreValue);
 
 		// set font
 		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
@@ -115,17 +116,8 @@ public class GameOverActivity extends Activity {
 		highscore = highscorePreferences.getInt("highscore", 0);
 		highscoreValue.setText(Integer.toString(highscore));
 
-		// get theme prefs
-		themePreferences = getSharedPreferences("theme", 0);
-		boolean theme = themePreferences.getBoolean("theme", false);
-		if (theme == true) {
-			mainLayout.setBackgroundColor(Color.BLACK);
-			settingsButton.setBackgroundColor(Color.BLACK);
-			settingsButton.setTextColor(Color.WHITE);
-			highscoreText.setTextColor(Color.WHITE);
-			highscoreValue.setTextColor(Color.WHITE);
-			scoreText.setTextColor(Color.WHITE);
-			scoreValue.setTextColor(Color.WHITE);
+		if (isSignedIn()) {
+			Games.Leaderboards.submitScore(getApiClient(), "CgkIkNf1ofsQEAIQAQ", score);
 		}
 
 	}
@@ -145,6 +137,18 @@ public class GameOverActivity extends Activity {
 		playAgainButton.startAnimation(inFromBottom);
 		settingsButton.startAnimation(inFromBottom);
 		gameOver.startAnimation(inFromTop);
+	}
+
+	@Override
+	public void onSignInFailed() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onSignInSucceeded() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

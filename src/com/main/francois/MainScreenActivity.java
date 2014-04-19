@@ -1,6 +1,5 @@
 package com.main.francois;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -18,20 +17,25 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainScreenActivity extends Activity {
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.games.Games;
+import com.google.example.games.basegameutils.BaseGameActivity;
+
+public class MainScreenActivity extends BaseGameActivity implements View.OnClickListener {
 
 	private long lastPress;
 	private int lastScore, highscore;
-	private Button playButton, settingsButton;
+	private Button playButton, settingsButton, signOutButton, leaderboardsButton;
+	private SignInButton signInButton;
 	private TextView title, highscoreText, highscoreValue, lastScoreText, lastScoreValue;
 	private SharedPreferences scorePreferences, highscorePreferences;
-	private Animation inFromBottom, inFromTop, fadeIn;
+	private Animation inFromBottom, inFromBottomDelayed, inFromTop, fadeIn;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		// requesting to turn the title OFF
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		super.onCreate(savedInstanceState);
 		// making it full screen
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		// set layout file for this activity
@@ -42,35 +46,46 @@ public class MainScreenActivity extends Activity {
 		// get id's
 		playButton = (Button) findViewById(R.id.playButton);
 		settingsButton = (Button) findViewById(R.id.settingsButton);
+		leaderboardsButton = (Button) findViewById(R.id.leaderboardsButton);
 		title = (TextView) findViewById(R.id.title);
 		highscoreText = (TextView) findViewById(R.id.highscoreText);
 		highscoreValue = (TextView) findViewById(R.id.highscoreValue);
 		lastScoreText = (TextView) findViewById(R.id.lastScoreText);
 		lastScoreValue = (TextView) findViewById(R.id.lastScoreValue);
+		signInButton = (SignInButton) findViewById(R.id.signInButton);
+		signOutButton = (Button) findViewById(R.id.signOutButton);
+		signInButton.setOnClickListener(this);
+		signOutButton.setOnClickListener(this);
 
 		// set font
 		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
 		playButton.setTypeface(exo2);
+		leaderboardsButton.setTypeface(exo2);
 		settingsButton.setTypeface(exo2);
 		title.setTypeface(exo2);
 		highscoreText.setTypeface(exo2);
 		highscoreValue.setTypeface(exo2);
 		lastScoreText.setTypeface(exo2);
 		lastScoreValue.setTypeface(exo2);
+		signOutButton.setTypeface(exo2);
 
 		// set animations
 		inFromBottom = AnimationUtils.loadAnimation(this, R.anim.infrombottom);
+		inFromBottomDelayed = AnimationUtils.loadAnimation(this, R.anim.infrombottomdelayed);
 		inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		fadeIn = new AlphaAnimation(0, 1);
 		fadeIn.setInterpolator(new DecelerateInterpolator());
 		fadeIn.setDuration(2500);
 		playButton.startAnimation(inFromBottom);
+		leaderboardsButton.startAnimation(inFromBottom);
 		settingsButton.startAnimation(inFromBottom);
 		title.startAnimation(inFromTop);
 		lastScoreText.startAnimation(fadeIn);
 		lastScoreValue.startAnimation(fadeIn);
 		highscoreText.startAnimation(fadeIn);
 		highscoreValue.startAnimation(fadeIn);
+		signInButton.startAnimation(inFromBottomDelayed);
+		signOutButton.startAnimation(inFromBottomDelayed);
 
 		load();
 
@@ -87,6 +102,16 @@ public class MainScreenActivity extends Activity {
 
 		});
 
+		leaderboardsButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				if (isSignedIn())
+					startActivityForResult(Games.Leaderboards.getLeaderboardIntent(getApiClient(), "CgkIkNf1ofsQEAIQAQ"), 0);
+			}
+
+		});
+
 		settingsButton.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -94,7 +119,7 @@ public class MainScreenActivity extends Activity {
 				Intent settingsActivityIntent = new Intent(MainScreenActivity.this, SettingsActivity.class);
 				MainScreenActivity.this.startActivity(settingsActivityIntent);
 				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
-				
+
 			}
 
 		});
@@ -153,8 +178,46 @@ public class MainScreenActivity extends Activity {
 	public void onResume() {
 		super.onResume();
 		playButton.startAnimation(inFromBottom);
+		leaderboardsButton.startAnimation(inFromBottom);
 		settingsButton.startAnimation(inFromBottom);
 		title.startAnimation(inFromTop);
+		signInButton.startAnimation(inFromBottomDelayed);
+		signOutButton.startAnimation(inFromBottomDelayed);
+		lastScoreText.startAnimation(fadeIn);
+		lastScoreValue.startAnimation(fadeIn);
+		highscoreText.startAnimation(fadeIn);
+		highscoreValue.startAnimation(fadeIn);
+	}
+
+	@Override
+	public void onSignInFailed() {
+		// Sign in has failed. So show the user the sign-in button.
+		findViewById(R.id.signInButton).setVisibility(View.VISIBLE);
+		findViewById(R.id.signOutButton).setVisibility(View.GONE);
+	}
+
+	@Override
+	public void onSignInSucceeded() {
+		// show sign-out button, hide the sign-in button
+		findViewById(R.id.signInButton).setVisibility(View.GONE);
+		findViewById(R.id.signOutButton).setVisibility(View.VISIBLE);
+		// (your code here: update UI, enable functionality that depends on sign
+		// in, etc)
+	}
+
+	@Override
+	public void onClick(View view) {
+		if (view.getId() == R.id.signInButton) {
+			// start the asynchronous sign in flow
+			beginUserInitiatedSignIn();
+		} else if (view.getId() == R.id.signOutButton) {
+			// sign out.
+			signOut();
+
+			// show sign-in button, hide the sign-out button
+			findViewById(R.id.signInButton).setVisibility(View.VISIBLE);
+			findViewById(R.id.signOutButton).setVisibility(View.GONE);
+		}
 	}
 
 }

@@ -1,8 +1,8 @@
 <resources>
 
     <string name="app_name">Francois</string>
-    <string name="score">Score</string>
-    <string name="high_score">Highscore</string>
+    <string name="score">Score:</string>
+    <string name="high_score">Highscore:</string>
     <string name="play_again">Play Again</string>
     <string name="game_over">Game Over </string>
     <string name="settings">Settings</string>
@@ -13,5 +13,17 @@
     <string name="help">Help</string>
     <string name="play">Play</string>
     <string name="last_score">Last Score</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="leaderboard">Leaderboards</string>
+    
+    <string name="app_id">582844509072</string>
+    <string name="just_getting_started_achiev">CgkI0bj4nfoBEAIQAg</string>
+    <string name="warming_up_achiev">CgkI0bj4nfoBEAIQAw</string>
+    <string name="small_collector_achiev">CgkI0bj4nfoBEAIQBA</string>
+    <string name="collector_achiev">CgkI0bj4nfoBEAIQBQ</string>
+    <string name="ultimate_achiev">CgkI0bj4nfoBEAIQBg</string>
+    <string name="score_leaderboard">CgkIkNf1ofsQEAIQAQ</string>
+    <string name="time_leaderboard">CgkIkNf1ofsQEAIQAg</string>
 
 </resources>

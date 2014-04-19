@@ -4,25 +4,22 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class SettingsActivity extends Activity {
 
 	private boolean clear = false;
-	private RelativeLayout mainLayout;
 	private TextView title, clearText;
 	private ToggleButton clearButton;
 	private Button save;
@@ -42,7 +39,6 @@ public class SettingsActivity extends Activity {
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// get id's
-		mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
 		title = (TextView) findViewById(R.id.settings);
 		clearText = (TextView) findViewById(R.id.clear);
 		clearButton = (ToggleButton) findViewById(R.id.clearButton);
