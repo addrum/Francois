@@ -21,44 +21,6 @@
         android:textColor="#000000"
         android:textSize="35sp" />
 
-    <Button
-        android:id="@+id/settingsButton"
-        android:layout_width="175dp"
-        android:layout_height="50dp"
-        android:layout_alignLeft="@+id/playButton"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="15dp"
-        android:background="#ffffff"
-        android:gravity="center"
-        android:text="@string/settings"
-        android:textColor="@drawable/hovercolour" />
-
-    <Button
-        android:id="@+id/playButton"
-        style="@style/ButtonText"
-        android:layout_width="175dp"
-        android:layout_height="50dp"
-        android:layout_above="@+id/settingsButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="45dp"
-        android:background="@drawable/bluebutton"
-        android:gravity="center"
-        android:text="@string/play"
-        android:color="#ffffff" />
-
-    <TextView
-        android:id="@+id/scoreText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/gameOver"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:ems="10"
-        android:gravity="center"
-        android:text="@string/score"
-        android:textColor="#000000"
-        android:textSize="25sp" />
-
     <TextView
         android:id="@+id/scoreValue"
         android:layout_width="wrap_content"
@@ -84,16 +46,63 @@
         android:textSize="25sp" />
 
     <TextView
+        android:id="@+id/scoreText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/highscoreValue"
+        android:layout_below="@+id/gameOver"
+        android:layout_marginTop="23dp"
+        android:ems="10"
+        android:gravity="center"
+        android:text="@string/score"
+        android:textColor="#000000"
+        android:textSize="25sp" />
+
+    <TextView
         android:id="@+id/highscoreText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/scoreValue"
         android:layout_below="@+id/scoreValue"
-        android:layout_marginTop="50dp"
         android:ems="10"
         android:gravity="center"
         android:text="@string/high_score"
         android:textColor="#000000"
         android:textSize="25sp" />
+
+    <Button
+        android:id="@+id/settingsButton"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_alignLeft="@+id/playButton"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:text="@string/settings"
+        android:textColor="@drawable/hovercolour" />
+
+    <Button
+        android:id="@+id/leaderboardsButton"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/settingsButton"
+        android:layout_alignLeft="@+id/settingsButton"
+        android:background="#ffffff"
+        android:gravity="center"
+        android:text="@string/leaderboard"
+        android:textColor="@drawable/hovercolour" />
+
+    <Button
+        android:id="@+id/playButton"
+        style="@style/ButtonText"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/leaderboardsButton"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bluebutton"
+        android:gravity="center"
+        android:text="@string/play"
+        android:color="#ffffff" />
 
 </RelativeLayout>

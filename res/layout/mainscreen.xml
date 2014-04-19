@@ -66,13 +66,6 @@
         android:text="@string/sign_out"
         android:visibility="gone" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/signInButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" >
-    </com.google.android.gms.common.SignInButton>
-
     <TextView
         android:id="@+id/lastScoreText"
         android:layout_width="wrap_content"
@@ -86,22 +79,12 @@
         android:textSize="25sp" />
 
     <Button
-        android:id="@+id/playButton"
-        style="@style/ButtonText"
-        android:layout_width="175dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/highscoreValue"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/bluebutton"
-        android:gravity="center"
-        android:text="@string/play" />
-
-    <Button
         android:id="@+id/settingsButton"
         android:layout_width="175dp"
         android:layout_height="50dp"
         android:layout_alignLeft="@+id/leaderboardsButton"
-        android:layout_below="@+id/leaderboardsButton"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="25dp"
         android:background="#F7F7F7"
         android:gravity="center"
         android:text="@string/settings"
@@ -111,11 +94,22 @@
         android:id="@+id/leaderboardsButton"
         android:layout_width="175dp"
         android:layout_height="50dp"
+        android:layout_above="@+id/settingsButton"
         android:layout_alignLeft="@+id/playButton"
-        android:layout_below="@+id/playButton"
         android:background="#F7F7F7"
         android:gravity="center"
         android:text="@string/leaderboard"
         android:textColor="@drawable/hovercolour" />
+
+    <Button
+        android:id="@+id/playButton"
+        style="@style/ButtonText"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/leaderboardsButton"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bluebutton"
+        android:gravity="center"
+        android:text="@string/play" />
 
 </RelativeLayout>

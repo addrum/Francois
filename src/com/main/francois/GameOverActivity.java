@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -15,14 +16,16 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.BaseGameActivity;
 
 public class GameOverActivity extends BaseGameActivity {
 
+	private long lastPress;
 	private int score, highscore;
-	private Button playAgainButton, settingsButton;
+	private Button playAgainButton, leaderboardsButton, settingsButton;
 	private TextView gameOver, scoreText, scoreValue, highscoreText, highscoreValue;
 	private Animation inFromTop, inFromBottom, fadeIn;
 	private SharedPreferences scorePreferences, highscorePreferences;
@@ -44,6 +47,7 @@ public class GameOverActivity extends BaseGameActivity {
 
 		// get id's
 		playAgainButton = (Button) findViewById(R.id.playButton);
+		leaderboardsButton = (Button) findViewById(R.id.leaderboardsButton);
 		settingsButton = (Button) findViewById(R.id.settingsButton);
 		gameOver = (TextView) findViewById(R.id.gameOver);
 		scoreText = (TextView) findViewById(R.id.scoreText);
@@ -54,6 +58,7 @@ public class GameOverActivity extends BaseGameActivity {
 		// set font
 		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
 		playAgainButton.setTypeface(exo2);
+		leaderboardsButton.setTypeface(exo2);
 		settingsButton.setTypeface(exo2);
 		gameOver.setTypeface(exo2);
 		scoreText.setTypeface(exo2);
@@ -66,8 +71,9 @@ public class GameOverActivity extends BaseGameActivity {
 		inFromTop = AnimationUtils.loadAnimation(this, R.anim.infromtop);
 		fadeIn = new AlphaAnimation(0, 1);
 		fadeIn.setInterpolator(new DecelerateInterpolator());
-		fadeIn.setDuration(2500);
+		fadeIn.setDuration(4000);
 		playAgainButton.startAnimation(inFromBottom);
+		leaderboardsButton.startAnimation(inFromBottom);
 		settingsButton.startAnimation(inFromBottom);
 		gameOver.startAnimation(inFromTop);
 		scoreText.startAnimation(fadeIn);
@@ -87,6 +93,16 @@ public class GameOverActivity extends BaseGameActivity {
 				GameOverActivity.this.startActivity(gameActivityIntent);
 				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
 				finish();
+			}
+
+		});
+
+		leaderboardsButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				if (isSignedIn())
+					startActivityForResult(Games.Leaderboards.getLeaderboardIntent(getApiClient(), "CgkIkNf1ofsQEAIQAQ"), 0);
 			}
 
 		});
@@ -116,37 +132,36 @@ public class GameOverActivity extends BaseGameActivity {
 		highscore = highscorePreferences.getInt("highscore", 0);
 		highscoreValue.setText(Integer.toString(highscore));
 
-		if (isSignedIn()) {
-			Games.Leaderboards.submitScore(getApiClient(), "CgkIkNf1ofsQEAIQAQ", score);
-		}
-
 	}
 
 	// handle hardware back button
 	@Override
 	public void onBackPressed() {
-		Intent mainScreenActivityIntent = new Intent(GameOverActivity.this, MainScreenActivity.class);
-		GameOverActivity.this.startActivity(mainScreenActivityIntent);
-		overridePendingTransition(R.anim.lefttocenter, R.anim.centertoright);
-		finish();
+		long currentTime = System.currentTimeMillis();
+		if (currentTime - lastPress > 2000) {
+			Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+			lastPress = currentTime;
+		} else {
+			finish();
+		}
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		playAgainButton.startAnimation(inFromBottom);
-		settingsButton.startAnimation(inFromBottom);
-		gameOver.startAnimation(inFromTop);
-	}
-
-	@Override
-	public void onSignInFailed() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onSignInSucceeded() {
+		if (isSignedIn()) {
+			Games.Leaderboards.submitScore(getApiClient(), "CgkIkNf1ofsQEAIQAQ", score);
+		} else {
+			Log.d("not signed in", "Not signed in to submit score");
+		}
+	}
+
+	@Override
+	public void onSignInFailed() {
 		// TODO Auto-generated method stub
 
 	}
