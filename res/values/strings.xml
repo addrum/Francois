@@ -16,13 +16,17 @@
     <string name="sign_in">Sign In</string>
     <string name="sign_out">Sign Out</string>
     <string name="leaderboard">Leaderboards</string>
+    <string name="leaderboard_title">Choose Leaderboard to View</string>
+    <string name="score_option">Scores</string>
+    <string name="time_option">Time Survived</string>
+    <string name="achievements">Achievements</string>
     
     <string name="app_id">582844509072</string>
-    <string name="just_getting_started_achiev">CgkI0bj4nfoBEAIQAg</string>
-    <string name="warming_up_achiev">CgkI0bj4nfoBEAIQAw</string>
-    <string name="small_collector_achiev">CgkI0bj4nfoBEAIQBA</string>
-    <string name="collector_achiev">CgkI0bj4nfoBEAIQBQ</string>
-    <string name="ultimate_achiev">CgkI0bj4nfoBEAIQBg</string>
+    <string name="warming_up_achievement">CgkIkNf1ofsQEAIQBA</string>
+    <string name="natural_achievement">CgkIkNf1ofsQEAIQBQ</string>
+    <string name="novice_evader_achievement">CgkIkNf1ofsQEAIQBg</string>
+    <string name="evader_achievement">CgkIkNf1ofsQEAIQBw</string>
+    <string name="score_means_nothing_achievement">CgkIkNf1ofsQEAIQCA</string>
     <string name="score_leaderboard">CgkIkNf1ofsQEAIQAQ</string>
     <string name="time_leaderboard">CgkIkNf1ofsQEAIQAg</string>
 

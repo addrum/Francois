@@ -1,5 +1,7 @@
 package com.main.francois;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -25,10 +27,11 @@ public class GameOverActivity extends BaseGameActivity {
 
 	private long lastPress;
 	private int score, highscore, time;
-	private Button playAgainButton, leaderboardsButton, settingsButton;
+	private Button playAgainButton, leaderboardsButton, achievementsButton;
 	private TextView gameOver, scoreText, scoreValue, highscoreText, highscoreValue;
 	private Animation inFromTop, inFromBottom, fadeIn;
 	private SharedPreferences scorePreferences, highscorePreferences, timePreferences;
+	AlertDialog.Builder alertDialogBuilder;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,7 @@ public class GameOverActivity extends BaseGameActivity {
 		// get id's
 		playAgainButton = (Button) findViewById(R.id.playButton);
 		leaderboardsButton = (Button) findViewById(R.id.leaderboardsButton);
-		settingsButton = (Button) findViewById(R.id.settingsButton);
+		achievementsButton = (Button) findViewById(R.id.achievementsButton);
 		gameOver = (TextView) findViewById(R.id.gameOver);
 		scoreText = (TextView) findViewById(R.id.scoreText);
 		scoreValue = (TextView) findViewById(R.id.scoreValue);
@@ -59,7 +62,7 @@ public class GameOverActivity extends BaseGameActivity {
 		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
 		playAgainButton.setTypeface(exo2);
 		leaderboardsButton.setTypeface(exo2);
-		settingsButton.setTypeface(exo2);
+		achievementsButton.setTypeface(exo2);
 		gameOver.setTypeface(exo2);
 		scoreText.setTypeface(exo2);
 		scoreValue.setTypeface(exo2);
@@ -74,13 +77,15 @@ public class GameOverActivity extends BaseGameActivity {
 		fadeIn.setDuration(4000);
 		playAgainButton.startAnimation(inFromBottom);
 		leaderboardsButton.startAnimation(inFromBottom);
-		settingsButton.startAnimation(inFromBottom);
+		achievementsButton.startAnimation(inFromBottom);
 		gameOver.startAnimation(inFromTop);
 		scoreText.startAnimation(fadeIn);
 		scoreValue.startAnimation(fadeIn);
 		highscoreText.startAnimation(fadeIn);
 		highscoreValue.startAnimation(fadeIn);
 
+		alertDialogBuilder = new AlertDialog.Builder(this);
+		
 		// get score
 		load();
 
@@ -101,19 +106,34 @@ public class GameOverActivity extends BaseGameActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				if (isSignedIn())
-					startActivityForResult(Games.Leaderboards.getLeaderboardIntent(getApiClient(), "CgkIkNf1ofsQEAIQAQ"), 0);
+				if (isSignedIn()) {
+					alertDialogBuilder.setTitle(getString(R.string.leaderboard_title));
+					alertDialogBuilder.setMessage("Click outside the box to close.").setCancelable(true).setPositiveButton(getString(R.string.time_option), new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							startActivityForResult(Games.Leaderboards.getLeaderboardIntent(getApiClient(), getString(R.string.time_leaderboard)), 0);
+						}
+					}).setNegativeButton(getString(R.string.score_option), new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							startActivityForResult(Games.Leaderboards.getLeaderboardIntent(getApiClient(), getString(R.string.score_leaderboard)), 0);
+						}
+					});
+
+					// create alert dialog
+					AlertDialog alertDialog = alertDialogBuilder.create();
+					// show it
+					alertDialog.show();
+				} else {
+					beginUserInitiatedSignIn();
+				}
 			}
 
 		});
 
-		settingsButton.setOnClickListener(new OnClickListener() {
+		achievementsButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Intent settingsActivityIntent = new Intent(GameOverActivity.this, SettingsActivity.class);
-				GameOverActivity.this.startActivity(settingsActivityIntent);
-				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
+				startActivityForResult(Games.Achievements.getAchievementsIntent(getApiClient()), 1);
 			}
 
 		});
@@ -126,7 +146,7 @@ public class GameOverActivity extends BaseGameActivity {
 		scorePreferences = getSharedPreferences("score", 0);
 		score = scorePreferences.getInt("score", 0);
 		scoreValue.setText(String.valueOf(score));
-		
+
 		timePreferences = getSharedPreferences("time", 0);
 		time = timePreferences.getInt("time", 0);
 
@@ -157,8 +177,19 @@ public class GameOverActivity extends BaseGameActivity {
 	@Override
 	public void onSignInSucceeded() {
 		if (isSignedIn()) {
-			Games.Leaderboards.submitScore(getApiClient(), "CgkIkNf1ofsQEAIQAQ", score);
-			Games.Leaderboards.submitScore(getApiClient(), "CgkIkNf1ofsQEAIQAg", time);
+			Games.Leaderboards.submitScore(getApiClient(), getString(R.string.score_leaderboard), score);
+			Games.Leaderboards.submitScore(getApiClient(), getString(R.string.time_leaderboard), time);
+			if (score >= 5)
+				Games.Achievements.unlock(getApiClient(), getString(R.string.warming_up_achievement));
+			if (score >= 10)
+				Games.Achievements.unlock(getApiClient(), getString(R.string.natural_achievement));
+			if (time >= 30)
+				Games.Achievements.unlock(getApiClient(), getString(R.string.novice_evader_achievement));
+			if (time >= 60) {
+				Games.Achievements.unlock(getApiClient(), getString(R.string.evader_achievement));
+				if (score == 0)
+					Games.Achievements.unlock(getApiClient(), getString(R.string.score_means_nothing_achievement));
+			}
 		} else {
 			Log.d("not signed in", "Not signed in to submit score");
 		}

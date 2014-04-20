@@ -1,5 +1,7 @@
 package com.main.francois;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -24,10 +26,11 @@ public class MainScreenActivity extends BaseGameActivity implements View.OnClick
 
 	private long lastPress;
 	private int lastScore, highscore;
-	private Button playButton, settingsButton, leaderboardsButton;
+	private Button playButton, achievementsButton, leaderboardsButton;
 	private TextView title, highscoreText, highscoreValue, lastScoreText, lastScoreValue;
 	private SharedPreferences scorePreferences, highscorePreferences;
 	private Animation inFromBottom, inFromTop, fadeIn;
+	AlertDialog.Builder alertDialogBuilder;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,7 @@ public class MainScreenActivity extends BaseGameActivity implements View.OnClick
 
 		// get id's
 		playButton = (Button) findViewById(R.id.playButton);
-		settingsButton = (Button) findViewById(R.id.settingsButton);
+		achievementsButton = (Button) findViewById(R.id.achievementsButton);
 		leaderboardsButton = (Button) findViewById(R.id.leaderboardsButton);
 		title = (TextView) findViewById(R.id.title);
 		highscoreText = (TextView) findViewById(R.id.highscoreText);
@@ -55,7 +58,7 @@ public class MainScreenActivity extends BaseGameActivity implements View.OnClick
 		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
 		playButton.setTypeface(exo2);
 		leaderboardsButton.setTypeface(exo2);
-		settingsButton.setTypeface(exo2);
+		achievementsButton.setTypeface(exo2);
 		title.setTypeface(exo2);
 		highscoreText.setTypeface(exo2);
 		highscoreValue.setTypeface(exo2);
@@ -70,13 +73,15 @@ public class MainScreenActivity extends BaseGameActivity implements View.OnClick
 		fadeIn.setDuration(4000);
 		playButton.startAnimation(inFromBottom);
 		leaderboardsButton.startAnimation(inFromBottom);
-		settingsButton.startAnimation(inFromBottom);
+		achievementsButton.startAnimation(inFromBottom);
 		title.startAnimation(inFromTop);
 		lastScoreText.startAnimation(fadeIn);
 		lastScoreValue.startAnimation(fadeIn);
 		highscoreText.startAnimation(fadeIn);
 		highscoreValue.startAnimation(fadeIn);
 
+		alertDialogBuilder = new AlertDialog.Builder(this);
+		
 		load();
 
 		// button listeners
@@ -97,7 +102,21 @@ public class MainScreenActivity extends BaseGameActivity implements View.OnClick
 			@Override
 			public void onClick(View arg0) {
 				if (isSignedIn()) {
-					startActivityForResult(Games.Leaderboards.getLeaderboardIntent(getApiClient(), "CgkIkNf1ofsQEAIQAQ"), 0);
+					alertDialogBuilder.setTitle(getString(R.string.leaderboard_title));
+					alertDialogBuilder.setMessage("Click outside the box to close.").setCancelable(true).setPositiveButton(getString(R.string.time_option), new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							startActivityForResult(Games.Leaderboards.getLeaderboardIntent(getApiClient(), getString(R.string.time_leaderboard)), 0);
+						}
+					}).setNegativeButton(getString(R.string.score_option), new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							startActivityForResult(Games.Leaderboards.getLeaderboardIntent(getApiClient(), getString(R.string.score_leaderboard)), 0);
+						}
+					});
+
+					// create alert dialog
+					AlertDialog alertDialog = alertDialogBuilder.create();
+					// show it
+					alertDialog.show();
 				} else {
 					beginUserInitiatedSignIn();
 				}
@@ -105,14 +124,11 @@ public class MainScreenActivity extends BaseGameActivity implements View.OnClick
 
 		});
 
-		settingsButton.setOnClickListener(new OnClickListener() {
+		achievementsButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Intent settingsActivityIntent = new Intent(MainScreenActivity.this, SettingsActivity.class);
-				MainScreenActivity.this.startActivity(settingsActivityIntent);
-				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
-
+				startActivityForResult(Games.Achievements.getAchievementsIntent(getApiClient()), 1);
 			}
 
 		});

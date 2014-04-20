@@ -141,7 +141,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 				weight.update();
 
 				// handles game over circumstances
-				if (CollisionUtil.isCollisionDetected(weight.getBitmap(), weight.getX(), weight.getY(), player.getBitmap(), player.getX(), player.getY())) {
+				if (CollisionUtil.isCollisionDetected(player.getBitmap(), player.getX(), player.getY(), weight.getBitmap(), weight.getX(), weight.getY())) {
 					Intent gameOverIntent = new Intent(this.getContext(), GameOverActivity.class);
 					player.setTouched(false);
 					this.getContext().startActivity(gameOverIntent);
