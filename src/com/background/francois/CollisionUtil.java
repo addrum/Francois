@@ -5,21 +5,6 @@ import android.graphics.Color;
 import android.graphics.Rect;
 
 public class CollisionUtil {
-
-	/**
-	 * @param bitmap1
-	 *            First bitmap
-	 * @param x1
-	 *            x-position of bitmap1 on screen.
-	 * @param y1
-	 *            y-position of bitmap1 on screen.
-	 * @param bitmap2
-	 *            Second bitmap.
-	 * @param x2
-	 *            x-position of bitmap2 on screen.
-	 * @param y2
-	 *            y-position of bitmap2 on screen.
-	 */
 	public static boolean isCollisionDetected(Bitmap bitmap1, int x1, int y1, Bitmap bitmap2, int x2, int y2) {
 
 		Rect bounds1 = new Rect(x1, y1, x1 + bitmap1.getWidth(), y1 + bitmap1.getHeight());

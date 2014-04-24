@@ -67,6 +67,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		gameTimers = new GameTimers(this);
 
 		gameOver = false;
+		started = false;
 
 		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player), (screenWidth / 2), (int) (screenHeight / 1.2));
 	}
@@ -76,12 +77,6 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
 			// delegating event handling to the shape
 			player.handleActionDown((int) event.getX(), (int) event.getY());
-
-			// check if in the lower part of the screen we exit
-			if (event.getY() > getHeight() - 50) {
-				thread.setRunning(false);
-				((Activity) getContext()).finish();
-			}
 		}
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
 			// the gestures
@@ -90,7 +85,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 				player.setX((int) event.getX());
 				if (!started) {
 					gameTimers.start();
-					started = false;
+					started = true;
 				}
 			}
 		}
@@ -291,6 +286,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
+		thread.setRunning(false);
 	}
 
 	public Player getPlayer() {

@@ -17,20 +17,27 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.BaseGameActivity;
 
 public class GameOverActivity extends BaseGameActivity {
 
+	private static final String AD_UNIT_ID = "ca-app-pub-6066342211060091/8064908168";
 	private long lastPress;
 	private int score, highscore, time;
+	private RelativeLayout mainLayout;
 	private Button playAgainButton, leaderboardsButton, achievementsButton;
 	private TextView gameOver, scoreText, scoreValue, highscoreText, highscoreValue;
 	private Animation inFromTop, inFromBottom, fadeIn;
 	private SharedPreferences scorePreferences, highscorePreferences, timePreferences;
+	private AdView adView;
 	AlertDialog.Builder alertDialogBuilder;
 
 	@Override
@@ -48,7 +55,14 @@ public class GameOverActivity extends BaseGameActivity {
 		// lock orientation to portrait
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+		// Create an ad.
+		adView = new AdView(this);
+		adView.setAdSize(AdSize.SMART_BANNER);
+		adView.setAdUnitId(AD_UNIT_ID);
+
 		// get id's
+		mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
+		mainLayout.addView(adView);
 		playAgainButton = (Button) findViewById(R.id.playButton);
 		leaderboardsButton = (Button) findViewById(R.id.leaderboardsButton);
 		achievementsButton = (Button) findViewById(R.id.achievementsButton);
@@ -57,6 +71,13 @@ public class GameOverActivity extends BaseGameActivity {
 		scoreValue = (TextView) findViewById(R.id.scoreValue);
 		highscoreText = (TextView) findViewById(R.id.highscoreText);
 		highscoreValue = (TextView) findViewById(R.id.highscoreValue);
+
+		// Create an ad request. Check logcat output for the hashed device ID to
+		// get test ads on a physical device.
+		AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).addTestDevice("96EF0C9ECBC8FA36DB5DFC5AC5B5FA2C41BC7A7D").build();
+
+		// Start loading the ad in the background.
+		adView.loadAd(adRequest);
 
 		// set font
 		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
@@ -79,13 +100,14 @@ public class GameOverActivity extends BaseGameActivity {
 		leaderboardsButton.startAnimation(inFromBottom);
 		achievementsButton.startAnimation(inFromBottom);
 		gameOver.startAnimation(inFromTop);
+		adView.startAnimation(inFromTop);
 		scoreText.startAnimation(fadeIn);
 		scoreValue.startAnimation(fadeIn);
 		highscoreText.startAnimation(fadeIn);
 		highscoreValue.startAnimation(fadeIn);
 
 		alertDialogBuilder = new AlertDialog.Builder(this);
-		
+
 		// get score
 		load();
 
@@ -133,7 +155,11 @@ public class GameOverActivity extends BaseGameActivity {
 
 			@Override
 			public void onClick(View v) {
-				startActivityForResult(Games.Achievements.getAchievementsIntent(getApiClient()), 1);
+				if (isSignedIn()) {
+					startActivityForResult(Games.Achievements.getAchievementsIntent(getApiClient()), 1);
+				} else {
+					beginUserInitiatedSignIn();
+				}
 			}
 
 		});
@@ -179,10 +205,15 @@ public class GameOverActivity extends BaseGameActivity {
 		if (isSignedIn()) {
 			Games.Leaderboards.submitScore(getApiClient(), getString(R.string.score_leaderboard), score);
 			Games.Leaderboards.submitScore(getApiClient(), getString(R.string.time_leaderboard), time);
+			Games.Achievements.increment(getApiClient(), getString(R.string.loser_achievement), 1);
 			if (score >= 5)
 				Games.Achievements.unlock(getApiClient(), getString(R.string.warming_up_achievement));
 			if (score >= 10)
 				Games.Achievements.unlock(getApiClient(), getString(R.string.natural_achievement));
+			if (score >= 27)
+				Games.Achievements.unlock(getApiClient(), getString(R.string.beat_mike_achievement));
+			if (score >= 100)
+				Games.Achievements.unlock(getApiClient(), getString(R.string.my_hero_achievement));
 			if (time >= 30)
 				Games.Achievements.unlock(getApiClient(), getString(R.string.novice_evader_achievement));
 			if (time >= 60) {
@@ -190,6 +221,8 @@ public class GameOverActivity extends BaseGameActivity {
 				if (score == 0)
 					Games.Achievements.unlock(getApiClient(), getString(R.string.score_means_nothing_achievement));
 			}
+			if (score == 0)
+				Games.Achievements.increment(getApiClient(), getString(R.string.give_up_achievement), 1);
 		} else {
 			Log.d("not signed in", "Not signed in to submit score");
 		}

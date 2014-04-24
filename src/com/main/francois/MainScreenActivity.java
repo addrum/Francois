@@ -16,20 +16,27 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.games.Games;
 import com.google.example.games.basegameutils.BaseGameActivity;
 
-public class MainScreenActivity extends BaseGameActivity implements View.OnClickListener {
+public class MainScreenActivity extends BaseGameActivity {
 
+	private static final String AD_UNIT_ID = "ca-app-pub-6066342211060091/8064908168";
 	private long lastPress;
 	private int lastScore, highscore;
+	private RelativeLayout mainLayout;
 	private Button playButton, achievementsButton, leaderboardsButton;
 	private TextView title, highscoreText, highscoreValue, lastScoreText, lastScoreValue;
 	private SharedPreferences scorePreferences, highscorePreferences;
 	private Animation inFromBottom, inFromTop, fadeIn;
+	private AdView adView;
 	AlertDialog.Builder alertDialogBuilder;
 
 	@Override
@@ -44,7 +51,14 @@ public class MainScreenActivity extends BaseGameActivity implements View.OnClick
 		// lock orientation to portrait
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+		// Create an ad.
+		adView = new AdView(this);
+		adView.setAdSize(AdSize.SMART_BANNER);
+		adView.setAdUnitId(AD_UNIT_ID);
+
 		// get id's
+		mainLayout = (RelativeLayout) findViewById(R.id.mainLayout);
+		mainLayout.addView(adView);
 		playButton = (Button) findViewById(R.id.playButton);
 		achievementsButton = (Button) findViewById(R.id.achievementsButton);
 		leaderboardsButton = (Button) findViewById(R.id.leaderboardsButton);
@@ -53,6 +67,13 @@ public class MainScreenActivity extends BaseGameActivity implements View.OnClick
 		highscoreValue = (TextView) findViewById(R.id.highscoreValue);
 		lastScoreText = (TextView) findViewById(R.id.lastScoreText);
 		lastScoreValue = (TextView) findViewById(R.id.lastScoreValue);
+
+		// Create an ad request. Check logcat output for the hashed device ID to
+		// get test ads on a physical device.
+		AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).addTestDevice("96EF0C9ECBC8FA36DB5DFC5AC5B5FA2C41BC7A7D").build();
+
+		// Start loading the ad in the background.
+		adView.loadAd(adRequest);
 
 		// set font
 		Typeface exo2 = Typeface.createFromAsset(getAssets(), "fonts/exo2medium.ttf");
@@ -75,13 +96,14 @@ public class MainScreenActivity extends BaseGameActivity implements View.OnClick
 		leaderboardsButton.startAnimation(inFromBottom);
 		achievementsButton.startAnimation(inFromBottom);
 		title.startAnimation(inFromTop);
+		adView.startAnimation(inFromTop);
 		lastScoreText.startAnimation(fadeIn);
 		lastScoreValue.startAnimation(fadeIn);
 		highscoreText.startAnimation(fadeIn);
 		highscoreValue.startAnimation(fadeIn);
 
 		alertDialogBuilder = new AlertDialog.Builder(this);
-		
+
 		load();
 
 		// button listeners
@@ -128,7 +150,11 @@ public class MainScreenActivity extends BaseGameActivity implements View.OnClick
 
 			@Override
 			public void onClick(View v) {
-				startActivityForResult(Games.Achievements.getAchievementsIntent(getApiClient()), 1);
+				if (isSignedIn()) {
+					startActivityForResult(Games.Achievements.getAchievementsIntent(getApiClient()), 1);
+				} else {
+					beginUserInitiatedSignIn();
+				}
 			}
 
 		});
@@ -169,23 +195,32 @@ public class MainScreenActivity extends BaseGameActivity implements View.OnClick
 	}
 
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-	}
-
-	@Override
 	protected void onPause() {
+		if (adView != null) {
+			adView.pause();
+		}
 		super.onPause();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
+		if (adView != null) {
+			adView.resume();
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (adView != null) {
+			adView.destroy();
+		}
+		super.onDestroy();
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
 	}
 
 	@Override
@@ -196,10 +231,6 @@ public class MainScreenActivity extends BaseGameActivity implements View.OnClick
 	public void onSignInSucceeded() {
 		// (your code here: update UI, enable functionality that depends on sign
 		// in, etc)
-	}
-
-	@Override
-	public void onClick(View arg0) {
 	}
 
 }
