@@ -69,28 +69,30 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		gameOver = false;
 		started = false;
 
+		// create a new player
 		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player), (screenWidth / 2), (int) (screenHeight / 1.2));
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		// if user touches screen, set the player's x and y to the touch x and y
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			// delegating event handling to the shape
 			player.handleActionDown((int) event.getX(), (int) event.getY());
 		}
+		// if users drags across screen
 		if (event.getAction() == MotionEvent.ACTION_MOVE) {
-			// the gestures
+			// the player is touched and dragged, set the player's x coord
 			if (player.isTouched()) {
-				// the shape was picked up and is being dragged
 				player.setX((int) event.getX());
+				// if timers (spawning) has not been started, start it
 				if (!started) {
 					gameTimers.start();
 					started = true;
 				}
 			}
 		}
+		// if user releases touch
 		if (event.getAction() == MotionEvent.ACTION_UP) {
-			// touch was released
 			if (player.isTouched()) {
 				player.setTouched(false);
 			}
@@ -135,7 +137,8 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 			for (Entity weight : weightArray) {
 				weight.update();
 
-				// handles game over circumstances
+				// if user collides with an enemy entity (weights), end activity
+				// and thread and go to game over
 				if (CollisionUtil.isCollisionDetected(player.getBitmap(), player.getX(), player.getY(), weight.getBitmap(), weight.getX(), weight.getY())) {
 					Intent gameOverIntent = new Intent(this.getContext(), GameOverActivity.class);
 					player.setTouched(false);
@@ -151,10 +154,11 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 				}
 			}
 
+			// updates items positions
 			Entity[] itemArray = items.toArray(new Entity[0]);
 			for (Entity item : itemArray) {
 				item.update();
-
+				// if player collides with item, increase score
 				if (CollisionUtil.isCollisionDetected(item.getBitmap(), item.getX(), item.getY(), player.getBitmap(), player.getX(), player.getY())) {
 					item.destroy();
 					score++;
@@ -163,6 +167,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
+	// spawns an entity of different types depending on the passed String
 	public void spawnEntity(int chance, String entityType) {
 		if (entityType.equals("small")) {
 			checkChance("smallX", chance, 45);
@@ -202,18 +207,26 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	public void checkChance(String spawnX, int chance, int value) {
 		int intermediary;
 
+		// if player is on the right side of the screen
 		if (player.getX() > screenWidth / 2) {
+			// random chance is greater than a value, set spawn between half
+			// screen width and full screen width
 			if (chance > value) {
 				intermediary = random.nextInt(screenWidth - (screenWidth / 2)) + (screenWidth / 2);
 				checkIntermediary(intermediary);
 			} else {
+				// set spawn between 0 and half screen width
 				intermediary = random.nextInt(screenWidth / 2);
 				checkIntermediary(intermediary);
 			}
+			// player is on the left side of the screen
 		} else {
+			// random chance is greater than a value, set spawn between 0 and
+			// half screen width
 			if (chance > value) {
 				intermediary = random.nextInt(screenWidth / 2);
 				checkIntermediary(intermediary);
+				// set spawn between half screen width and full screen width
 			} else {
 				intermediary = random.nextInt(screenWidth - (screenWidth / 2)) + (screenWidth / 2);
 				checkIntermediary(intermediary);
@@ -231,10 +244,17 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
+	// makes sure the entity isn't too far outside the width
 	public int checkIntermediary(int intermediary) {
+		// if it's off the screen to the left
 		if (intermediary < 0) {
+			// add the width of the player divided by 2 to bring it back on
+			// screen
 			intermediary += (player.getWidth() / 2);
+			// if it's off the screen to the right
 		} else if (intermediary > screenWidth) {
+			// subtract the width of the player divided by 2 to bring it back on
+			// screen
 			intermediary -= (player.getWidth() / 2);
 		}
 		return intermediary;
@@ -247,18 +267,18 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		SharedPreferences.Editor editorScore = scorePreferences.edit();
 		editorScore.putInt("score", score);
 
+		// save the current time to pass to gameover
 		timePreferences = getContext().getSharedPreferences("time", 0);
 		SharedPreferences.Editor editorTime = timePreferences.edit();
 		editorTime.putInt("time", time);
-		
+
 		// commit all changes
 		editorScore.commit();
 		editorTime.commit();
 
 		highscorePreferences = getContext().getSharedPreferences("highscore", 0);
 
-		// save score and time if current score is > than current highscore and
-		// time is > than current hightime
+		// save score if is > than current highscore
 		if (score > highscorePreferences.getInt("highscore", 0)) {
 			SharedPreferences.Editor editorHighscore = highscorePreferences.edit();
 			editorHighscore.putInt("highscore", score);
@@ -267,12 +287,9 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 
 	}
 
-	// thread and surface
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		if (!thread.isRunning()) {
-			// at this point the surface is created and we can safely start the
-			// game loop
 			thread.setRunning(true);
 			thread.start();
 		}
