@@ -181,6 +181,16 @@ public class MainScreenActivity extends BaseGameActivity {
 			highscoreValue.setText(Integer.toString(highscore));
 		}
 	}
+	
+	@Override
+	public void onSignInFailed() {
+	}
+
+	@Override
+	public void onSignInSucceeded() {
+		// (your code here: update UI, enable functionality that depends on sign
+		// in, etc)
+	}
 
 	// handle hardware back button
 	@Override
@@ -221,16 +231,6 @@ public class MainScreenActivity extends BaseGameActivity {
 	@Override
 	protected void onStop() {
 		super.onStop();
-	}
-
-	@Override
-	public void onSignInFailed() {
-	}
-
-	@Override
-	public void onSignInSucceeded() {
-		// (your code here: update UI, enable functionality that depends on sign
-		// in, etc)
 	}
 
 }

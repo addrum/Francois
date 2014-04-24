@@ -183,29 +183,14 @@ public class GameOverActivity extends BaseGameActivity {
 
 	}
 
-	// handle hardware back button
-	@Override
-	public void onBackPressed() {
-		long currentTime = System.currentTimeMillis();
-		if (currentTime - lastPress > 2000) {
-			Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
-			lastPress = currentTime;
-		} else {
-			finish();
-		}
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-
 	@Override
 	public void onSignInSucceeded() {
 		if (isSignedIn()) {
 			Games.Leaderboards.submitScore(getApiClient(), getString(R.string.score_leaderboard), score);
 			Games.Leaderboards.submitScore(getApiClient(), getString(R.string.time_leaderboard), time);
 			Games.Achievements.increment(getApiClient(), getString(R.string.loser_achievement), 1);
+			if (score == 0)
+				Games.Achievements.increment(getApiClient(), getString(R.string.give_up_achievement), 1);
 			if (score >= 5)
 				Games.Achievements.unlock(getApiClient(), getString(R.string.warming_up_achievement));
 			if (score >= 10)
@@ -221,8 +206,8 @@ public class GameOverActivity extends BaseGameActivity {
 				if (score == 0)
 					Games.Achievements.unlock(getApiClient(), getString(R.string.score_means_nothing_achievement));
 			}
-			if (score == 0)
-				Games.Achievements.increment(getApiClient(), getString(R.string.give_up_achievement), 1);
+			if (time >= 120)
+				Games.Achievements.unlock(getApiClient(), getString(R.string.how_did_you_do_that_achievement));
 		} else {
 			Log.d("not signed in", "Not signed in to submit score");
 		}
@@ -233,5 +218,22 @@ public class GameOverActivity extends BaseGameActivity {
 		// TODO Auto-generated method stub
 
 	}
+	
+	// handle hardware back button
+		@Override
+		public void onBackPressed() {
+			long currentTime = System.currentTimeMillis();
+			if (currentTime - lastPress > 2000) {
+				Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+				lastPress = currentTime;
+			} else {
+				finish();
+			}
+		}
+
+		@Override
+		public void onResume() {
+			super.onResume();
+		}
 
 }
