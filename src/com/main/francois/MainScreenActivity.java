@@ -111,6 +111,9 @@ public class MainScreenActivity extends BaseGameActivity {
 
 			@Override
 			public void onClick(View arg0) {
+				if (adView != null) {
+					adView.destroy();
+				}
 				Intent gameActivityIntent = new Intent(MainScreenActivity.this, GameActivity.class);
 				startActivity(gameActivityIntent);
 				overridePendingTransition(R.anim.righttocenter, R.anim.centertoleft);
@@ -181,7 +184,7 @@ public class MainScreenActivity extends BaseGameActivity {
 			highscoreValue.setText(Integer.toString(highscore));
 		}
 	}
-	
+
 	@Override
 	public void onSignInFailed() {
 	}
