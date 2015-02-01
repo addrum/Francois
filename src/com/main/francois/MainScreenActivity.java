@@ -1,11 +1,13 @@
 package com.main.francois;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -105,7 +107,7 @@ public class MainScreenActivity extends BaseGameActivity {
 		alertDialogBuilder = new AlertDialog.Builder(this);
 
 		load();
-
+		
 		// button listeners
 		playButton.setOnClickListener(new OnClickListener() {
 
@@ -191,8 +193,6 @@ public class MainScreenActivity extends BaseGameActivity {
 
 	@Override
 	public void onSignInSucceeded() {
-		// (your code here: update UI, enable functionality that depends on sign
-		// in, etc)
 	}
 
 	// handle hardware back button

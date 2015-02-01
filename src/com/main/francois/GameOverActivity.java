@@ -1,11 +1,13 @@
 package com.main.francois;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -218,22 +220,22 @@ public class GameOverActivity extends BaseGameActivity {
 		// TODO Auto-generated method stub
 
 	}
-	
-	// handle hardware back button
-		@Override
-		public void onBackPressed() {
-			long currentTime = System.currentTimeMillis();
-			if (currentTime - lastPress > 2000) {
-				Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
-				lastPress = currentTime;
-			} else {
-				finish();
-			}
-		}
 
-		@Override
-		public void onResume() {
-			super.onResume();
+	// handle hardware back button
+	@Override
+	public void onBackPressed() {
+		long currentTime = System.currentTimeMillis();
+		if (currentTime - lastPress > 2000) {
+			Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+			lastPress = currentTime;
+		} else {
+			finish();
 		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+	}
 
 }

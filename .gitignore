@@ -5,3 +5,6 @@ bin/
 .project
 gen/
 project.properties
+.DS_Store
+.idea
+Francois.iml
