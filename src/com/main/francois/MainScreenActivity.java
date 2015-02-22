@@ -34,7 +34,7 @@ public class MainScreenActivity extends BaseGameActivity {
 	private long lastPress;
 	private int lastScore, highscore;
 	private RelativeLayout mainLayout;
-	private Button playButton, achievementsButton, leaderboardsButton, rateButton;
+	private Button playButton, achievementsButton, leaderboardsButton;
 	private TextView title, highscoreText, highscoreValue, lastScoreText, lastScoreValue;
 	private SharedPreferences scorePreferences, highscorePreferences;
 	private Animation inFromBottom, inFromTop, fadeIn;
@@ -64,7 +64,6 @@ public class MainScreenActivity extends BaseGameActivity {
 		playButton = (Button) findViewById(R.id.playButton);
 		achievementsButton = (Button) findViewById(R.id.achievementsButton);
 		leaderboardsButton = (Button) findViewById(R.id.leaderboardsButton);
-		rateButton = (Button) findViewById(R.id.rateButton);
 		title = (TextView) findViewById(R.id.title);
 		highscoreText = (TextView) findViewById(R.id.highscoreText);
 		highscoreValue = (TextView) findViewById(R.id.highscoreValue);
@@ -83,7 +82,6 @@ public class MainScreenActivity extends BaseGameActivity {
 		playButton.setTypeface(exo2);
 		leaderboardsButton.setTypeface(exo2);
 		achievementsButton.setTypeface(exo2);
-		rateButton.setTypeface(exo2);
 		title.setTypeface(exo2);
 		highscoreText.setTypeface(exo2);
 		highscoreValue.setTypeface(exo2);
@@ -99,7 +97,6 @@ public class MainScreenActivity extends BaseGameActivity {
 		playButton.startAnimation(inFromBottom);
 		leaderboardsButton.startAnimation(inFromBottom);
 		achievementsButton.startAnimation(inFromBottom);
-		rateButton.startAnimation(inFromBottom);
 		title.startAnimation(inFromTop);
 		adView.startAnimation(inFromTop);
 		lastScoreText.startAnimation(fadeIn);
@@ -165,21 +162,6 @@ public class MainScreenActivity extends BaseGameActivity {
 				}
 			}
 
-		});
-		
-		rateButton.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Uri uri = Uri.parse("market://details?id=" + getBaseContext().getPackageName());
-				Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-				try {
-				  startActivity(goToMarket);
-				} catch (ActivityNotFoundException e) {
-				  startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getBaseContext().getPackageName())));
-				}
-			}
-			
 		});
 	}
 

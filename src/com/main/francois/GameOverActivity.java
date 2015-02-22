@@ -35,7 +35,7 @@ public class GameOverActivity extends BaseGameActivity {
 	private long lastPress;
 	private int score, highscore, time;
 	private RelativeLayout mainLayout;
-	private Button playAgainButton, leaderboardsButton, achievementsButton, rateButton;
+	private Button playAgainButton, leaderboardsButton, achievementsButton;
 	private TextView gameOver, scoreText, scoreValue, highscoreText, highscoreValue;
 	private Animation inFromTop, inFromBottom, fadeIn;
 	private SharedPreferences scorePreferences, highscorePreferences, timePreferences;
@@ -68,7 +68,6 @@ public class GameOverActivity extends BaseGameActivity {
 		playAgainButton = (Button) findViewById(R.id.playButton);
 		leaderboardsButton = (Button) findViewById(R.id.leaderboardsButton);
 		achievementsButton = (Button) findViewById(R.id.achievementsButton);
-		rateButton = (Button) findViewById(R.id.rateButton);
 		gameOver = (TextView) findViewById(R.id.gameOver);
 		scoreText = (TextView) findViewById(R.id.scoreText);
 		scoreValue = (TextView) findViewById(R.id.scoreValue);
@@ -87,7 +86,6 @@ public class GameOverActivity extends BaseGameActivity {
 		playAgainButton.setTypeface(exo2);
 		leaderboardsButton.setTypeface(exo2);
 		achievementsButton.setTypeface(exo2);
-		rateButton.setTypeface(exo2);
 		gameOver.setTypeface(exo2);
 		scoreText.setTypeface(exo2);
 		scoreValue.setTypeface(exo2);
@@ -103,7 +101,6 @@ public class GameOverActivity extends BaseGameActivity {
 		playAgainButton.startAnimation(inFromBottom);
 		leaderboardsButton.startAnimation(inFromBottom);
 		achievementsButton.startAnimation(inFromBottom);
-		rateButton.startAnimation(inFromBottom);
 		gameOver.startAnimation(inFromTop);
 		adView.startAnimation(inFromTop);
 		scoreText.startAnimation(fadeIn);
@@ -164,21 +161,6 @@ public class GameOverActivity extends BaseGameActivity {
 					startActivityForResult(Games.Achievements.getAchievementsIntent(getApiClient()), 1);
 				} else {
 					beginUserInitiatedSignIn();
-				}
-			}
-
-		});
-
-		rateButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Uri uri = Uri.parse("market://details?id=" + getBaseContext().getPackageName());
-				Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-				try {
-					startActivity(goToMarket);
-				} catch (ActivityNotFoundException e) {
-					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getBaseContext().getPackageName())));
 				}
 			}
 

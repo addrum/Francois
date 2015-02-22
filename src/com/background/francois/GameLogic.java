@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -70,7 +71,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		started = false;
 
 		// create a new player
-		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.jellyfish_clear), (screenWidth / 2), (int) (screenHeight / 1.2));
+		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.francois), (screenWidth / 2), (int) (screenHeight / 1.2));
 	}
 
 	@Override
@@ -291,6 +292,8 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		}
 
 	}
+	
+	//protected Bitmap scaled = null;
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
@@ -298,7 +301,16 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 			thread.setRunning(true);
 			thread.start();
 		}
+	    /*Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.background);
+	    float scale = (float)background.getHeight()/(float)getHeight();
+	    int newWidth = Math.round(background.getWidth()/scale);
+	    int newHeight = Math.round(background.getHeight()/scale);
+	    Bitmap scaled = Bitmap.createScaledBitmap(background, newWidth, newHeight, true);*/
 	}
+
+	/*public void onDraw(Canvas canvas) {
+	    canvas.drawBitmap(scaled, 0, 0, null); // draw the background
+	}*/
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {

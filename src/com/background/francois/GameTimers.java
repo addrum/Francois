@@ -37,7 +37,7 @@ public class GameTimers extends Thread {
 			public void run() {
 				gameLogic.spawnEntity(getChance(), "small");
 			}
-		}, 0, 800);
+		}, 0, 1000);
 	}
 	
 	public void mediumRockTimer() {
@@ -47,7 +47,7 @@ public class GameTimers extends Thread {
 			public void run() {
 				gameLogic.spawnEntity(getChance(), "medium");
 			}
-		}, 1000, 1800);
+		}, 1000, 2000);
 	}
 	
 	public void largeRockTimer() {
@@ -57,7 +57,7 @@ public class GameTimers extends Thread {
 			public void run() {
 				gameLogic.spawnEntity(getChance(), "large");
 			}
-		}, 3000, 4500);
+		}, 3000, 5000);
 	}
 	
 	public void scoreItemTimer() {
