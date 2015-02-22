@@ -5,7 +5,9 @@
     <string name="play">Play</string>
     <string name="play_again">Play Again</string>
     <string name="leaderboard">Leaderboards</string>
+    <string name="achievements">Achievements</string>
     <string name="leaderboard_title">Choose Leaderboard to View</string>
+    <string name ="rate">Rate</string>
     <string name="game_over">Game Over </string>
     
     <string name="score">Score:</string>
@@ -14,7 +16,6 @@
     
     <string name="score_option">Scores</string>
     <string name="time_option">Time Survived</string>
-    <string name="achievements">Achievements</string>
     
     <string name="score_leaderboard">CgkIkNf1ofsQEAIQAQ</string>
     <string name="time_leaderboard">CgkIkNf1ofsQEAIQAg</string>

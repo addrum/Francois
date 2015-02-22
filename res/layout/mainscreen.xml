@@ -21,29 +21,6 @@
         android:textSize="25sp" />
 
     <Button
-        android:id="@+id/achievementsButton"
-        android:layout_width="175dp"
-        android:layout_height="50dp"
-        android:layout_alignLeft="@+id/leaderboardsButton"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="25dp"
-        android:background="#F7F7F7"
-        android:gravity="center"
-        android:text="@string/achievements"
-        android:textColor="@drawable/hovercolour" />
-
-    <Button
-        android:id="@+id/leaderboardsButton"
-        android:layout_width="175dp"
-        android:layout_height="50dp"
-        android:layout_above="@+id/achievementsButton"
-        android:layout_alignLeft="@+id/playButton"
-        android:background="#F7F7F7"
-        android:gravity="center"
-        android:text="@string/leaderboard"
-        android:textColor="@drawable/hovercolour" />
-
-    <Button
         android:id="@+id/playButton"
         style="@style/ButtonText"
         android:layout_width="175dp"
@@ -101,13 +78,45 @@
         android:layout_height="100dp"
         android:layout_above="@+id/lastScoreText"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="12dp"
         android:background="#F7F7F7"
         android:gravity="center"
         android:text="@string/app_name"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#000000"
         android:textSize="35sp" />
+
+    <Button
+        android:id="@+id/leaderboardsButton"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/achievementsButton"
+        android:layout_alignLeft="@+id/playButton"
+        android:background="#F7F7F7"
+        android:gravity="center"
+        android:text="@string/leaderboard"
+        android:textColor="@drawable/hovercolour" />
+
+    <Button
+        android:id="@+id/achievementsButton"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_alignLeft="@+id/leaderboardsButton"
+        android:layout_above="@+id/rateButton"
+        android:background="#F7F7F7"
+        android:gravity="center"
+        android:text="@string/achievements"
+        android:textColor="@drawable/hovercolour" />
+
+    <Button
+        android:id="@+id/rateButton"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_alignLeft="@+id/achievementsButton"
+        android:layout_alignParentBottom="true"
+        android:background="#F7F7F7"
+        android:gravity="center"
+        android:text="@string/rate"
+        android:textColor="@drawable/hovercolour" />
 
 </RelativeLayout>

@@ -22,18 +22,6 @@
         android:textSize="25sp" />
 
     <Button
-        android:id="@+id/achievementsButton"
-        android:layout_width="175dp"
-        android:layout_height="50dp"
-        android:layout_alignLeft="@+id/playButton"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="25dp"
-        android:background="#F7F7F7"
-        android:gravity="center"
-        android:text="@string/achievements"
-        android:textColor="@drawable/hovercolour" />
-
-    <Button
         android:id="@+id/leaderboardsButton"
         android:layout_width="175dp"
         android:layout_height="50dp"
@@ -63,6 +51,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:layout_marginBottom="11dp"
         android:ems="10"
         android:gravity="center"
         android:text="@string/high_score"
@@ -102,13 +91,34 @@
         android:layout_height="100dp"
         android:layout_above="@+id/scoreText"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="12dp"
         android:background="#F7F7F7"
         android:gravity="center"
         android:text="@string/game_over"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#000000"
         android:textSize="35sp" />
+
+    <Button
+        android:id="@+id/rateButton"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_alignLeft="@+id/achievementsButton"
+        android:layout_alignParentBottom="true"
+        android:background="#F7F7F7"
+        android:gravity="center"
+        android:text="@string/rate"
+        android:textColor="@drawable/hovercolour" />
+
+    <Button
+        android:id="@+id/achievementsButton"
+        android:layout_width="175dp"
+        android:layout_height="50dp"
+        android:layout_above="@+id/rateButton"
+        android:layout_alignLeft="@+id/playButton"
+        android:background="#F7F7F7"
+        android:gravity="center"
+        android:text="@string/achievements"
+        android:textColor="@drawable/hovercolour" />
 
 </RelativeLayout>

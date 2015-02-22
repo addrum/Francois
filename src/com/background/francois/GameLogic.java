@@ -70,7 +70,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 		started = false;
 
 		// create a new player
-		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.player), (screenWidth / 2), (int) (screenHeight / 1.2));
+		player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.jellyfish_clear), (screenWidth / 2), (int) (screenHeight / 1.2));
 	}
 
 	@Override
@@ -102,30 +102,29 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public void render(Canvas canvas) {
-		if (!gameOver)
-			if (canvas != null) {
-				// draw canvas color, player, items and weights
-				canvas.drawColor(Color.WHITE);
-				player.draw(canvas);
+		if (canvas != null) {
+			// draw canvas color, player, items and weights
+			canvas.drawColor(Color.WHITE);
+			player.draw(canvas);
 
-				// draws items to screen
-				Entity[] itemArray = items.toArray(new Entity[0]);
-				for (Entity items : itemArray) {
-					items.draw(canvas);
-				}
-
-				// draws weights to screen
-				Entity[] weightArray = weights.toArray(new Entity[0]);
-				for (Entity weight : weightArray) {
-					weight.draw(canvas);
-				}
-
-				// post score and time to UI
-				Message message = Message.obtain();
-				message.arg1 = score;
-				message.arg2 = time;
-				GameActivity.handler.sendMessage(message);
+			// draws items to screen
+			Entity[] itemArray = items.toArray(new Entity[0]);
+			for (Entity items : itemArray) {
+				items.draw(canvas);
 			}
+
+			// draws weights to screen
+			Entity[] weightArray = weights.toArray(new Entity[0]);
+			for (Entity weight : weightArray) {
+				weight.draw(canvas);
+			}
+
+			// post score and time to UI
+			Message message = Message.obtain();
+			message.arg1 = score;
+			message.arg2 = time;
+			GameActivity.handler.sendMessage(message);
+		}
 	}
 
 	// updates the weights position on the screen and checks collision with the
@@ -140,6 +139,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 				// if user collides with an enemy entity (weights), end activity
 				// and thread and go to game over
 				if (CollisionUtil.isCollisionDetected(player.getBitmap(), player.getX(), player.getY(), weight.getBitmap(), weight.getX(), weight.getY())) {
+					gameOver = true;
 					Intent gameOverIntent = new Intent(this.getContext(), GameOverActivity.class);
 					player.setTouched(false);
 					this.getContext().startActivity(gameOverIntent);
@@ -150,7 +150,7 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					gameOver = true;
+
 				}
 			}
 
@@ -185,25 +185,30 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public void spawnSmallWeight(int chance) {
-		checkChance("smallX", chance, 45);
+		checkChance("smallX", chance, 48);
 		weights.add(new WeightSmall(BitmapFactory.decodeResource(getResources(), R.drawable.weight_s), smallX, -10));
 	}
 
 	public void spawnMediumWeight(int chance) {
-		checkChance("mediumX", chance, 50);
+		checkChance("mediumX", chance, 54);
 		weights.add(new WeightMedium(BitmapFactory.decodeResource(getResources(), R.drawable.weight_m), mediumX, -10));
 	}
 
 	public void spawnLargeWeight(int chance) {
-		checkChance("largeX", chance, 60);
+		checkChance("largeX", chance, 70);
 		weights.add(new WeightLarge(BitmapFactory.decodeResource(getResources(), R.drawable.weight_l), largeX, -10));
 	}
 
 	public void spawnScoreItem(int chance) {
-		checkChance("scoreItemX", chance, 50);
+		checkChance("scoreItemX", chance, 65);
 		items.add(new ScoreItem(BitmapFactory.decodeResource(getResources(), R.drawable.score_item), scoreItemX, -10));
 	}
 
+	// checks the chance of spawning close to the player
+	// if chance (range 0 - 100) is higher than value (specified in the spawn
+	// methods)
+	// then spawn closer to the player
+	// a lower value will increase chances of spawning close to the player
 	public void checkChance(String spawnX, int chance, int value) {
 		int intermediary;
 
@@ -324,6 +329,10 @@ public class GameLogic extends SurfaceView implements SurfaceHolder.Callback {
 
 	public void setTime(int time) {
 		this.time = time;
+	}
+
+	public boolean isGameOver() {
+		return gameOver;
 	}
 
 }

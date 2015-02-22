@@ -1,11 +1,13 @@
 package com.main.francois;
 
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +35,7 @@ public class GameOverActivity extends BaseGameActivity {
 	private long lastPress;
 	private int score, highscore, time;
 	private RelativeLayout mainLayout;
-	private Button playAgainButton, leaderboardsButton, achievementsButton;
+	private Button playAgainButton, leaderboardsButton, achievementsButton, rateButton;
 	private TextView gameOver, scoreText, scoreValue, highscoreText, highscoreValue;
 	private Animation inFromTop, inFromBottom, fadeIn;
 	private SharedPreferences scorePreferences, highscorePreferences, timePreferences;
@@ -66,6 +68,7 @@ public class GameOverActivity extends BaseGameActivity {
 		playAgainButton = (Button) findViewById(R.id.playButton);
 		leaderboardsButton = (Button) findViewById(R.id.leaderboardsButton);
 		achievementsButton = (Button) findViewById(R.id.achievementsButton);
+		rateButton = (Button) findViewById(R.id.rateButton);
 		gameOver = (TextView) findViewById(R.id.gameOver);
 		scoreText = (TextView) findViewById(R.id.scoreText);
 		scoreValue = (TextView) findViewById(R.id.scoreValue);
@@ -84,6 +87,7 @@ public class GameOverActivity extends BaseGameActivity {
 		playAgainButton.setTypeface(exo2);
 		leaderboardsButton.setTypeface(exo2);
 		achievementsButton.setTypeface(exo2);
+		rateButton.setTypeface(exo2);
 		gameOver.setTypeface(exo2);
 		scoreText.setTypeface(exo2);
 		scoreValue.setTypeface(exo2);
@@ -99,6 +103,7 @@ public class GameOverActivity extends BaseGameActivity {
 		playAgainButton.startAnimation(inFromBottom);
 		leaderboardsButton.startAnimation(inFromBottom);
 		achievementsButton.startAnimation(inFromBottom);
+		rateButton.startAnimation(inFromBottom);
 		gameOver.startAnimation(inFromTop);
 		adView.startAnimation(inFromTop);
 		scoreText.startAnimation(fadeIn);
@@ -164,6 +169,21 @@ public class GameOverActivity extends BaseGameActivity {
 
 		});
 
+		rateButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Uri uri = Uri.parse("market://details?id=" + getBaseContext().getPackageName());
+				Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+				try {
+					startActivity(goToMarket);
+				} catch (ActivityNotFoundException e) {
+					startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getBaseContext().getPackageName())));
+				}
+			}
+
+		});
+
 	}
 
 	// load score from last session
@@ -218,22 +238,22 @@ public class GameOverActivity extends BaseGameActivity {
 		// TODO Auto-generated method stub
 
 	}
-	
-	// handle hardware back button
-		@Override
-		public void onBackPressed() {
-			long currentTime = System.currentTimeMillis();
-			if (currentTime - lastPress > 2000) {
-				Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
-				lastPress = currentTime;
-			} else {
-				finish();
-			}
-		}
 
-		@Override
-		public void onResume() {
-			super.onResume();
+	// handle hardware back button
+	@Override
+	public void onBackPressed() {
+		long currentTime = System.currentTimeMillis();
+		if (currentTime - lastPress > 2000) {
+			Toast.makeText(getBaseContext(), "Press back again to exit", Toast.LENGTH_SHORT).show();
+			lastPress = currentTime;
+		} else {
+			finish();
 		}
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+	}
 
 }
