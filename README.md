@@ -8,3 +8,8 @@ The object of the game is to avoid the weights that fall down randomly from the 
   <img alt="Get it on Google Play"
        src="https://developer.android.com/images/brand/en_generic_rgb_wo_60.png" />
 </a>
+
+<a href="https://scan.coverity.com/projects/5563">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/5563/badge.svg"/>
+</a>
